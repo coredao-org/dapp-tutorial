@@ -4,10 +4,14 @@
 
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import contract from '../contract/Storage.json'
+import storage from '../contract/Storage.json'
 
-const contractAddress = '0x560628404E0DECBD09446bd770b12CC204f1C987'
-const abi = contract.output.abi
+// Contract information
+const contractAddress = '0xe007843F7d8e737A2816d7b9CaE9C10CB7548B55'
+const abi = storage.abi
+
+// Constants
+const CORESCAN_BASE_URL = 'https://scan.test.btcs.network/address/'
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState(null)
@@ -108,7 +112,7 @@ function App() {
     return (
       <button
         onClick={connectWalletHandler}
-        className="cta-button connect-wallet-button"
+        className="btn-primary w-40 rounded mt-10"
       >
         Connect Wallet
       </button>
@@ -117,31 +121,46 @@ function App() {
 
   const storageButton = () => {
     return (
-      <div className="mt-8 inline-block text-left">
-        <div className="text-left">
-          <button onClick={store} className="btn-primary w-40 rounded-r-none">
-            store
-          </button>
-          <input
-            value={storeNumber}
-            onChange={(e) => setStoreNumber(e.target.value)}
-            className="rounded-l-none border-2 border-solid border-orange-500 caret-orange-500 focus:caret-indigo-500 py-1 px-2 h-10"
-          />
+      <div>
+        <p className="text-xl text-gray-400">
+          Click "write" or "read" to call the smart contract
+        </p>
+        <div className="mt-8 inline-block text-left">
+          <div className="text-left">
+            <button onClick={store} className="btn-primary w-40 rounded-r-none">
+              Write number
+            </button>
+            <input
+              value={storeNumber}
+              onChange={(e) => setStoreNumber(e.target.value)}
+              className="rounded-l-none border-2 border-solid border-orange-500 caret-orange-500 focus:caret-indigo-500 py-1 px-2 h-10"
+            />
+          </div>
+          <div>
+            <button
+              onClick={retrieve}
+              className="btn-primary w-40 mt-8 w-40 rounded-r-none"
+            >
+              Read number
+            </button>
+            <input
+              placeholder="Retrieved number"
+              disabled
+              value={retrievedNumber}
+              className="text-center rounded-l-none border-2 border-solid border-disabled-500 caret-orange-500 focus:caret-indigo-500 py-1 px-2 h-10"
+            />
+          </div>
         </div>
-        <div>
-          <button
-            placeholder="Input store number"
-            onClick={retrieve}
-            className="btn-primary w-40 mt-8 w-40 rounded-r-none"
+        <div className="mt-8 text-center">
+          <span className="text-mm">Contract address:</span>
+          <a
+            target="_blank"
+            className="ml-2 text-mm  text-orange-400 hover:text-orange-600"
+            href={CORESCAN_BASE_URL.concat(contractAddress)}
+            rel="noreferrer"
           >
-            retrieve
-          </button>
-          <input
-            placeholder="Retrieved value"
-            disabled
-            value={retrievedNumber}
-            className="text-center rounded-l-none border-2 border-solid border-disabled-500 caret-orange-500 focus:caret-indigo-500 py-1 px-2 h-10"
-          />
+            {contractAddress}
+          </a>
         </div>
       </div>
     )
@@ -153,37 +172,45 @@ function App() {
 
   return (
     <div className="bg-white">
-      <div className="flex items-center justify-center px-2 mt-8">
-        <img className="w-10" src="src/public/logo.png" />
-        <p className="my-3 mx-1 text-4xl font-bold text-gray-900 sm:text-4xl sm:tracking-tight lg:text-4xl">
-          CORE
-        </p>
-      </div>
       <div className="mx-auto max-w-screen-xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-base font-semibold uppercase tracking-wide text-orange-600">
-            Welcome to
-          </h2>
-
-          <p className="my-3 text-4xl font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-            Dapp Tutorial
-          </p>
-
-          <p className="text-xl text-gray-400">
-            Click "store" or "retrieve" to call smart contract
-          </p>
-
+          <div className="mb-12">
+            <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center px-2">
+                <img className="w-12 mx-1" src="src/public/logo.png" />
+                <p className="my-3 mx-1 text-4xl font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                  Core
+                </p>
+              </div>
+              <p className="my-3 text-4xl font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                Dapp Starter
+              </p>
+            </div>
+          </div>
           {currentAccount ? storageButton() : connectWalletButton()}
         </div>
-        <div className="mt-8 text-center">
-          <span className="text-sm">Contract address:</span>
+      </div>
+      <div className="mt-8 text-center">
+        <div>
+          <span className="text-mm">Fund your account:</span>
           <a
             target="_blank"
-            className="ml-4 text-sm  text-orange-400 hover:text-orange-600"
-            href="https://scan.test.btcs.network/address/0x560628404e0decbd09446bd770b12cc204f1c987"
+            className="ml-2 text-mm  text-orange-400 hover:text-orange-600"
+            href="https://scan.test.btcs.network/faucet"
             rel="noreferrer"
           >
-            0x560628404E0DECBD09446bd770b12CC204f1C987
+            tCORE faucet
+          </a>
+        </div>
+        <div>
+          <span className="text-mm">How to connect</span>
+          <a
+            target="_blank"
+            className="ml-2 text-mm  text-orange-400 hover:text-orange-600"
+            href="https://docs.coredao.org/developer/develop-on-core/using-core-testnet/connect-to-core-testnet"
+            rel="noreferrer"
+          >
+            MetaMask to Core Testnet
           </a>
         </div>
       </div>
