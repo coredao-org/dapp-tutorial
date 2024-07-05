@@ -71,7 +71,7 @@ dapp-tutorial.
 |       
 ```
 
-5. Install and configure MetaMask Chrome Extension to use with Core Testnet. Refer [here](./core-testnet-wallet-config.md) for a detailed guide.
+5. Install and configure MetaMask Chrome Extension to use with Core Testnet. Refer [here](https://docs.coredao.org/docs/Dev-Guide/core-testnet-wallet-config) for a detailed guide.
 
 6. Create a secret.json file in the root folder and store the private key of your MetaMask wallet in it. Refer [here](https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-reveal-your-Secret-Recovery-Phrase) for details on how to get MetaMask account's private key.
 
@@ -200,7 +200,7 @@ npx hardhat compile
 
 ## Deploy and Interact with Smart Contract
 
-1. Before deploying your smart contract on the Core Chain, it is best adviced to first run a series of tests making sure that the smart contract is working as desired. Refer to the detailed guide [here](https://docs.coredao.org/developer/develop-on-core/building-on-core/using-hardhat#contract-testing) for more details.
+1. Before deploying your smart contract on the Core Chain, it is best adviced to first run a series of tests making sure that the smart contract is working as desired. Refer to the detailed guide [here](https://docs.coredao.org/docs/Dev-Guide/hardhat#contract-testing) for more details.
 
 2. Create a `scripts` folder in the root directory of your project. Inside this folder, create a file `deploy-and-call.js`; paste the following script into it.
 
@@ -230,7 +230,7 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 ```
-3. Make sure your MetaMask wallet has tCORE test tokens for the Core Testnet. Refer [here](https://docs.coredao.org/developer/develop-on-core/using-core-testnet/connect-to-core-testnet#testnet-facuet-tcore-account-funding) for details on how to get tCORE tokens from Core Faucet. 
+3. Make sure your MetaMask wallet has tCORE test tokens for the Core Testnet. Refer [here](https://docs.coredao.org/docs/Dev-Guide/core-faucet) for details on how to get tCORE tokens from Core Faucet. 
 
 4. Run the following command from the root directory of your project, to deploy your smart contract on the Core Chain.
 
@@ -304,7 +304,7 @@ const contractAddress = '0x48F68BF4A1b1fE6589B9D0a5ad0dF0520582edA2'
 
 1. Run the command `npm run dev` from teh root of the project to start the application. This will serve applciation with at [http://localhost:5173](http://localhost:5173/)
 
-2. Make sure that your MetaMask wallet is correctly installed and switched to Core Testnet as described in our [Core Testnet user guide]([./core-testnet-wallet-config.md](https://docs.coredao.org/developer/develop-on-core/using-core-testnet/connect-to-core-testnet)). You'll also need to connect your MetaMask wallet to the local site.
+2. Make sure that your MetaMask wallet is correctly installed and switched to Core Testnet as described in our [Core Testnet user guide](https://docs.coredao.org/docs/Dev-Guide/core-testnet-wallet-config). You'll also need to connect your MetaMask wallet to the local site.
 
 ![dapp-1](https://github.com/coredao-org/dapp-tutorial/assets/35759187/1c493569-1899-4cfe-a051-02579549f916)
 
