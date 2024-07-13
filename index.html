@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/src/public/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Core DAO Dapp tutorial</title>
+    <meta name="description" content="Core DAO DApp tutorial for building decentralized applications" />
+    <meta name="keywords" content="Core DAO, DApp, tutorial, decentralized applications, blockchain, Ethereum" />
+    <meta name="author" content="Your Name" />
+    <title>Core DAO DApp Tutorial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha384-oSr3XRZI7DrZ9MXj40zC4iJXyo5U+E2Gx5Vbdk6y3vbC5Ij8is5u8gqfvTjDUfFr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMUuAU8cd6rqfHfK6H7yNiHzBttC6vj9IG5DQDz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="src/style/index.css" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" aria-live="polite">
+      <div id="loading-spinner" aria-hidden="true">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+    </div>
     <script type="module" src="/src/index.tsx"></script>
+    <script>
+      // Load the Web3 library if not already loaded
+      if (typeof web3 === 'undefined') {
+        const script = document.createElement('script');
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.6/web3.min.js";
+        script.integrity = "sha384-QC0BuCGs3rZ4z7OaO3EHe0dVmyMwi+PjqiySEbFlx2YkQvJ8lLgPZR6KZJ1CzAIG";
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+      }
+
+      // Hide loading spinner once the app is loaded
+      window.addEventListener('load', () => {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+          spinner.setAttribute('aria-hidden', 'true');
+          spinner.style.display = 'none';
+        }
+      });
+
+      // Service Worker for offline capabilities
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/src/public/service-worker.js').then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          }).catch((error) => {
+            console.log('Service Worker registration failed:', error);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

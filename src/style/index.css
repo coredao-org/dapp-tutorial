@@ -3,10 +3,25 @@
 @tailwind utilities;
 
 @layer components {
-	:root{
+  :root {
+    /* Define any custom CSS variables here, if needed */
+  }
 
-	}
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+
   .btn-primary {
-    @apply py-2 px-4 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+    @apply py-2 px-4 bg-orange-500 text-white font-semibold rounded-lg shadow-md 
+           hover:bg-orange-600 focus:outline-none focus:ring-2 
+           focus:ring-blue-400 focus:ring-opacity-75 transition-transform transform;
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.05);
+  }
+
+  input {
+    @apply rounded-lg border-2 border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400;
   }
 }
