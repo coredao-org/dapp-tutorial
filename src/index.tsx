@@ -1,9 +1,14 @@
-import { createRoot } from 'react-dom/client'
-import 'tailwindcss/tailwind.css'
-import './style/index.css'
-import App from 'components/App'
+// src/index.tsx
 
-const container = document.getElementById('root') as HTMLDivElement
-const root = createRoot(container)
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import 'tailwindcss/tailwind.css';
+import './style/index.css'; // Ensure you have a CSS file for custom styles
+import App from './components/App';
 
-root.render(<App />)
+// Ensure the root element is available
+const container = document.getElementById('root') as HTMLElement;
+const root = createRoot(container);
+
+// Render the App component
+root.render(<App />);
