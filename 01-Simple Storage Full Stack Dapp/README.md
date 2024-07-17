@@ -1,5 +1,4 @@
-# Building a dApp on Core
-
+# Simple Storage dApp on Core
 Decentralized applications (dApps) use a blockchain or on-chain smart contracts to store and reference data, rather than relying on traditional centralized databases. A common, simple dApp structure generally consists of a React.js or Vue.js front-end using Web3.js or Ethers.js to interact with smart contracts deployed to an EVM-compatible blockchain.
 
 ## What Are We Building
@@ -258,13 +257,13 @@ call retrieve() again: BigNumber { value: "100" }
 
 ### Setting up Frontend
 
-1. Clone the [dApp-tutorial](https://github.com/coredao-org/dapp-tutorial/tree/master) repository from GitHub using the following command.
+1. Clone the `dApp-tutorial` repository from GitHub using the following command.
 
 ```bash
 git clone https://github.com/coredao-org/dapp-tutorial.git
 ```
 
-2. Rename this folder from `dapp-tutorial` to `frontend`. Navigate into the `frontend` folder
+2. Navigate into the `dapp-tutorial` project, rename the folder from `01-Basic Full Stack Dapp on Core` to `frontend`. Navigate into the `frontend` folder
 
 ```bash
 cd frontend
