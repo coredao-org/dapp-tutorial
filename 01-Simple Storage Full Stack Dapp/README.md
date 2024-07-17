@@ -263,10 +263,11 @@ call retrieve() again: BigNumber { value: "100" }
 git clone https://github.com/coredao-org/dapp-tutorial.git
 ```
 
-2. Navigate into the `dapp-tutorial` project, rename the folder from `01-Basic Full Stack Dapp on Core` to `frontend`. Navigate into the `frontend` folder
+2. Navigate into the folder `01-Basic Full Stack Dapp on Core` in the cloned `dapp-tutorial` repo.
 
 ```bash
-cd frontend
+cd dapp-tutorial
+cd "01-Basic Full Stack Dapp on Core"
 ```
 
 3. Install all the dependencies, i.e., node modules.
@@ -282,17 +283,18 @@ npm run dev
 ```
 
 ### Key Implementations
+The application's key blockchain logic is implemented in [App.tsx](https://github.com/coredao-org/dapp-tutorial/blob/master/01-Simple%20Storage%20Full%20Stack%20Dapp/src/components/App.tsx)
 
-The application's key blockchain logic is implemented in [App.tsx](https://github.com/coredao-org/dapp-tutorial/blob/master/src/components/App.tsx)
 
-1. [App.tsx (Wallet)](https://github.com/coredao-org/dapp-tutorial/blob/master/src/components/App.tsx#L16): logic for conencting to application to MetaMask wallet.
-2. [App.tsx (Store)](https://github.com/coredao-org/dapp-tutorial/blob/master/src/components/App.tsx#L54): logic to write data to the Storage smart contract.
-3. [App.tsx (Retrieve)](https://github.com/coredao-org/dapp-tutorial/blob/master/src/components/App.tsx#L83): logic to read data from the Storage smart contract.
+1. [App.tsx (Wallet)](https://github.com/coredao-org/dapp-tutorial/blob/master/01-Simple%20Storage%20Full%20Stack%20Dapp/src/components/App.tsx#L20): logic for connecting the application to MetaMask wallet.
+2. [App.tsx (Store)](https://github.com/coredao-org/dapp-tutorial/blob/master/01-Simple%20Storage%20Full%20Stack%20Dapp/src/components/App.tsx#L58): logic to write data to the Storage smart contract.
+3. [App.tsx (Retrieve)](https://github.com/coredao-org/dapp-tutorial/blob/master/01-Simple%20Storage%20Full%20Stack%20Dapp/src/components/App.tsx#L87): logic to read data from the Storage smart contract.
+
 
 ### Adding Smart Contract Details 
 1. Copy the `Storage.sol` file from the `contracts` folder in the root of oyur project and paste it into the `frontend/src/contracts` folder. 
 2. Copy the address of the Storage smart contract as obtained in the section [above](#deploy-and-interact-with-smart-contract).
-3. Paste this into [Line 9 of App.tsx](https://github.com/coredao-org/dapp-tutorial/blob/master/src/components/App.tsx#L10). 
+3. Paste this into [Line 10 of App.tsx](https://github.com/coredao-org/dapp-tutorial/blob/master/01-Simple%20Storage%20Full%20Stack%20Dapp/src/components/App.tsx#L10). 
 
 ```javascript
 const contractAddress = '0x48F68BF4A1b1fE6589B9D0a5ad0dF0520582edA2'
