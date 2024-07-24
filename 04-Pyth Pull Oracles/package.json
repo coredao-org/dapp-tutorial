@@ -1,0 +1,23 @@
+{
+  "name": "pyth-feed-boilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "hardhat": "^2.22.6"
+  },
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@pythnetwork/pyth-sdk-solidity": "^3.1.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^5.7.2"
+  }
+}

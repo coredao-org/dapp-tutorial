@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap');
+
+body {
+  background-color: #121212;
+  color: #292D32;
+  font-family: 'Lexend', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #292D32;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #FBFCFC;
+}
+
+.App-title {
+  margin: 0;
+  text-align: left;
+  color: #FFFFFF;
+}
+
+.price-container {
+  background-color: #292D32;
+  padding: 20px;
+  border-radius: 10px;
+  color: #FBFCFC;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.price {
+  font-size: 1.5em;
+  margin-top: 10px;
+  color: #FFFFFF;
+}
