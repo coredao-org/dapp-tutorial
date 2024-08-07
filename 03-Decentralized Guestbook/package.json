@@ -13,8 +13,8 @@
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "chai": "^5.1.1",
-    "ethers": "^5.7.2",
-    "hardhat": "^2.22.6"
+    "ethers": "^6.13.2",
+    "hardhat": "^2.22.8"
   },
   "dependencies": {
     "react": "^18.3.1",
