@@ -1,0 +1,8 @@
+type EntrySigned @entity(immutable: true) {
+  id: Bytes!
+  name: String! # string
+  message: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
