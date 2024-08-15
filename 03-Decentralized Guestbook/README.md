@@ -49,7 +49,7 @@ npm init --yes
 Install Hardhat and other necessary dependencies:
 
 ```
-npm install --save-dev hardhat
+npm install --save-dev hardhat @nomiclabs/hardhat-ethers ethers
 npm install --save-dev chai @nomiclabs/hardhat-waffle
 npm install react react-dom
 ```
@@ -245,15 +245,6 @@ cd frontend
 ```
 
 <img width="1512" alt="gdscreenshot9" src="https://github.com/Camnaz/guestbook-dapp/assets/32852637/31cfed96-9abf-4d2e-8bda-1fa2a8f1efa3">
-
-
-2. Install Ethers.js
-
-Install the Ethers.js library:
-
-```
-npm install ethers
-```
 
 <img width="1512" alt="gdscreenshot10" src="https://github.com/Camnaz/guestbook-dapp/assets/32852637/02027836-e117-4b1c-8324-e81194277b83">
 
