@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
-import GuestbookArtifact from './GuestbookAbi.json'; // Import the entire JSON artifact
+import { Web3Provider } from '@ethersproject/providers'; // Updated import for Web3Provider
+import { Contract } from 'ethers';
+import GuestbookArtifact from './GuestbookAbi.json';
 
-const contractAddress = '0x1947bf9c6eB678FB1fbf097a9bF81e1003C3AD4f'; // Replace with your deployed contract address
-const GuestbookAbi = GuestbookArtifact.abi; // Extract the ABI
+const contractAddress = '0x0D0b3bAc514d53AafC95c74294Bb1B613D1862c2';
+const GuestbookAbi = GuestbookArtifact.abi;
 
 function App() {
   const [contract, setContract] = useState(null);
@@ -18,9 +19,9 @@ function App() {
       if (window.ethereum) {
         try {
           console.log("Connecting to MetaMask...");
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const provider = new Web3Provider(window.ethereum); // Updated to Web3Provider
           
-          await provider.send("eth_requestAccounts", []); // Request account access if needed
+          await provider.send("eth_requestAccounts", []);
 
           const network = await provider.getNetwork();
           if (network.chainId !== 1115) {
@@ -29,7 +30,7 @@ function App() {
 
           const signer = provider.getSigner();
           console.log("Signer obtained:", signer);
-          const tempContract = new ethers.Contract(contractAddress, GuestbookAbi, signer);
+          const tempContract = new Contract(contractAddress, GuestbookAbi, signer);
           setContract(tempContract);
           console.log("Contract initialized:", tempContract);
 
@@ -61,11 +62,10 @@ function App() {
     try {
       console.log("Signing guestbook with:", name, message);
       const tx = await contract.signGuestbook(name, message, {
-        gasLimit: 300000, // Adjust gas limit as necessary
+        gasLimit: 300000, 
       });
       console.log("Transaction sent:", tx);
-      await tx.wait(); // Wait for the transaction to be mined
-      console.log("Transaction mined:", tx);
+      await tx.wait(); 
 
       const updatedEntries = await contract.getEntries();
       setEntries(updatedEntries);
