@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Guestbook
+    network: core
+    source:
+      address: "0x0D0b3bAc514d53AafC95c74294Bb1B613D1862c2"
+      abi: Guestbook
+      startBlock: 22122890
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - EntrySigned
+      abis:
+        - name: Guestbook
+          file: Guestbook/Guestbook.json
+      eventHandlers:
+        - event: EntrySigned(string,string)
+          handler: handleEntrySigned
+      file: Guestbook/Guestbook.wasm
