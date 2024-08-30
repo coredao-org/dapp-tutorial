@@ -121,45 +121,46 @@ Ensure that the network settings are configured correctly for [Core Testnet](htt
  * @type import('hardhat/config').HardhatUserConfig
  */
 
- require('@nomiclabs/hardhat-ethers');
- require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-ethers');
+require("@nomiclabs/hardhat-waffle");
 
- const { PrivateKey } = require('./secret.json');
+const { PrivateKey } = require('./secret.json');
 
- module.exports = {
-    defaultNetwork: 'testnet',
- 
-    networks: {
-       hardhat: {
-       },
-       testnet: {
-          url: 'https://rpc.test.btcs.network',
-          accounts: [PrivateKey],
-          chainId: 1115,
-       }
-    },
-    solidity: {
-       compilers: [
-         {
-            version: '0.8.9',
-            settings: {
-               optimizer: {
-                  enabled: true,
-                  runs: 200,
-               },
-            },
-         },
-       ],
-    },
-    paths: {
-       sources: './contracts',
-       cache: './cache',
-       artifacts: './artifacts',
-    },
-    mocha: {
-       timeout: 20000,
-    },
- };
+module.exports = {
+   defaultNetwork: 'testnet',
+
+   networks: {
+      hardhat: {
+      },
+      testnet: {
+         url: 'https://rpc.test.btcs.network',
+         accounts: [PrivateKey],
+         chainId: 1115,  // Ensure this matches the Core testnet chain ID
+      }
+   },
+   solidity: {
+      compilers: [
+        {
+           version: '0.8.21',  // Update to at least 0.8.20 to support the 'paris' EVM
+           settings: {
+              evmVersion: 'paris',  // Specify 'paris' EVM version
+              optimizer: {
+                 enabled: true,
+                 runs: 200,
+              },
+           },
+        },
+      ],
+   },
+   paths: {
+      sources: './contracts',
+      cache: './cache',
+      artifacts: './artifacts',
+   },
+   mocha: {
+      timeout: 20000,  // You can adjust the timeout as needed
+   },
+};
 ```
 <img width="1512" alt="gdscreenshot5 1" src="https://github.com/Camnaz/guestbook-dapp/assets/32852637/d78ae0d4-c9dc-4ba0-9e96-99c38c0a7c89">
 
