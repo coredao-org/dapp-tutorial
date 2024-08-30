@@ -16,14 +16,15 @@ module.exports = {
       testnet: {
          url: 'https://rpc.test.btcs.network',
          accounts: [PrivateKey],
-         chainId: 1115,
+         chainId: 1115,  
       }
    },
    solidity: {
       compilers: [
         {
-           version: '0.8.9',
+           version: '0.8.21', 
            settings: {
+              evmVersion: 'paris', 
               optimizer: {
                  enabled: true,
                  runs: 200,
@@ -38,6 +39,6 @@ module.exports = {
       artifacts: './artifacts',
    },
    mocha: {
-      timeout: 20000,
+      timeout: 20000, 
    },
 };
