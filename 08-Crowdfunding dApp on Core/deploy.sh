@@ -1,1 +1,0 @@
-forge create --rpc-url https://rpc.test.btcs.network --legacy ./src/CampaignFactory.sol:CampaignFactory --private-key 7f3ed3d4b4d6dca6127fca65f465c94cd541938faf126d6c481fe9b8800e502b
