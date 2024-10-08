@@ -1,0 +1,72 @@
+Container for the entire component
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background-color: #2e2e2e; /* Darker gray background */
+    color: #e0e0e0; /* Light gray text for better readability */
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding is included in height and width */
+}
+
+/* Style for the logo */
+.logo {
+    width: 200px; /* Larger size for visibility */
+    margin-bottom: 40px;
+    border-radius: 10px; /* Rounded corners for the logo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+}
+
+/* Style for the retrieve button and update button */
+.retrieve-button, .update-button {
+    background-color: #ff920f; /* Updated orange color */
+    color: white;
+    border: none;
+    padding: 14px 28px; /* Slightly larger padding */
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.retrieve-button:hover, .update-button:hover {
+    background-color: #e67e22; /* Darker orange for hover effect */
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+/* Style for the message display */
+.message-display {
+    font-size: 28px; /* Larger font size for better visibility */
+    margin-bottom: 20px; /* Space below the message */
+    font-weight: bold;
+    color: #ffd54f; /* Bright yellow color for contrast */
+}
+
+/* Style for the input field */
+.input-field {
+    padding: 14px;
+    border: 1px solid #555; /* Darker border for visibility */
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px; /* Increased max-width for larger screens */
+    margin-bottom: 20px; /* Space below the input field */
+    font-size: 18px;
+    background-color: #424242; /* Slightly lighter gray for input background */
+    color: #fff; /* White text color for the input field */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Adding gap specifically between input field and retrieve button */
+.retrieve-button {
+    margin-top: 20px; /* Adjust the gap as needed */
+}
+
+.input-field:focus {
+    background-color: #616161; /* Lighter gray on focus */
+    border-color: #ff920f; /* Orange border on focus */
+    outline: none;
+}
