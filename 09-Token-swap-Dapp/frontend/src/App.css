@@ -1,0 +1,190 @@
+/* App.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+  position: relative; /* Ensure the App container is positioned relatively for absolute children */
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-width: 150px; /* Adjust as needed for logo size */
+}
+
+.App-header {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-bottom: 2px solid #eaeaea;
+  position: relative; /* To position elements inside it */
+  margin-bottom: 100px; /* Space between header and content */
+}
+
+.App-header h1 {
+  margin: 0;
+  color: #ff6f00; /* Core Chain orange color */
+}
+
+.btn-primary {
+  background-color: #ff6f00; /* Core Chain orange color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 200px; /* Set a consistent width for all buttons */
+  height: 40px; /* Set a consistent height for all buttons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 10px; /* Add margin to separate buttons */
+}
+
+.btn-primary:hover {
+  background-color: #e65c00; /* Darker orange for hover effect */
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  margin: 5px;
+}
+
+.input-field:focus {
+  border-color: #ff6f00;
+  outline: none;
+}
+
+.amount-ticker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.amount-ticker p {
+  margin: 5px 20px;
+  font-size: 18px;
+}
+
+.stake-container,
+.unstake-container {
+  margin: 20px 0;
+}
+
+.stake-container input,
+.unstake-container input {
+  width: 200px;
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.disconnect-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.swap-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.swap-box {
+  width: 350px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ffa31a;
+}
+
+.swap-input {
+  margin-bottom: 20px;
+}
+
+.swap-options {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100px;
+  margin: 5px;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-row select {
+  width: 40%;
+  padding: 10px;
+  margin-right: 10px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.input-row input {
+  width: 60%;
+  padding: 10px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.swap-arrow {
+  width: 20%;
+  padding: 10px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.swap-subtitle {
+  text-align: left;
+  color: #696868;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .amount-ticker {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .amount-ticker p {
+    margin: 5px 0;
+  }
+
+  .disconnect-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+}
