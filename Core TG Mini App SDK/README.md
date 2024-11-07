@@ -1,4 +1,4 @@
-# Create TMA Core
+# Core TG Mini App SDK
 
 **`create-tma-core`** is an NPM command-line utility that helps you quickly generate boilerplate code for developing a Telegram Mini App on the Core blockchain.
 
