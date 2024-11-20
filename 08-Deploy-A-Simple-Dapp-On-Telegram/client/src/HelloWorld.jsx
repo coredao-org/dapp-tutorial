@@ -4,6 +4,7 @@ import { useReadContract, useWriteContract } from 'wagmi';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import './HelloWorld.css'; 
+import logo from './core-dao-logo.png';
 
 // Import ABI from JSON file
 import HelloWorldABI from './Contract-ABI/HelloWorld.json';
