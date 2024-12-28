@@ -5,20 +5,21 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IFactory.sol";
 import "./interfaces/IPool.sol";
-import "./interfaces/IWedu.sol";
+import "./interfaces/IWCore.sol";
 import "./libraries/Library.sol";
 
 error LiquidityProvider__InsufficientAmount();
 error LiquidityProvider__InsufficientOutputAmount();
-error LiquidityProvider__EDUTransferFailed();
+error LiquidityProvider__CoreTransferFailed();
+error LiquidityProvider__CoreTransferFailed();
 
 contract LiquidityProvider {
     address private immutable factoryAddress;
-    address private immutable WEDU;
+    address private immutable WCORE;
 
-    constructor(address _factoryAddress, address _WEDU) {
+    constructor(address _factoryAddress, address _WCore) {
         factoryAddress = _factoryAddress;
-        WEDU = _WEDU;
+        WCore = _WCore;
     }
 
     function _addLiquidity(
@@ -86,22 +87,22 @@ contract LiquidityProvider {
         liquidity = IPool(pair).mint(msg.sender);
     }
 
-    // function addLiquidityEdu(
+    // function addLiquidityCore(
     //     address tokenA
-    // ) external returns (uint256 amountA, uint256 amountEDU, uint256 liquidity) {
-    //    (amountA, amountEDU) = _addLiquidity();
-    //     address pair = IFactory(factoryAddress).getTokenPairs(tokenA, WEDU);
+    // ) external returns (uint256 amountA, uint256 amountCore, uint256 liquidity) {
+    //    (amountA, amountCore) = _addLiquidity();
+    //     address pair = IFactory(factoryAddress).getTokenPairs(tokenA, WCore);
     //     IERC20(tokenA).transferFrom(msg.sender, pair, amountA);
-    //     IWEDU(WEDU).deposit{value: amountEDU}();
-    //     assert(IWEDU(WEDU).transfer(pair, amountEDU));
+    //     IWCore(WCore).deposit{value: amountCore}();
+    //     assert(IWCore(WCore).transfer(pair, amountCore));
     //     liquidity = IPool(pair).mint(msg.sender);
 
-    //     if (msg.value > amountEDU)
+    //     if (msg.value > amountCore)
     //         (bool success, ) = msg.sender.call{value: value}("");
-    //     if (!success) revert LiquidityProvider__EDUTransferFailed();
+    //     if (!success) revert LiquidityProvider__CoreTransferFailed();
     // }
 
-    // TODO: Remove liquidity & liquidityEdu
+    // TODO: Remove liquidity & liquidityCore
 
     // Swapppp
 
@@ -149,10 +150,10 @@ contract LiquidityProvider {
         uint reserveA,
         uint reserveB
     ) internal pure returns (uint amountB) {
-        require(amountA > 0, "UniswapV2DefiLibrary: INSUFFICIENT_AMOUNT");
+        require(amountA > 0, "insufficient input");
         require(
             reserveA > 0 && reserveB > 0,
-            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+            "insufficient liquidity"
         );
         amountB = (amountA * reserveB) / reserveA;
     }
@@ -164,7 +165,7 @@ contract LiquidityProvider {
         uint amountIn,
         address[] memory path
     ) public view returns (uint[] memory amounts) {
-        require(path.length >= 2, "UniswapV2Library: INVALID_PATH");
+        require(path.length >= 2, "invalid number of array");
         amounts = new uint[](path.length);
         amounts[0] = amountIn;
         for (uint i; i < path.length - 1; i++) {

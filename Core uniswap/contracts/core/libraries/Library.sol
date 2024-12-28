@@ -25,10 +25,10 @@ library DefiLibrary {
         uint reserveIn,
         uint reserveOut
     ) internal pure returns (uint amountOut) {
-        require(amountIn > 0, "UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT");
+        require(amountIn > 0, "insufficient input");
         require(
             reserveIn > 0 && reserveOut > 0,
-            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+            "insufficient liquidity"
         );
         uint amountInWithFee = amountIn * 997;
         uint numerator = amountInWithFee * reserveOut;

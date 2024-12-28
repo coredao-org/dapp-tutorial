@@ -69,16 +69,16 @@ contract Pool is ERC20 {
     function liquidateLpTokens(
         address to
     ) external returns (uint256 amountA, uint256 amountB) {
-        (uint256 _reserve0, uint256 _reserve1) = getTokenReserves(); // gas savings
-        address _tokenA = tokenA; // gas savings
-        address _tokenB = tokenB; // gas savings
+        (uint256 _reserve0, uint256 _reserve1) = getTokenReserves();
+        address _tokenA = tokenA;
+        address _tokenB = tokenB;
         uint balanceA = IERC20(_tokenA).balanceOf(address(this));
         uint balanceB = IERC20(_tokenB).balanceOf(address(this));
         uint liquidity = balanceOf(to);
 
-        uint256 _totalSupply = totalSupply(); // gas savings, must be defined here since totalSupply can update in _mintFee
-        amountA = (liquidity * balanceA) / _totalSupply; // using balances ensures pro-rata distribution
-        amountB = (liquidity * balanceB) / _totalSupply; // using balances ensures pro-rata distribution
+        uint256 _totalSupply = totalSupply();
+        amountA = (liquidity * balanceA) / _totalSupply;
+        amountB = (liquidity * balanceB) / _totalSupply;
         if (amountA <= 0 && amountB <= 0)
             revert PoolFactory__InsufficientLiquidity();
         _burn(address(this), liquidity);
