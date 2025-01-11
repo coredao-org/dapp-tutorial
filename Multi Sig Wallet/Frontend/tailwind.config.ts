@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		borderColor: {
+			border: 'hsl(var(border-border))', // Explicitly add `border-border` as a utility
+		  },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
