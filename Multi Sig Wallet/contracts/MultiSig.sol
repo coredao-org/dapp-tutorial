@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.27;
 
 // import "hardhat/console.sol";
@@ -10,8 +10,10 @@ error MultiSig__AlreadyConfirmed();
 error MultiSig__ProposalNotExists();
 error MultiSig__AlreadyExecuted();
 error MultiSig__NotEnoughConfirmations();
+error MultiSig__NotOwner();
+error MultiSig__TransferFailed();
 
-contract MultiSig{
+contract MultiSig {
     uint256 private deployedTime;
     address private deployer;
     address[] private owners;
@@ -29,7 +31,9 @@ contract MultiSig{
     struct Transaction {
         address proposer;
         address to;
-        bytes data;
+        uint256 value;
+        // bytes data; TODO: Complex functions
+        string description;
         uint256 noOfConfirmations;
         bool status;
     }
@@ -45,7 +49,7 @@ contract MultiSig{
         _;
     }
 
-    modifier porposalAvailable(_proposalIndex) {
+    modifier proposalAvailable(uint256 _proposalIndex) {
         if(_proposalIndex >= transactions.length) revert MultiSig__ProposalNotExists();
         _;
     }
@@ -57,56 +61,58 @@ contract MultiSig{
         if(_owners.length < 1) revert MultiSig__OwnersRequired();
 
         deployedTime = block.timestamp;
-        deployer = payable(msg.sender);
+        deployer = msg.sender;
         noOfConfirmationsNeeded = _noOfConfirmationsNeeded;
 
         for(uint i = 0; i < _owners.length; i++) {
             if(_owners[i] == address(0)) revert MultiSig__InvalidAddress();
-            owners[i] = _owners[i];
-            isOwner[i] = true;
+            owners.push(_owners[i]);
+            isOwner[_owners[i]] = true;
         }
     }
 
-    function submitProposal(address _to, bytes memory _data) public returns(bool) onlyOwners {
+    function submitProposal(address _to, uint256 _value, string memory _description) public onlyOwners  returns (bool) {
 
-        uint256 proposalIndex = transaction.length;
+        uint256 proposalIndex = transactions.length;
 
-        Transaction storage transaction = Transaction(msg.sender, _to, _data, 0, false);
+        Transaction memory transaction = Transaction(msg.sender, _to, _value, _description, 0, false);
         transactions.push(transaction);
 
         proposalByIndex[proposalIndex] = transaction;
 
+        return false;
+
         // emit ProposalSubmitted();
     }
 
-    function confirmProposal(uint256 _proposalIndex) public returns (bool) onlyOwners proposalAvailable(_proposalIndex) {
+    function confirmProposal(uint256 _proposalIndex) public onlyOwners proposalAvailable(_proposalIndex) returns (bool) {
         
         if(confirmedByIndex[msg.sender][_proposalIndex]) revert MultiSig__AlreadyConfirmed();
 
         Transaction storage transaction = proposalByIndex[_proposalIndex];
         if(transaction.status) revert MultiSig__AlreadyExecuted();
-        transaction.noOfConfirmations += 1;
+        transaction.noOfConfirmations = transaction.noOfConfirmations + 1;
 
         confirmedByIndex[msg.sender][_proposalIndex] = true;
 
         // emit Confirmedproposal()
     }
 
-    function revokeConfirmedProposal(uint _proposalIndex) public returns (bool) onlyOwners proposalAvailable(_proposalIndex) {
+    function revokeConfirmedProposal(uint256 _proposalIndex) public onlyOwners proposalAvailable(_proposalIndex) returns (bool) {
 
         //TODO: Require incase the proposal is executed, it should revert
         if(!confirmedByIndex[msg.sender][_proposalIndex]) revert MultiSig__NotConfirmed();
 
         Transaction storage transaction = proposalByIndex[_proposalIndex];
         if(transaction.status) revert MultiSig__AlreadyExecuted();
-        transaction.noOfConfirmations -= 1;
+        transaction.noOfConfirmations = transaction.noOfConfirmations - 1;
 
         confirmedByIndex[msg.sender][_proposalIndex] = false;
 
         // emit RevokedProposal()
     }
 
-    function executeProposal(uint _proposalIndex) public returns (bool) onlyOwners proposalAvailable(_proposalIndex) {
+    function executeProposal(uint _proposalIndex) public onlyOwners proposalAvailable(_proposalIndex) returns (bool) {
         
         Transaction storage transaction = proposalByIndex[_proposalIndex];
         if(transaction.noOfConfirmations < noOfConfirmationsNeeded) revert MultiSig__NotEnoughConfirmations();
@@ -116,25 +122,31 @@ contract MultiSig{
         transaction.status = true;
 
         //TODO: execute the proposal
+        (bool success, ) = transaction.to.call{value: transaction.value}(""/**transaction.data*/);
+        if(!success) revert MultiSig__TransferFailed();
+    }
+
+    function fundWallet() public payable returns(uint256){
+        return msg.value;
     }
 
 
 
 
     ////// GETTER FUNCTIONS
-    function getdeployer() public returns (address) {
+    function getDeployer() public view returns (address) {
         return deployer;
     }
 
-    function getOwners() public returns (address[] memory) {
+    function getOwners() public view returns (address[] memory) {
         return owners;
     }
 
-    function getTimeCreated() public returns (uint256) {
+    function getTimeCreated() public view returns (uint256) {
         return deployedTime;
     }
 
-    function getAllProposals() public returns (Transaction[] memory) {
+    function getAllProposals() public view returns (Transaction[] memory) {
         return transactions;
     }
 }
