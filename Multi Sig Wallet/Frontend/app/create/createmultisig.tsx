@@ -13,9 +13,7 @@ export default function CreateMultiSigWallet() {
   const [requiredConfirmations, setRequiredConfirmations] = useState(1)
   const [isCreating, setIsCreating] = useState(false)
 
-  const handleAddOwner = () => {
-    setOwners([...owners, ''])
-  }
+  const handleAddOwner = () => setOwners([...owners, ''])
 
   const handleOwnerChange = (index: number, value: string) => {
     const newOwners = [...owners]
@@ -31,19 +29,19 @@ export default function CreateMultiSigWallet() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setIsCreating(true)
-    // Simulating wallet creation
     setTimeout(() => {
       console.log('Wallet created:', { name, owners, requiredConfirmations })
       setIsCreating(false)
-      // Here you would typically redirect to the new wallet page or show a success message
     }, 2000)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-blue-900 flex items-center justify-center px-4 py-12">
-      <Card className="w-full max-w-2xl bg-blue-800 text-white">
+    <div className="max-h-screen overflow-y-auto px-4 py-4">
+      <Card className="w-full max-w-2xl bg-blue-800 text-white mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Create Multi-Signature Wallet</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Create Multi-Signature Wallet
+          </CardTitle>
           <CardDescription className="text-center text-gray-300">
             Set up a new multi-signature wallet by providing the required information
           </CardDescription>
@@ -63,7 +61,7 @@ export default function CreateMultiSigWallet() {
             <div>
               <Label>Owners</Label>
               {owners.map((owner, index) => (
-                <div key={index} className="flex items-center mt-2">
+                <div key={index} className="flex items-center mt-2 space-x-2">
                   <Input
                     value={owner}
                     onChange={(e) => handleOwnerChange(index, e.target.value)}
@@ -76,7 +74,6 @@ export default function CreateMultiSigWallet() {
                       type="button"
                       variant="destructive"
                       size="sm"
-                      className="ml-2"
                       onClick={() => handleRemoveOwner(index)}
                     >
                       Remove
@@ -89,7 +86,7 @@ export default function CreateMultiSigWallet() {
                 variant="outline"
                 size="sm"
                 onClick={handleAddOwner}
-                className="mt-2"
+                className="mt-4"
               >
                 Add Owner
               </Button>
@@ -127,4 +124,3 @@ export default function CreateMultiSigWallet() {
     </div>
   )
 }
-

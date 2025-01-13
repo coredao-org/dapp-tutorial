@@ -22,6 +22,8 @@ import { Label } from '@/components/ui/label'
 import { DashboardLayout } from '@/components/DashboardLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertCircle, CheckCircle, XCircle } from 'lucide-react'
+import { client } from "../../client"
+import { useActiveAccount, ConnectButton } from "thirdweb/react";
 
 // Mock data for transactions
 const transactions = [
@@ -31,7 +33,17 @@ const transactions = [
 ]
 
 export default function WalletPage({ params }: { params: { address: string } }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const activeAccount = useActiveAccount();
+  
+  const [isOpen, setIsOpen] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
+  const [isWallet, setIsWallet] = useState("");
+  const [tempAddress, setTempAddress] = useState(""); // Temporary variable for input
+
+  const handleSubmit = () => {
+    setIsWallet(tempAddress); // Update isWallet only after submitting
+    console.log("Wallet Address Added:", tempAddress);
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -48,7 +60,45 @@ export default function WalletPage({ params }: { params: { address: string } }) 
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold mb-8">Wallet: {params.address}</h1>
+      <div className="flex items-center justify-between mb-9">
+        <div>
+            <h1 className="text-3xl font-bold">
+            Wallet: 
+          </h1>
+          <p>{activeAccount?.address || "Not connected"}</p>
+        </div>
+      
+      {activeAccount?.address ? (
+        <>
+        <Dialog open={isAdd} onOpenChange={setIsAdd}>
+        <DialogTrigger asChild>
+          <Button className="bg-neon-green text-blue-900 hover:bg-neon-green/90">Add MultiSig</Button>
+        </DialogTrigger>
+        <DialogContent className="bg-blue-900 text-white">
+          <DialogHeader>
+            <DialogTitle>Interact with MultiSig</DialogTitle>
+          </DialogHeader>
+          <form className="space-y-4">
+            <div>
+              <Label htmlFor="address">MultiSig Address</Label>
+              <Input
+                id="address"
+                value={tempAddress}
+                onChange={(e) => setTempAddress(e.target.value)}
+                className="bg-blue-800 border-blue-700 text-white"
+              />
+            </div>
+          </form>
+          <Button className="bg-neon-green text-blue-900 hover:bg-neon-green/90" onClick={() => handleSubmit()}>Add Wallet</Button>
+        </DialogContent>
+      </Dialog>
+      <p>{isWallet}</p>
+      </>
+      ) : (
+        <ConnectButton client={client} />
+      )}
+    </div>
+      
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="bg-blue-800 border-blue-700">
@@ -69,7 +119,7 @@ export default function WalletPage({ params }: { params: { address: string } }) 
         </Card>
         <Card className="bg-blue-800 border-blue-700">
           <CardHeader>
-            <CardTitle>Pending Transactions</CardTitle>
+            <CardTitle>Confirmations</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">2</p>
