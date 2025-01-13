@@ -19,7 +19,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               </Link>
             </li>
             <li>
-              <Link href="/transactions" className="flex items-center py-2 px-4 hover:bg-blue-800 rounded transition-colors">
+              <Link href="/wallet/address" className="flex items-center py-2 px-4 hover:bg-blue-800 rounded transition-colors">
                 <FileText className="mr-2 h-4 w-4" />
                 Transactions
               </Link>
@@ -30,12 +30,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 Owners
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/settings" className="flex items-center py-2 px-4 hover:bg-blue-800 rounded transition-colors">
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </aside>

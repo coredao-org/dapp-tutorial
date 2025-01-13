@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DashboardLayout } from '@/components/DashboardLayout'
 import Link from 'next/link'
+import { client } from "../client";
+import {useActiveAccount } from "thirdweb/react";
 
 // Mock data for wallets
 const wallets = [
@@ -22,6 +24,8 @@ export default function Dashboard() {
     wallet.address.toLowerCase().includes(search.toLowerCase())
   )
 
+  const activeAccount = useActiveAccount();
+
   return (
     <DashboardLayout>
       <div className="flex items-center justify-between ">
@@ -35,7 +39,7 @@ export default function Dashboard() {
 
       <div className="mb-8">
         <p className="text-lg mb-2">Connected Wallet:</p>
-        <p className="text-neon-green">0x7890...1234</p>
+        <p className="text-neon-green">{activeAccount?.address || "Not Connected"}</p>
       </div>
       <div className="mb-8">
         <div className="flex items-center mb-4">

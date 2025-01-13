@@ -96,7 +96,7 @@ export default function WalletPage({ params }: { params: { address: string } }) 
                 <Input id="value" type="number" step="0.01" className="bg-blue-800 border-blue-700 text-white" />
               </div>
               <div>
-                <Label htmlFor="data">Optional Data</Label>
+                <Label htmlFor="data">Description</Label>
                 <Input id="data" className="bg-blue-800 border-blue-700 text-white" />
               </div>
               <Button type="submit" className="bg-neon-green text-blue-900 hover:bg-neon-green/90">Submit</Button>
@@ -105,6 +105,7 @@ export default function WalletPage({ params }: { params: { address: string } }) 
         </Dialog>
         <Button className="bg-blue-700 hover:bg-blue-600">Confirm Transaction</Button>
         <Button className="bg-red-700 hover:bg-red-600">Revoke Transaction</Button>
+        <Button className="bg-red-700 hover:bg-red-600">Execute Transaction</Button>
       </div>
 
       <Table>
