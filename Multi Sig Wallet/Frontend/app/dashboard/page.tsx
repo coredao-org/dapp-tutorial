@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, LoaderIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import Link from "next/link";
 import { client } from "../client";
-import { useActiveAccount, ConnectButton } from "thirdweb/react";
+import { useActiveAccount, ConnectButton} from "thirdweb/react";
 import MultiSigCreationModal from "../create/multisigcreation";
+import Data from "./Data";
 
 // Mock data for wallets
 const wallets = [
@@ -32,6 +33,7 @@ const wallets = [
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
+  const [wallet, setWallet] = useState<{ walletAddress: string; timeCreated: bigint; balance: bigint; }[]>([]);;
 
   const filteredWallets = wallets.filter((wallet) =>
     wallet.address.toLowerCase().includes(search.toLowerCase())
@@ -45,18 +47,20 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold">Wallet Dashboard</h1>
         {/* <MultiSigCreationModal /> */}
         {activeAccount?.address ? (
-        <MultiSigCreationModal />
-      ) : (
-        <ConnectButton client={client} />
-      )}
+          <MultiSigCreationModal />
+        ) : (
+          <ConnectButton client={client} />
+        )}
       </div>
 
       <div className="mb-8">
-        <p className="text-lg mb-2">Connected Wallet:</p>
+        <p className="text-lg mb-2">Connected Wallettt:</p>
         <p className="text-neon-green">
           {activeAccount?.address || "Not Connected"}
         </p>
       </div>
+        <Data setWallet={setWallet}/>
+
       <div className="mb-8">
         <div className="flex items-center mb-4">
           <Input
@@ -71,23 +75,24 @@ export default function Dashboard() {
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredWallets.map((wallet, index) => (
-            <Card
-              key={index}
-              className="bg-blue-800 border-blue-700 hover:shadow-lg transition-shadow"
-            >
-              <CardHeader>
-                <CardTitle className="text-neon-green">
-                  {wallet.address}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="mb-2">Created on: {wallet.createdAt}</p>
-                <p className="font-semibold">Balance: {wallet.balance}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+  {wallet.map((wallet, index) => (
+    <Card
+      key={index}
+      className="bg-blue-800 border-blue-700 hover:shadow-lg transition-shadow"
+    >
+      <CardHeader>
+        <CardTitle className="text-neon-green break-words text-sm">
+          {wallet.walletAddress}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-2">Created on: {wallet.timeCreated}</p>
+        <p className="font-semibold">Balance: {wallet.balance}</p>
+      </CardContent>
+    </Card>
+  ))}
+</div>
+
       </div>
     </DashboardLayout>
   );

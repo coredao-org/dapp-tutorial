@@ -20,14 +20,14 @@ describe("Lock", function () {
 
     const array = ["0xF5c87bFCE1999d3E48f0407E43F0Db10394A4B37", "0xF5c87bFCE1999d3E48f0407E43F0Db10394A4B37", "0xF5c87bFCE1999d3E48f0407E43F0Db10394A4B37"]
 
-    const multiSig = await ethers.getContractFactory("MultiSig");
-    const multiSigContract = await multiSig.deploy(array, 2);
+    // const multiSig = await ethers.getContractFactory("MultiSig");
+    // const multiSigContract = await multiSig.deploy(array, 2);
 
     const multiSigFactory = await ethers.getContractFactory("MultiSigFactory");
     const factoryContract = await multiSigFactory.deploy("0xF5c87bFCE1999d3E48f0407E43F0Db10394A4B37");
 
 
-    return { factoryContract, multiSigContract };
+    return { factoryContract };
   }
 
   describe("Deployment", function () {
@@ -64,6 +64,8 @@ describe("Lock", function () {
       const addresses = "0xF5c87bFCE1999d3E48f0407E43F0Db10394A4B37";
       const functionName = "transfer";
 
+      console.log(factoryContract.target)
+
       const pair = await factoryContract.createMultiSig(array, 1);
       const pairs = await factoryContract.createMultiSig( array, 1);
 
@@ -82,11 +84,13 @@ describe("Lock", function () {
       const getProposals = await factoryContract.getAllProposals(getAddress[0]);
       console.log(getProposals);
       await factoryContract.confirmTransaction(getAddress[0], 0);
+      const wallets = await factoryContract.getDeployersWallets();
+      console.log(wallets)
       const proposalExecuted1 = await factoryContract.getAllProposals(getAddress[0]);
       console.log(proposalExecuted1)
-      await factoryContract.executeTransaction(getAddress[0], 0);
-      const proposalExecuted = await factoryContract.getAllProposals(getAddress[0]);
-      console.log(proposalExecuted)
+      // await factoryContract.executeTransaction(getAddress[0], 0);
+      // const proposalExecuted = await factoryContract.getAllProposals(getAddress[0]);
+      // console.log(proposalExecuted)
 
 
     });

@@ -18,6 +18,8 @@ contract MultiSig {
     address private deployer;
     address[] private owners;
     uint private noOfConfirmationsNeeded;
+    address private immutable sigFactory;
+    uint256 public proposalIndex = 0;
 
     // Making it more complex by adding time periods for when proposals expires
     // enum Status {
@@ -38,11 +40,11 @@ contract MultiSig {
         bool status;
     }
 
-    mapping(uint256 => Transaction) private proposalByIndex;
+    mapping(uint256 => Transaction) public proposalByIndex;
     mapping(address => bool) private isOwner;
     mapping(address => mapping(uint256 => bool)) private confirmedByIndex;
 
-    Transaction[] private transactions;
+    Transaction[] public transactions;
 
     modifier onlyOwners() {
         if(!isOwner[msg.sender]) revert MultiSig__NotOwner();
@@ -54,7 +56,16 @@ contract MultiSig {
         _;
     }
 
-    constructor(address[] memory _owners, uint256 _noOfConfirmationsNeeded) {
+    constructor() {
+        sigFactory = msg.sender;
+    }
+
+
+    // Init function to be called only once by factory
+
+    function init (address[] memory _owners, uint256 _noOfConfirmationsNeeded) external {
+
+        if(sigFactory != msg.sender) revert MultiSig__NotOwner();
 
         // Include your address if needed to perform the functions before deploying!
 
@@ -71,21 +82,21 @@ contract MultiSig {
         }
     }
 
-    function submitProposal(address _to, uint256 _value, string memory _description) public onlyOwners  returns (bool) {
-
-        uint256 proposalIndex = transactions.length;
+    function submitProposal(address _to, uint256 _value, string memory _description) public returns (bool) {
 
         Transaction memory transaction = Transaction(msg.sender, _to, _value, _description, 0, false);
         transactions.push(transaction);
 
         proposalByIndex[proposalIndex] = transaction;
 
-        return false;
+        proposalIndex += 1;
+
+        return true;
 
         // emit ProposalSubmitted();
     }
 
-    function confirmProposal(uint256 _proposalIndex) public onlyOwners proposalAvailable(_proposalIndex) returns (bool) {
+    function confirmProposal(uint256 _proposalIndex) public /**onlyOwners*/  proposalAvailable(_proposalIndex) returns (bool) {
         
         if(confirmedByIndex[msg.sender][_proposalIndex]) revert MultiSig__AlreadyConfirmed();
 
@@ -93,12 +104,14 @@ contract MultiSig {
         if(transaction.status) revert MultiSig__AlreadyExecuted();
         transaction.noOfConfirmations = transaction.noOfConfirmations + 1;
 
+        transactions[_proposalIndex].noOfConfirmations += 1;
+
         confirmedByIndex[msg.sender][_proposalIndex] = true;
 
         // emit Confirmedproposal()
     }
 
-    function revokeConfirmedProposal(uint256 _proposalIndex) public onlyOwners proposalAvailable(_proposalIndex) returns (bool) {
+    function revokeConfirmedProposal(uint256 _proposalIndex) public /**onlyOwners*/  proposalAvailable(_proposalIndex) returns (bool) {
 
         //TODO: Require incase the proposal is executed, it should revert
         if(!confirmedByIndex[msg.sender][_proposalIndex]) revert MultiSig__NotConfirmed();
@@ -112,7 +125,7 @@ contract MultiSig {
         // emit RevokedProposal()
     }
 
-    function executeProposal(uint _proposalIndex) public onlyOwners proposalAvailable(_proposalIndex) returns (bool) {
+    function executeProposal(uint _proposalIndex) public /**onlyOwners*/  proposalAvailable(_proposalIndex) returns (bool) {
         
         Transaction storage transaction = proposalByIndex[_proposalIndex];
         if(transaction.noOfConfirmations < noOfConfirmationsNeeded) revert MultiSig__NotEnoughConfirmations();
@@ -126,9 +139,7 @@ contract MultiSig {
         if(!success) revert MultiSig__TransferFailed();
     }
 
-    function fundWallet() public payable returns(uint256){
-        return msg.value;
-    }
+    function fundWallet() public payable {}
 
 
 

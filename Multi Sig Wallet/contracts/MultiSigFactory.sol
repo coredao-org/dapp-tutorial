@@ -3,19 +3,20 @@
 pragma solidity ^0.8.27;
 
 import "./MultiSig.sol";
+import "./interfaces/IMultiSig.sol";
 
 contract MultiSigFactory {
     address private feeReceiver; // TODO: implement token fee receivers for creating those smart wallets
 
     address[] private allWallets;
 
-    // struct Transaction {
-    //     address proposer;
-    //     address to;
-    //     bytes data;
-    //     uint256 noOfConfirmations;
-    //     bool status;
-    // }
+    struct Wallets {
+        address walletAddress;
+        uint256 timeCreated;
+        uint256 balance;
+    }
+
+    mapping(address => Wallets[]) private wallets;
 
     event MultiSigCreated(address multisigAddress);
 
@@ -25,8 +26,8 @@ contract MultiSigFactory {
 
     function createMultiSig(address[] memory _owners, uint256 _noOfConfirmations) payable external returns (address multisigAddress) {
 
-        bytes memory bytecode = getByteCode(_owners, _noOfConfirmations);
-        bytes32 salt = keccak256(abi.encodePacked(_owners[0], _owners[1]));
+        bytes memory bytecode = type(MultiSig).creationCode;
+        bytes32 salt = keccak256(abi.encodePacked(_owners, _noOfConfirmations));
 
         //TODO: put the salt
 
@@ -34,58 +35,66 @@ contract MultiSigFactory {
             multisigAddress := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
 
+        MultiSig(multisigAddress).init(_owners, _noOfConfirmations);
+
         allWallets.push(multisigAddress);
+        Wallets memory wallet = Wallets(multisigAddress, block.timestamp, address(multisigAddress).balance);
+        wallets[msg.sender].push(wallet);
 
         emit MultiSigCreated(multisigAddress);
     }
 
     //// ROUTING OR CONTROLLER SECTION
     function submitTransaction(address multisigAddress, address _to, uint256 _value, string memory _description) public returns (bool) {
-        bool submitted = MultiSig(multisigAddress).submitProposal(_to, _value, _description);
+        IMultiSig(multisigAddress).submitProposal(_to, _value, _description);
 
-        return submitted;
+        return true;
     }
 
     function confirmTransaction(address multisigAddress, uint256 _proposalIndex) public returns (bool) {
-        bool isConfirmed = MultiSig(multisigAddress).confirmProposal(_proposalIndex);
+        bool isConfirmed = IMultiSig(multisigAddress).confirmProposal(_proposalIndex);
 
         return isConfirmed;
     }
 
     function revokeConfirmedTransaction(address multisigAddress, uint256 _proposalIndex) public returns (bool) {
-        bool isRevoked = MultiSig(multisigAddress).revokeConfirmedProposal(_proposalIndex);
+        bool isRevoked = IMultiSig(multisigAddress).revokeConfirmedProposal(_proposalIndex);
 
         return isRevoked;
     } 
 
     function executeTransaction(address multisigAddress, uint _proposalIndex) public returns (bool) {
-        bool isExecuted = MultiSig(multisigAddress).executeProposal(_proposalIndex);
+        bool isExecuted = IMultiSig(multisigAddress).executeProposal(_proposalIndex);
 
         return isExecuted;
     }
 
-    function Deposit(address multisigAddress) public returns(uint256) {
-        return MultiSig(multisigAddress).fundWallet();
+    function Deposit(address multisigAddress) public {
+        IMultiSig(multisigAddress).fundWallet();
     }
 
     // rOUTER TO GETTER FUNCIONS FROM THE MULTISIGS
-    function getOwners(address multisigAddress) public view returns (address[] memory) {
-        address[] memory owners = MultiSig(multisigAddress).getOwners();
+    function getOwners(address multisigAddress) public returns (address[] memory) {
+        address[] memory owners = IMultiSig(multisigAddress).getOwners();
         return owners;
     }
 
-    function getDeployer(address multisigAddress) public view returns (address) {
-        return MultiSig(multisigAddress).getDeployer();
+    function getDeployer(address multisigAddress) public returns (address) {
+        return IMultiSig(multisigAddress).getDeployer();
     }
 
-    function getAllProposals(address multisigAddress) public view returns (MultiSig.Transaction[] memory) {
-        MultiSig.Transaction[] memory transactions = MultiSig(multisigAddress).getAllProposals();
+    function getAllProposals(address multisigAddress) public returns (IMultiSig.Transaction[] memory) {
+        IMultiSig.Transaction[] memory transactions = IMultiSig(multisigAddress).getAllProposals();
         return transactions;
     }
 
-    function getTimeCreated(address multisigAddress) public view returns (uint256) {
-        uint256 deployedTime = MultiSig(multisigAddress).getTimeCreated() ;
+    function getTimeCreated(address multisigAddress) public returns (uint256) {
+        uint256 deployedTime = IMultiSig(multisigAddress).getTimeCreated();
         return deployedTime;
+    }
+
+    function getDeployersWallets(address deployer) public view returns (Wallets[] memory) {
+        return wallets[deployer];
     }
 
 
@@ -96,15 +105,5 @@ contract MultiSigFactory {
         return allWallets;
     }
 
-
-    function getByteCode(address[] memory _owners, uint256 _noOfConfirmations)
-        internal
-        pure
-        returns (bytes memory)
-    {
-        bytes memory bytecode = type(MultiSig).creationCode;
-
-        return abi.encodePacked(bytecode, abi.encode(_owners, _noOfConfirmations));
-    }
 
 }

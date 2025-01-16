@@ -1,39 +1,73 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2 } from 'lucide-react'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+import { defineChain, getContract, prepareContractCall } from "thirdweb";
+import { useSendTransaction, useReadContract } from "thirdweb/react";
+import { client } from "../client";
 
 export default function CreateMultiSigWallet() {
-  const [name, setName] = useState('')
-  const [owners, setOwners] = useState([''])
-  const [requiredConfirmations, setRequiredConfirmations] = useState(1)
-  const [isCreating, setIsCreating] = useState(false)
+  const [name, setName] = useState("");
+  const [owners, setOwners] = useState([""]);
+  const [requiredConfirmations, setRequiredConfirmations] = useState(1);
+  const [isCreating, setIsCreating] = useState(false);
 
-  const handleAddOwner = () => setOwners([...owners, ''])
+  const handleAddOwner = () => setOwners([...owners, ""]);
 
   const handleOwnerChange = (index: number, value: string) => {
-    const newOwners = [...owners]
-    newOwners[index] = value
-    setOwners(newOwners)
-  }
+    const newOwners = [...owners];
+    newOwners[index] = value;
+    setOwners(newOwners);
+  };
 
   const handleRemoveOwner = (index: number) => {
-    const newOwners = owners.filter((_, i) => i !== index)
-    setOwners(newOwners)
-  }
+    const newOwners = owners.filter((_, i) => i !== index);
+    setOwners(newOwners);
+  };
+
+  const chain = defineChain(1115);
+
+  const contract = getContract({
+    client,
+    address: "0x3c7eD317074CB301a421aCa92Ad37941f7F030F8",
+    chain: chain,
+  });
+
+  const { mutate: sendTransaction } = useSendTransaction();
+
+  const CreateMultiSig = async (address: string[], amount: bigint) => {
+    const approve = prepareContractCall({
+      contract,
+      method:
+        "function createMultiSig(address[] memory _owners, uint256 _noOfConfirmations)",
+      params: [address, amount],
+    });
+    return new Promise((resolve, reject) => {
+      sendTransaction(approve, {
+        onSuccess: () => resolve(true),
+        onError: (error) => reject(error),
+      });
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsCreating(true)
+    e.preventDefault();
+    setIsCreating(true);
     setTimeout(() => {
-      console.log('Wallet created:', { name, owners, requiredConfirmations })
-      setIsCreating(false)
-    }, 2000)
-  }
+      console.log("Wallet created:", { name, owners, requiredConfirmations });
+      setIsCreating(false);
+    }, 2000);
+  };
 
   return (
     <div className="max-h-screen overflow-y-auto px-4 py-4">
@@ -43,7 +77,8 @@ export default function CreateMultiSigWallet() {
             Create Multi-Signature Wallet
           </CardTitle>
           <CardDescription className="text-center text-gray-300">
-            Set up a new multi-signature wallet by providing the required information
+            Set up a new multi-signature wallet by providing the required
+            information
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -92,14 +127,18 @@ export default function CreateMultiSigWallet() {
               </Button>
             </div>
             <div>
-              <Label htmlFor="requiredConfirmations">Required Confirmations</Label>
+              <Label htmlFor="requiredConfirmations">
+                Required Confirmations
+              </Label>
               <Input
                 id="requiredConfirmations"
                 type="number"
                 min={1}
                 max={owners.length}
                 value={requiredConfirmations}
-                onChange={(e) => setRequiredConfirmations(parseInt(e.target.value))}
+                onChange={(e) =>
+                  setRequiredConfirmations(parseInt(e.target.value))
+                }
                 className="bg-blue-700 border-blue-600 text-white"
                 required
               />
@@ -108,6 +147,17 @@ export default function CreateMultiSigWallet() {
               type="submit"
               className="w-full bg-neon-green text-blue-900 hover:bg-neon-green/90"
               disabled={isCreating}
+              onClick={async () => {
+                try {
+                  const success = await CreateMultiSig(
+                    owners,
+                    BigInt(requiredConfirmations)
+                  );
+                  alert(`Sucess: ${success}`)
+                } catch (e) {
+                  alert(e);
+                }
+              }}
             >
               {isCreating ? (
                 <>
@@ -115,12 +165,12 @@ export default function CreateMultiSigWallet() {
                   Creating...
                 </>
               ) : (
-                'Create Wallet'
+                "Create Wallet"
               )}
             </Button>
           </form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

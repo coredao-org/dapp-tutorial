@@ -39,6 +39,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </ul>
         </nav>
       </aside>
+      
       <main className="flex-1 p-8 overflow-auto">
         {children}
       </main>
