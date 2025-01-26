@@ -1,8 +1,6 @@
 # MultiSig Wallet Factory
 
-Welcome to the MultiSig Wallet Factory project! This blockchain-based application enables users to easily deploy and manage multisignature (multisig) wallets for various use cases, enhancing security and collaborative control over assets.
-
-🚀 **Live Demo**: [MultiSig Wallet Factory](https://multi-sig-wallet-factory-d28a.vercel.app/) 
+Welcome to the MultiSig Wallet Factory project! This blockchain-based application enables users to easily deploy and manage multisignature (multisig) wallets for various use cases, enhancing security and collaborative control over assets. 
 
 ## Features
 
