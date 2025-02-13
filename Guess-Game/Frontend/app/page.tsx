@@ -85,7 +85,8 @@ export default function GuessTheNumber() {
 
       setGuess("");
     } catch (error) {
-      console.error("Error making guess:", error);
+      
+      alert("Guess should be between 1 - 100");
       setMessage("⚠️ Error submitting guess, try again.");
     }
   }
