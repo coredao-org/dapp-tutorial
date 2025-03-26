@@ -1,6 +1,10 @@
 [profile.default]
 src = "src"
 out = "out"
-libs = ["lib"]
+libs = ["lib", "dependencies"]
+remappings = ["@chainlink/contracts/=dependencies/smartcontractkit-ccip-2.5.0-ccip1.1.0/contracts"]
+
+[dependencies]
+smartcontractkit-ccip = "2.5.0-ccip1.1.0"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

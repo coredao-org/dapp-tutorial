@@ -1,0 +1,6 @@
+[[dependencies]]
+name = "smartcontractkit-ccip"
+version = "2.5.0-ccip1.1.0"
+url = "https://soldeer-revisions.s3.amazonaws.com/smartcontractkit-ccip/2_5_0-ccip1_1_0_24-03-2025_13:50:32_smartcontractkit-ccip-2.5.0-ccip1.1.zip"
+checksum = "d402e26c4fd5500401e99ed670cf0fbe5263fe35fc83efff19d926aeb25aae6c"
+integrity = "c7c74163fc2e8ed0ea30f0d2021f4e800dbcf9dad1a8ddaee06c83200ed27c13"
