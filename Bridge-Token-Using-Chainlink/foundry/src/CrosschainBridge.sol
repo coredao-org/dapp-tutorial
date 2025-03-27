@@ -1,35 +1,39 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.19;
 
 import {CCIPReceiver} from "@chainlink/contracts/src/v0.8/ccip/applications/CCIPReceiver.sol";
 import {Client} from "@chainlink/contracts/src/v0.8/ccip/libraries/Client.sol";
 import {IRouterClient} from "@chainlink/contracts/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import {OwnerIsCreator} from "@chainlink/contracts/src/v0.8/shared/access/OwnerIsCreator.sol";
-import {IERC20} from "@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.0/contracts/token/ERC20/IERC20.sol";
+import {LinkTokenInterface} from "./LinkTokenInterface.sol";
+import {USDC} from "./USDC.sol";
 
 /// @title - A simple cross-chain bridge contract
 contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
-    // Event emitted when tokens are bridged to another chain.
     event TokensBridged(
         bytes32 indexed messageId,
         uint64 indexed destinationChainSelector,
         address sender,
         address receiver,
-        address token,
         uint256 amount
     );
 
-    // Event emitted when tokens are received from another chain.
     event TokensReceived(
         bytes32 indexed messageId,
         uint64 indexed sourceChainSelector,
         address sender,
         address receiver,
-        address token,
         uint256 amount
     );
 
-    constructor(address _router) CCIPReceiver(_router) {}
+    USDC public usdcToken;
+    LinkTokenInterface public linkToken;
+
+    constructor(address _router, address _linkToken) CCIPReceiver(_router) {
+        linkToken = LinkTokenInterface(_linkToken); // Fix: Pass LINK token address
+        usdcToken = new USDC();
+        usdcToken.mint(msg.sender, 100000000000000000000);
+    }
 
     /// @notice Handles incoming CCIP messages
     function _ccipReceive(
@@ -43,17 +47,14 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
             .destTokenAmounts;
 
         require(tokenAmounts.length > 0, "No tokens received");
-        address token = tokenAmounts[0].token;
         uint256 amount = tokenAmounts[0].amount;
 
-        IERC20(token).transfer(receiver, amount);
-
+        usdcToken.mint(receiver, amount); // Mint to receiver (not sender)
         emit TokensReceived(
             messageId,
             sourceChainSelector,
             sender,
             receiver,
-            token,
             amount
         );
     }
@@ -62,41 +63,46 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
     function bridgeTokens(
         uint64 destinationChainSelector,
         address receiver,
-        address token,
         uint256 amount
     ) external returns (bytes32 messageId) {
         require(
-            IERC20(token).balanceOf(msg.sender) >= amount,
+            usdcToken.balanceOf(msg.sender) >= amount,
             "Insufficient balance"
         );
         require(
-            IERC20(token).allowance(msg.sender, address(this)) >= amount,
-            "Insufficient allowance"
+            usdcToken.transferFrom(msg.sender, address(this), amount),
+            "Transfer failed"
         );
-
-        IERC20(token).transferFrom(msg.sender, address(this), amount);
 
         Client.EVMTokenAmount[]
             memory tokenAmounts = new Client.EVMTokenAmount[](1);
-        tokenAmounts[0] = Client.EVMTokenAmount({token: token, amount: amount});
+        tokenAmounts[0] = Client.EVMTokenAmount({
+            token: address(usdcToken),
+            amount: amount
+        });
 
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
             data: abi.encode(msg.sender),
             tokenAmounts: tokenAmounts,
-            feeToken: address(0)
+            feeToken: address(linkToken),
+            extraArgs: ""
         });
 
-        messageId = IRouterClient(this.getRouter()).ccipSend(
-            destinationChainSelector,
-            message
+        IRouterClient router = IRouterClient(this.getRouter());
+        uint256 fees = router.getFee(destinationChainSelector, message); // Fix: Use `message` instead of `evm2AnyMessage`
+
+        require(
+            linkToken.approve(address(router), fees),
+            "LINK approval failed"
         );
+        messageId = router.ccipSend(destinationChainSelector, message);
+
         emit TokensBridged(
             messageId,
             destinationChainSelector,
             msg.sender,
             receiver,
-            token,
             amount
         );
     }
