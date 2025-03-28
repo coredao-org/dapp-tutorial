@@ -2,7 +2,11 @@
 pragma solidity ^0.8.19;
 import {ERC20} from "@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.0/contracts/token/ERC20/ERC20.sol";
 
-// Mock USDC for testing
+/**
+ * @title Mock USDC for testing
+ * @author Fraol Bereket
+ * @notice This token is for testing purpose only. the token can be minted by anyone.
+ */
 
 contract USDC is ERC20 {
     constructor() ERC20("Test USDC", "tUSDC") {

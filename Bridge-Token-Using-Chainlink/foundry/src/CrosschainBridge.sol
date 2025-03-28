@@ -5,12 +5,17 @@ import {CCIPReceiver} from "@chainlink/contracts/src/v0.8/ccip/applications/CCIP
 import {Client} from "@chainlink/contracts/src/v0.8/ccip/libraries/Client.sol";
 import {IRouterClient} from "@chainlink/contracts/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import {OwnerIsCreator} from "@chainlink/contracts/src/v0.8/shared/access/OwnerIsCreator.sol";
+import {IERC20} from "@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.0/contracts/token/ERC20/IERC20.sol";
 import {LinkTokenInterface} from "./LinkTokenInterface.sol";
 import {USDC} from "./USDC.sol";
 
-/// @title - A simple cross-chain bridge contract
+/**
+ * @title A simple cross-chain bridge contract
+ * @author Fraol Bereket
+ * @notice The smart contract is built to show a simple example of USDC token bridge between Core network and Eth Sepolia. Currently there is no bridgeable token between Core and Sepolia so in the example usdc token is created.
+ */
 contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
-    event TokensBridged(
+    event MessageSent(
         bytes32 indexed messageId,
         uint64 indexed destinationChainSelector,
         address sender,
@@ -26,10 +31,17 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
         uint256 amount
     );
 
+    struct TransferData {
+        address sender;
+        uint256 amount;
+    }
+
     USDC public usdcToken;
     LinkTokenInterface public linkToken;
+    IRouterClient private s_router;
 
     constructor(address _router, address _linkToken) CCIPReceiver(_router) {
+        s_router = IRouterClient(_router);
         linkToken = LinkTokenInterface(_linkToken); // Fix: Pass LINK token address
         usdcToken = new USDC();
         usdcToken.mint(msg.sender, 100000000000000000000);
@@ -42,20 +54,24 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
         bytes32 messageId = any2EvmMessage.messageId;
         uint64 sourceChainSelector = any2EvmMessage.sourceChainSelector;
         address sender = abi.decode(any2EvmMessage.sender, (address));
-        address receiver = abi.decode(any2EvmMessage.data, (address));
-        Client.EVMTokenAmount[] memory tokenAmounts = any2EvmMessage
-            .destTokenAmounts;
 
-        require(tokenAmounts.length > 0, "No tokens received");
-        uint256 amount = tokenAmounts[0].amount;
+        // Decode the received data into TransferData struct
+        TransferData memory transferData = abi.decode(
+            any2EvmMessage.data,
+            (TransferData)
+        );
 
-        usdcToken.mint(receiver, amount); // Mint to receiver (not sender)
+        require(transferData.amount > 0, "Invalid transfer amount");
+
+        // Mint tokens to the sender (the original sender of the transaction)
+        usdcToken.mint(transferData.sender, transferData.amount);
+
         emit TokensReceived(
             messageId,
             sourceChainSelector,
             sender,
-            receiver,
-            amount
+            transferData.sender, // The original sender who should receive the tokens
+            transferData.amount
         );
     }
 
@@ -74,36 +90,64 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
             "Transfer failed"
         );
 
-        Client.EVMTokenAmount[]
-            memory tokenAmounts = new Client.EVMTokenAmount[](1);
-        tokenAmounts[0] = Client.EVMTokenAmount({
-            token: address(usdcToken),
-            amount: amount
+        sendMessage(destinationChainSelector, receiver, amount);
+    }
+
+    function sendMessage(
+        uint64 destinationChainSelector,
+        address receiver,
+        uint256 transferAmount
+    ) internal returns (bytes32 messageId) {
+        address sender = msg.sender;
+
+        TransferData memory transferData = TransferData({
+            sender: sender,
+            amount: transferAmount
         });
 
-        Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
-            receiver: abi.encode(receiver),
-            data: abi.encode(msg.sender),
-            tokenAmounts: tokenAmounts,
-            feeToken: address(linkToken),
-            extraArgs: ""
+        // Encode the struct for transmission
+        bytes memory encodedData = abi.encode(transferData);
+
+        Client.EVM2AnyMessage memory evm2AnyMessage = Client.EVM2AnyMessage({
+            receiver: abi.encode(receiver), // ABI-encoded receiver address
+            data: encodedData, // ABI-encoded string message
+            tokenAmounts: new Client.EVMTokenAmount[](0),
+            extraArgs: Client._argsToBytes(
+                Client.EVMExtraArgsV2({
+                    gasLimit: 200_000, // Gas limit for the callback on the destination chain
+                    allowOutOfOrderExecution: true // Allows the message to be executed out of order relative to other messages from the same sender
+                })
+            ),
+            feeToken: address(linkToken) // Setting feeToken to LinkToken address, indicating LINK will be used for fees
         });
 
-        IRouterClient router = IRouterClient(this.getRouter());
-        uint256 fees = router.getFee(destinationChainSelector, message); // Fix: Use `message` instead of `evm2AnyMessage`
+        // Get the fee required to send the message
+        uint256 fees = s_router.getFee(
+            destinationChainSelector,
+            evm2AnyMessage
+        );
+
+        // approve the Router to send LINK tokens on contract's behalf. I will spend the fees in LINK
+        linkToken.approve(address(s_router), fees);
 
         require(
-            linkToken.approve(address(router), fees),
-            "LINK approval failed"
+            IERC20(usdcToken).approve(address(s_router), transferAmount),
+            "Failed to approve router"
         );
-        messageId = router.ccipSend(destinationChainSelector, message);
 
-        emit TokensBridged(
+        // Send the message through the router and store the returned message ID
+        messageId = s_router.ccipSend(destinationChainSelector, evm2AnyMessage);
+
+        // Emit an event with message details
+        emit MessageSent(
             messageId,
             destinationChainSelector,
-            msg.sender,
+            sender,
             receiver,
-            amount
+            transferAmount
         );
+
+        // Return the message ID
+        return messageId;
     }
 }
