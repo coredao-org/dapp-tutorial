@@ -27,10 +27,10 @@ interface notificationInterfact {
 }
 
 export default function Home() {
-  const BridgeToken_CORE = "0xedB15515a9dD9443f477a2BB2876cd9DE613d29b";
-  const BridgeToken_SEPOLIA = "0x1640517fB7e8Ae278e9206C3490FB34434d3ee8d";
-  const tUSDC_ADDRESS_CORE = "0x32A32e6236004Ee978D2225C692C2Ef08eC799fB";
-  const tUSDC_ADDRESS_SEPOLIA = "0xcCfA3Da4238c95eEcfFd0d3dDd8fA69F1cc26753";
+  const BridgeToken_CORE = "0xfa2Bf83Eb2b6e16a469abD3a514b6626206b0c9A";
+  const BridgeToken_SEPOLIA = "0xa2024ba377ADc11388766d873406fd3C666f6d6A";
+  const tUSDC_ADDRESS_CORE = "0xb320c17e33cfb20d143db0f49e531c1762025d0f";
+  const tUSDC_ADDRESS_SEPOLIA = "0x58e5Daaa9af5849BB2f9F5C7679b84b9465fab0e";
   const Core_Chain_Selector = "4264732132125536123";
   const Sepolia_Chain_Selector = "16015286601757825753";
 
