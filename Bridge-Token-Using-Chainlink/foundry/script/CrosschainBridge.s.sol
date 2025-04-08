@@ -17,7 +17,7 @@ contract CrosschainBridgeScript is Script {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.NetworkConfig memory config = helperConfig.getConfig();
 
-        vm.startBroadcast(config.account);
+        vm.startBroadcast();
         CrossChainBridge crosschainBridge = new CrossChainBridge(
             config.router,
             config.linkToken

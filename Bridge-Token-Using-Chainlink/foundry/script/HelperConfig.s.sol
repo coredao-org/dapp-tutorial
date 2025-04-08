@@ -34,13 +34,13 @@ contract HelperConfig is Script {
         networkConfigs[CORE_TESTNET2_CHAIN_ID] = getCoreTestnet2Config();
     }
 
-    function getConfig() public returns (NetworkConfig memory) {
+    function getConfig() public view returns (NetworkConfig memory) {
         return getConfigByChainId(block.chainid);
     }
 
     function getConfigByChainId(
         uint256 chainId
-    ) public returns (NetworkConfig memory) {
+    ) public view returns (NetworkConfig memory) {
         return networkConfigs[chainId];
     }
 

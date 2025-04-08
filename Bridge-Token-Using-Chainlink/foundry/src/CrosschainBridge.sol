@@ -80,7 +80,7 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
         uint64 destinationChainSelector,
         address receiver,
         uint256 amount
-    ) external returns (bytes32 messageId) {
+    ) external {
         require(
             usdcToken.balanceOf(msg.sender) >= amount,
             "Insufficient balance"
@@ -113,9 +113,8 @@ contract CrossChainBridge is CCIPReceiver, OwnerIsCreator {
             data: encodedData, // ABI-encoded string message
             tokenAmounts: new Client.EVMTokenAmount[](0),
             extraArgs: Client._argsToBytes(
-                Client.EVMExtraArgsV2({
-                    gasLimit: 200_000, // Gas limit for the callback on the destination chain
-                    allowOutOfOrderExecution: true // Allows the message to be executed out of order relative to other messages from the same sender
+                Client.EVMExtraArgsV1({
+                    gasLimit: 200_000 // Gas limit for the callback on the destination chain
                 })
             ),
             feeToken: address(linkToken) // Setting feeToken to LinkToken address, indicating LINK will be used for fees
