@@ -5,6 +5,19 @@ This repository provides an example of a crosschain token bridge between **Core 
 1. **Foundry (Smart Contracts)** – Contains the Solidity smart contracts for the crosschain bridge.
 2. **Frontend (Next.js dApp)** – A frontend interface to interact with the bridge using Next.js, Viem, and Wagmi.
 
+The smart contract addresses are on
+Core Testnet2 Network
+
+```
+https://scan.test2.btcs.network/address/0xfa2Bf83Eb2b6e16a469abD3a514b6626206b0c9A
+```
+
+Ethereum Sepolia Network
+
+```
+https://sepolia.etherscan.io/address/0xa2024ba377ADc11388766d873406fd3C666f6d6A
+```
+
 ## Project Structure
 
 ```
