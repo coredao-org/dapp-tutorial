@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 
 contract NativeStaking is Ownable, ReentrancyGuard, Pausable {
     struct StakeInfo {
@@ -20,7 +20,7 @@ contract NativeStaking is Ownable, ReentrancyGuard, Pausable {
     event Withdrawn(address indexed user, uint256 principal, uint256 reward);
     event RewardRateUpdated(uint256 newRate);
 
-    constructor(uint256 _annualRewardRate) {
+    constructor(uint256 _annualRewardRate, address _owner) Ownable(_owner) {
         annualRewardRate = _annualRewardRate;
     }
 
@@ -68,6 +68,15 @@ contract NativeStaking is Ownable, ReentrancyGuard, Pausable {
     /// @notice Resume operations (owner only).
     function unpause() external onlyOwner {
         _unpause();
+    }
+
+    /// @notice Fallback to receive native tokens accidentally.
+    function getUserStake(address user) external view returns (StakeInfo  memory) {
+        return stakes[user];
+    }
+
+    function getTotalStaked() external view returns (uint256) {
+        return totalStaked;
     }
 
     /// @notice Fallback to receive native tokens accidentally.
