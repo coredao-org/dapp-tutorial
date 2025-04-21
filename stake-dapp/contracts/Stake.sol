@@ -20,7 +20,7 @@ contract NativeStaking is Ownable, ReentrancyGuard, Pausable {
     event Withdrawn(address indexed user, uint256 principal, uint256 reward);
     event RewardRateUpdated(uint256 newRate);
 
-    constructor(uint256 _annualRewardRate, address _owner) Ownable(_owner) {
+    constructor(uint256 _annualRewardRate) Ownable(msg.sender) {
         annualRewardRate = _annualRewardRate;
     }
 
@@ -79,8 +79,4 @@ contract NativeStaking is Ownable, ReentrancyGuard, Pausable {
         return totalStaked;
     }
 
-    /// @notice Fallback to receive native tokens accidentally.
-    receive() external payable {
-        revert("Use stake()");
-    }
 }
