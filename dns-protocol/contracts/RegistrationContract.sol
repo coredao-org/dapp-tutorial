@@ -16,7 +16,7 @@ contract Registrar {
 
 
     uint256 public registrationPeriod = 365 days; // How long a domain remains registered.
-    uint256 public registrationFee = 1 ether;    // Fee required for registration or renewal.
+    uint256 public immutable registrationFee;    // Fee required for registration or renewal.
 
     // Event to log domain registrations.
     event DomainRegistered(bytes32 indexed domainHash, address owner, uint256 expiration);
@@ -25,9 +25,10 @@ contract Registrar {
      * @notice Constructor sets the address of the ENSRegistry contract.
      * @param _registry The deployed ENSRegistry contract address.
      */
-    constructor(address _registry) {
+    constructor(address _registry, uint256 _fee) {
 
         registry = ENSRegistry(_registry);
+        registrationFee = _fee;
     }
 
     /**

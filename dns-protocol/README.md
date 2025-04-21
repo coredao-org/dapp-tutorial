@@ -2,6 +2,8 @@
 
 A decentralized naming service (DNS) protocol on the CORE blockchain, inspired by Ethereum Name Service (ENS). This project lets users register human-readable `.core` domains, map them to on-chain and off-chain resources, and manage ownership through smart contracts.
 
+👉 Live App: [CoreDns](https://coredns.vercel.app/)
+
 ## 🚀 Features
 
 - **Domain Registry**: Store and manage ownership, registration, and expiration of `.core` domains.
