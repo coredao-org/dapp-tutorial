@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * @title SimpleStaking
  * @notice Stake native ETH, earn rewards in an ERC20 token
  */
-contract SimpleStaking {
+contract NativeStaking {
     IERC20 public immutable rewardToken;
     uint256 public rewardRatePerSecond;
     uint256 public lastUpdateTime;

@@ -2,11 +2,17 @@ const hre = require("hardhat");
 
 async function main() {
 
-    const rate = ethers.parseUnits("0.001", 18);
+    const rate = ethers.parseUnits("0.01", 18);
 
-    
-  const NativeStaking = await hre.ethers.getContractFactory("NativeStaking");
-  const stakingContract  = await NativeStaking.deploy(rate);
+
+    const RewardToken = await hre.ethers.getContractFactory("RewardToken");
+    const rewardContract  = await RewardToken.deploy(rate);
+
+  console.log("Storage contract deployed to:", rewardContract.target);
+
+        
+    const NativeStaking = await hre.ethers.getContractFactory("NativeStaking");
+    const stakingContract  = await NativeStaking.deploy(rewardContract.target, rate);
 
   console.log("Storage contract deployed to:", stakingContract.target);
 
