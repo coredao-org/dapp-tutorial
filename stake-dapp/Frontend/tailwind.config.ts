@@ -53,7 +53,15 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        gold: "hsl(var(--gold))",
+        gold: {
+          DEFAULT: "#DAA520",
+          hover: "#B8860B",
+        },
+        cream: {
+          DEFAULT: "#F5F2E3",
+          light: "#F8F6EA",
+          dark: "#EBE7D9",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

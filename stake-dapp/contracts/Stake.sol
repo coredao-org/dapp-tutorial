@@ -1,82 +1,135 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract NativeStaking is Ownable, ReentrancyGuard, Pausable {
-    struct StakeInfo {
-        uint256 amount;
-        uint256 since;
-    }
+/**
+ * @title SimpleStaking
+ * @notice Stake native ETH, earn rewards in an ERC20 token
+ */
+contract SimpleStaking {
+    IERC20 public immutable rewardToken;
+    uint256 public rewardRatePerSecond;
+    uint256 public lastUpdateTime;
+    uint256 public rewardPerTokenStored;
 
-    uint256 public totalStaked;
-    uint256 public annualRewardRate; // e.g., 10e16 = 10% (using 18 decimals)
+    uint256 private _totalStaked;
+    mapping(address => uint256) private _balances;
 
-    mapping(address => StakeInfo) public stakes;
+    // reward accounting
+    mapping(address => uint256) public userRewardPerTokenPaid;
+    mapping(address => uint256) public rewards;
 
     event Staked(address indexed user, uint256 amount);
-    event Withdrawn(address indexed user, uint256 principal, uint256 reward);
-    event RewardRateUpdated(uint256 newRate);
+    event Withdrawn(address indexed user, uint256 amount);
+    event RewardPaid(address indexed user, uint256 reward);
 
-    constructor(uint256 _annualRewardRate) Ownable(msg.sender) {
-        annualRewardRate = _annualRewardRate;
+    constructor(address _rewardToken, uint256 _rewardRatePerSecond) {
+        rewardToken = IERC20(_rewardToken);
+        rewardRatePerSecond = _rewardRatePerSecond;
+        lastUpdateTime = block.timestamp;
     }
 
-    /// @notice Stake native tokens. Emits Staked event.
-    function stake() external payable whenNotPaused nonReentrant {
-        require(msg.value > 0, "Cannot stake zero");
-        StakeInfo storage s = stakes[msg.sender];
-        s.amount += msg.value;
-        s.since = block.timestamp;
-        totalStaked += msg.value;
+    modifier updateReward(address account) {
+        rewardPerTokenStored = rewardPerToken();
+        lastUpdateTime = block.timestamp;
+        if (account != address(0)) {
+            rewards[account] = earned(account);
+            userRewardPerTokenPaid[account] = rewardPerTokenStored;
+        }
+        _;
+    }
+
+    // view total staked
+    function totalStaked() external view returns (uint256) {
+        return _totalStaked;
+    }
+
+    // view user staked balance
+    function balanceOf(address account) external view returns (uint256) {
+        return _balances[account];
+    }
+
+    // view user current earned reward tokens
+    function currentEarned(address account) external view returns (uint256) {
+        return earned(account);
+    }
+
+    // calculate reward per token
+    function rewardPerToken() public view returns (uint256) {
+        if (_totalStaked == 0) {
+            return rewardPerTokenStored;
+        }
+        return
+            rewardPerTokenStored +
+            (block.timestamp - lastUpdateTime) * rewardRatePerSecond * 1e18 / _totalStaked;
+    }
+
+    // calculate earned rewards
+    function earned(address account) internal view returns (uint256) {
+        return
+            (_balances[account] * (rewardPerToken() - userRewardPerTokenPaid[account]) / 1e18)
+            + rewards[account];
+    }
+
+    // calculate daily reward rate per staked ETH
+    function dailyRewardRate() external view returns (uint256) {
+        return rewardRatePerSecond * 86400; // 86400 seconds in a day
+    }
+
+    // calculate total reward earned for a given stake amount
+    function estimateDailyEarningForStake(uint256 stakeAmount) external view returns (uint256) {
+        if (_totalStaked == 0) return 0;
+        uint256 dailyRewardPerToken = (rewardRatePerSecond * 86400 * 1e18) / _totalStaked;
+        return (stakeAmount * dailyRewardPerToken) / 1e18;
+    }
+
+    /**
+     * @notice Stake native ETH
+     */
+    function stake() public payable updateReward(msg.sender) {
+        require(msg.value > 0, "Cannot stake 0");
+        _totalStaked += msg.value;
+        _balances[msg.sender] += msg.value;
         emit Staked(msg.sender, msg.value);
     }
 
-    /// @notice Withdraw stake plus rewards. Emits Withdrawn event.
-    function withdraw() external nonReentrant {
-        StakeInfo storage s = stakes[msg.sender];
-        require(s.amount > 0, "No stake found");
+    /**
+     * @notice Withdraw staked ETH
+     * @param amount Amount of ETH to withdraw
+     */
+    function withdraw(uint256 amount) public updateReward(msg.sender) {
+        require(amount > 0, "Cannot withdraw 0");
+        require(_balances[msg.sender] >= amount, "Insufficient balance");
 
-        uint256 principal = s.amount;
-        uint256 stakingTime = block.timestamp - s.since;
-        uint256 reward = (principal * annualRewardRate * stakingTime) / (365 days * 1e18);
-
-        // Reset stake
-        delete stakes[msg.sender];
-        totalStaked -= principal;
-
-        // Transfer back principal + reward
-        (bool ok, ) = msg.sender.call{value: principal + reward}("");
-        require(ok, "Transfer failed");
-
-        emit Withdrawn(msg.sender, principal, reward);
+        _totalStaked -= amount;
+        _balances[msg.sender] -= amount;
+        payable(msg.sender).transfer(amount);
+        emit Withdrawn(msg.sender, amount);
     }
 
-    /// @notice Update the annual reward rate (owner only).
-    function setAnnualRewardRate(uint256 _newRate) external onlyOwner {
-        annualRewardRate = _newRate;
-        emit RewardRateUpdated(_newRate);
+    /**
+     * @notice Claim accumulated reward tokens
+     */
+    function getReward() public updateReward(msg.sender) {
+        uint256 reward = rewards[msg.sender];
+        if (reward > 0) {
+            rewards[msg.sender] = 0;
+            require(rewardToken.transfer(msg.sender, reward), "Reward transfer failed");
+            emit RewardPaid(msg.sender, reward);
+        }
     }
 
-    /// @notice Pause staking and withdrawals (owner only).
-    function pause() external onlyOwner {
-        _pause();
+    /**
+     * @notice Exit staking: withdraw all and claim rewards
+     */
+    function exit() external {
+        withdraw(_balances[msg.sender]);
+        getReward();
     }
 
-    /// @notice Resume operations (owner only).
-    function unpause() external onlyOwner {
-        _unpause();
+    // allow contract to receive ETH
+    receive() external payable {
+        stake();
     }
-
-    /// @notice Fallback to receive native tokens accidentally.
-    function getUserStake(address user) external view returns (StakeInfo  memory) {
-        return stakes[user];
-    }
-
-    function getTotalStaked() external view returns (uint256) {
-        return totalStaked;
-    }
-
 }

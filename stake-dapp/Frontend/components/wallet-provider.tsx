@@ -1,86 +1,64 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import type React from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import { ethers } from "ethers"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 type WalletContextType = {
   address: string | null
-  balance: string | null
-  chainId: number | null
+  balance: string
   isConnected: boolean
   isConnecting: boolean
-  connectWallet: (providerType: "metamask" | "walletconnect") => Promise<void>
-  disconnectWallet: () => void
+  connect: () => Promise<void>
+  disconnect: () => void
 }
 
 const WalletContext = createContext<WalletContextType>({
   address: null,
-  balance: null,
-  chainId: null,
+  balance: "0",
   isConnected: false,
   isConnecting: false,
-  connectWallet: async () => {},
-  disconnectWallet: () => {},
+  connect: async () => {},
+  disconnect: () => {},
 })
 
 export const useWallet = () => useContext(WalletContext)
 
-export function WalletProvider({ children }: { children: ReactNode }) {
+export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   const [address, setAddress] = useState<string | null>(null)
-  const [balance, setBalance] = useState<string | null>(null)
-  const [chainId, setChainId] = useState<number | null>(null)
+  const [balance, setBalance] = useState("0")
   const [isConnected, setIsConnected] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
-  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null)
   const { toast } = useToast()
 
-  const updateWalletInfo = async (provider: ethers.BrowserProvider) => {
-    try {
-      const signer = await provider.getSigner()
-      const address = await signer.getAddress()
-      const balance = ethers.formatEther(await provider.getBalance(address))
-      const { chainId } = await provider.getNetwork()
-
-      setAddress(address)
-      setBalance(balance)
-      setChainId(Number(chainId))
-      setIsConnected(true)
-      setProvider(provider)
-    } catch (error) {
-      console.error("Failed to get wallet info:", error)
-      disconnectWallet()
+  const connect = async () => {
+    if (typeof window.ethereum === "undefined") {
+      toast({
+        title: "MetaMask not found",
+        description: "Please install MetaMask to use this dApp",
+        variant: "destructive",
+      })
+      return
     }
-  }
-
-  const connectWallet = async (providerType: "metamask" | "walletconnect") => {
-    setIsConnecting(true)
 
     try {
-      if (providerType === "metamask") {
-        if (!window.ethereum) {
-          toast({
-            title: "MetaMask not found",
-            description: "Please install MetaMask extension and try again.",
-            variant: "destructive",
-          })
-          setIsConnecting(false)
-          return
-        }
+      setIsConnecting(true)
+      const provider = new ethers.BrowserProvider(window.ethereum)
+      const accounts = await provider.send("eth_requestAccounts", [])
 
-        const provider = new ethers.BrowserProvider(window.ethereum)
-        await window.ethereum.request({ method: "eth_requestAccounts" })
-        await updateWalletInfo(provider)
+      if (accounts.length > 0) {
+        const address = accounts[0]
+        setAddress(address)
+        setIsConnected(true)
+
+        // Get balance
+        const balance = await provider.getBalance(address)
+        setBalance(ethers.formatEther(balance))
 
         toast({
           title: "Wallet connected",
-          description: "Your wallet has been connected successfully.",
-        })
-      } else if (providerType === "walletconnect") {
-        // WalletConnect implementation would go here
-        toast({
-          title: "Coming soon",
-          description: "WalletConnect integration is coming soon.",
+          description: `Connected to ${address.substring(0, 6)}...${address.substring(38)}`,
         })
       }
     } catch (error) {
@@ -95,66 +73,50 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const disconnectWallet = () => {
+  const disconnect = () => {
     setAddress(null)
-    setBalance(null)
-    setChainId(null)
+    setBalance("0")
     setIsConnected(false)
-    setProvider(null)
+    toast({
+      title: "Wallet disconnected",
+      description: "Your wallet has been disconnected",
+    })
   }
 
+  // Listen for account changes
   useEffect(() => {
-    // Check if wallet is already connected
-    const checkConnection = async () => {
-      if (window.ethereum) {
-        const provider = new ethers.BrowserProvider(window.ethereum)
-        try {
-          const accounts = await provider.listAccounts()
-          if (accounts.length > 0) {
-            await updateWalletInfo(provider)
-          }
-        } catch (error) {
-          console.error("Error checking wallet connection:", error)
-        }
-      }
-    }
-
-    checkConnection()
-
-    // Setup event listeners for wallet changes
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+    if (typeof window.ethereum !== "undefined") {
+      const handleAccountsChanged = (accounts: string[]) => {
         if (accounts.length === 0) {
-          disconnectWallet()
-        } else if (provider) {
-          updateWalletInfo(provider)
+          // User disconnected their wallet
+          disconnect()
+        } else if (accounts[0] !== address) {
+          // User switched accounts
+          setAddress(accounts[0])
+          toast({
+            title: "Account changed",
+            description: `Switched to ${accounts[0].substring(0, 6)}...${accounts[0].substring(38)}`,
+          })
         }
-      })
+      }
 
-      window.ethereum.on("chainChanged", () => {
-        if (provider) {
-          updateWalletInfo(provider)
-        }
-      })
-    }
+      window.ethereum.on("accountsChanged", handleAccountsChanged)
 
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeAllListeners()
+      return () => {
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged)
       }
     }
-  }, [])
+  }, [address])
 
   return (
     <WalletContext.Provider
       value={{
         address,
         balance,
-        chainId,
         isConnected,
         isConnecting,
-        connectWallet,
-        disconnectWallet,
+        connect,
+        disconnect,
       }}
     >
       {children}

@@ -1,66 +1,70 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { StakingForm } from "@/components/staking-form"
-import { WithdrawForm } from "@/components/withdraw-form"
-import { UserStats } from "@/components/user-stats"
+import { Header } from "@/components/header"
+import { StakeForm } from "@/components/stake-form"
+import { UserDashboard } from "@/components/user-dashboard"
+import { GlobalOverview } from "@/components/global-overview"
+import { StakerDirectory } from "@/components/staker-directory"
 import { useWallet } from "@/components/wallet-provider"
+import { ConnectWallet } from "@/components/connect-wallet"
 
-export function StakingDashboard() {
+export const StakingDashboard = () => {
   const { isConnected } = useWallet()
-  const [activeTab, setActiveTab] = useState("stake")
+  const [activeTab, setActiveTab] = useState<"stake" | "dashboard" | "directory">("stake")
 
   return (
-    <div className="w-full">
-      <h2 className="text-2xl font-bold mb-4 text-gold">Staking Dashboard</h2>
+    <div className="container mx-auto px-4 py-8">
+      <Header />
 
-      {isConnected ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-gold">Manage Your Stake</CardTitle>
-              <CardDescription>Stake or withdraw your tokens</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="stake" value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="stake">Stake</TabsTrigger>
-                  <TabsTrigger value="withdraw">Withdraw</TabsTrigger>
-                </TabsList>
-                <TabsContent value="stake">
-                  <StakingForm />
-                </TabsContent>
-                <TabsContent value="withdraw">
-                  <WithdrawForm />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+      <GlobalOverview />
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-gold">Your Stats</CardTitle>
-              <CardDescription>Your staking performance</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <UserStats />
-            </CardContent>
-          </Card>
+      {!isConnected ? (
+        <div className="mt-10 flex flex-col items-center justify-center p-8 bg-gray-50 dark:bg-gray-900 rounded-xl">
+          <h2 className="text-2xl font-bold mb-6">Connect Your Wallet to Start Staking</h2>
+          <ConnectWallet />
         </div>
       ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-gold">Connect Your Wallet</CardTitle>
-            <CardDescription>Connect your wallet to start staking</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-center py-8 text-muted-foreground">
-              Please connect your wallet to view your staking dashboard and manage your stakes.
-            </p>
-          </CardContent>
-        </Card>
+        <>
+          <div className="flex border-b border-gray-200 dark:border-gray-800 mt-8">
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "stake"
+                  ? "border-b-2 border-[#DAA520] text-[#DAA520]"
+                  : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              }`}
+              onClick={() => setActiveTab("stake")}
+            >
+              Stake Tokens
+            </button>
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "dashboard"
+                  ? "border-b-2 border-[#DAA520] text-[#DAA520]"
+                  : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              }`}
+              onClick={() => setActiveTab("dashboard")}
+            >
+              My Dashboard
+            </button>
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "directory"
+                  ? "border-b-2 border-[#DAA520] text-[#DAA520]"
+                  : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              }`}
+              onClick={() => setActiveTab("directory")}
+            >
+              Staker Directory
+            </button>
+          </div>
+
+          <div className="mt-6">
+            {activeTab === "stake" && <StakeForm />}
+            {activeTab === "dashboard" && <UserDashboard />}
+            {activeTab === "directory" && <StakerDirectory />}
+          </div>
+        </>
       )}
     </div>
   )
