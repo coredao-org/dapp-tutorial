@@ -17,40 +17,37 @@ export function DomainCard({ domain }: DomainCardProps) {
   const { address, isConnected, getContractOne } = useWallet()
   const [expiryDate, setExpiryDate] = useState<string>("");
 
-  // // Mock data - in a real app, you would fetch this from the blockchain
-  // const expiryDatee = new Date()
-  // expiryDatee.setFullYear(expiryDatee.getFullYear() + 1)
+  // Mock data - in a real app, you would fetch this from the blockchain
+  // const expiryDate = new Date()
+  // expiryDate.setFullYear(expiryDate.getFullYear() + 1)
 
+  useEffect(() => {
+    if (!isConnected) {
+      return
+    }
 
+    const fetchUserDomainDates = async () => {
+      try {
 
+        console.log("Hii")
 
-    useEffect(() => {
-      if (!isConnected) {
-        return
-      }
-  
-      const fetchUserDomainDates = async () => {
-        try {
-
-          console.log("Hii")
-  
-        const ensRegistry = getContractOne()
-        if (!ensRegistry) throw new Error("ENS Registry contract is not loaded")
-        
-        // Call getSpecificRecord from the ENSRegistry contract
-        const domainHash = ethers.encodeBytes32String(domain)
-        const datee = await ensRegistry.getSpecificRecord(domainHash)
-  
-  
-          setExpiryDate(datee.expiration)
-        } catch (error) {
-          console.error("Error fetching user domains:", error)
-        }
-      }
-  
-      fetchUserDomainDates()
+      const ensRegistry = getContractOne()
+      if (!ensRegistry) throw new Error("ENS Registry contract is not loaded")
       
-    }, [address, isConnected])
+      // Call getSpecificRecord from the ENSRegistry contract
+      const domainHash = ethers.encodeBytes32String(domain)
+      const datee = await ensRegistry.getSpecificRecord(domainHash)
+
+
+        setExpiryDate(datee.expiration)
+      } catch (error) {
+        console.error("Error fetching user domains:", error)
+      }
+    }
+
+    fetchUserDomainDates()
+    
+  }, [address, isConnected])
 
   return (
     <Card>

@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 async function main() {
 
-    const fee = ethers.parseUnits("1", 18);
+    const fee = ethers.parseUnits("0.01", 18);
 
     
   const ENSRegistry = await hre.ethers.getContractFactory("ENSRegistry");
@@ -13,7 +13,7 @@ async function main() {
 
 
   const RegistrarContract = await hre.ethers.getContractFactory("Registrar");
-  const registrarContract  = await RegistrarContract.deploy(ensContract.target);
+  const registrarContract  = await RegistrarContract.deploy(ensContract.target, fee);
 
   console.log("Storage contract deployed to:", registrarContract.target);
 

@@ -56,7 +56,7 @@ export default function Home() {
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">Ready to explore the registry?</p>
           <div className="mt-4 flex justify-center">
             <Button asChild>
-              <Link href="/registry" className="bg-yellow-500 hover:bg-yellow-600 text-white">View Public Registry</Link>
+              <Link href="/registry">View Public Registry</Link>
             </Button>
           </div>
         </div>

@@ -21,7 +21,7 @@ export function DomainDetails({ domain }: DomainDetailsProps) {
     <div className="space-y-6">
       <div className="space-y-2">
         <h3 className="text-2xl font-bold">{domain.name}</h3>
-        <Badge className="bg-green-500 hover:bg-green-600">Registered</Badge>
+        <Badge className="bg-orange-500 hover:bg-orange-600">Registered</Badge>
       </div>
 
       <div className="space-y-4">

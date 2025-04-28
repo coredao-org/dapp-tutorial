@@ -16,7 +16,7 @@ contract Registrar {
 
 
     uint256 public registrationPeriod = 365 days; // How long a domain remains registered.
-    uint256 public immutable registrationFee;    // Fee required for registration or renewal.
+    uint256 public registrationFee;    // Fee required for registration or renewal.
 
     // Event to log domain registrations.
     event DomainRegistered(bytes32 indexed domainHash, address owner, uint256 expiration);

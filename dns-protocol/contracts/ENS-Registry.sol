@@ -87,15 +87,6 @@ contract ENSRegistry {
         return records[domainHash];
     }
 
-    // /**
-    //  * @notice Retrieve basic fields of a record.
-    //  * @param domainHash The unique identifier for the domain.
-    //  * @return domainName, owner, registration timestamp, and expiration timestamp.
-    //  */
-    // function getMyRecord(bytes32 domainHash) external view returns (bytes32, address, uint256, uint256) {
-    //     Record memory rec = records[domainHash];
-    //     return (rec.domainName, rec.owner, rec.registration, rec.expiration);
-    // }
 
     /**
      * @notice Retrieve all recorded domains.
