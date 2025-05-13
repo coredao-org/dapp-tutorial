@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, ChevronLeft, ChevronRight } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { NetworkSwitcher } from "@/components/network-switcher"
 import Image from "next/image"
 
 interface LaunchTokenDialogProps {
@@ -23,7 +24,7 @@ interface LaunchTokenDialogProps {
 }
 
 export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps) {
-  const { contract, account } = useWeb3()
+  const { contract, account, isCorrectNetwork } = useWeb3()
   const { toast } = useToast()
   const [name, setName] = useState("")
   const [symbol, setSymbol] = useState("")
@@ -42,7 +43,19 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
   ]
 
   // Mock factory fee - in a real implementation, this would be fetched from the contract
-  const factoryFee = "0.01" // ETH
+  const factoryFee = "0.01" // tCORE2
+
+  // Reset state when dialog is opened or closed
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!newOpen) {
+      // Reset state when dialog is closed
+      setCurrentStep(0)
+      setName("")
+      setSymbol("")
+      setSelectedPfpIndex(0)
+    }
+    onOpenChange(newOpen)
+  }
 
   const handleNextStep = () => {
     if (currentStep === 0) {
@@ -81,7 +94,7 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
   }
 
   const handleLaunch = async () => {
-    if (!contract || !account) return
+    if (!contract || !account || !isCorrectNetwork) return
 
     try {
       setIsLoading(true)
@@ -113,22 +126,39 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
     }
   }
 
+  // If not on correct network, show network switcher
+  if (!isCorrectNetwork && account) {
+    return (
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Network Switch Required</DialogTitle>
+            <DialogDescription>Please switch to Core Testnet 2 to launch a token.</DialogDescription>
+          </DialogHeader>
+          <div className="py-4 flex justify-center">
+            <NetworkSwitcher />
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="launch-dialog">
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Launch New Token</DialogTitle>
-          <DialogDescription>Create your own meme token on Ethereum in just a few steps.</DialogDescription>
+          <DialogDescription>Create your own meme token on Core Testnet 2 in just a few steps.</DialogDescription>
         </DialogHeader>
 
         {currentStep === 0 && (
-          <div className="launch-dialog__step">
-            <div className="launch-dialog__field">
+          <div className="grid gap-6 py-4">
+            <div className="grid gap-3">
               <Label htmlFor="name">Token Name</Label>
               <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Moon Coin" />
             </div>
 
-            <div className="launch-dialog__field">
+            <div className="grid gap-3">
               <Label htmlFor="symbol">Token Symbol</Label>
               <Input
                 id="symbol"
@@ -137,12 +167,12 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
                 placeholder="e.g. MOON"
                 maxLength={5}
               />
-              <p className="launch-dialog__hint">Maximum 5 characters recommended for token symbols.</p>
+              <p className="text-xs text-zinc-500">Maximum 5 characters recommended for token symbols.</p>
             </div>
 
-            <div className="launch-dialog__fee-notice">
-              <p className="launch-dialog__fee-title">Factory Fee: {factoryFee} ETH</p>
-              <p className="launch-dialog__fee-description">
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <p className="text-sm font-medium text-orange-800">Factory Fee: {factoryFee} tCORE2</p>
+              <p className="text-xs text-orange-600 mt-1">
                 This fee is required to create a new token and is paid to the contract owner.
               </p>
             </div>
@@ -150,77 +180,79 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
         )}
 
         {currentStep === 1 && (
-          <div className="launch-dialog__step">
-            <div className="launch-dialog__pfp-selector">
-              <h3 className="launch-dialog__section-title">Select Token Image</h3>
-              <p className="launch-dialog__section-description">
-                Choose a profile picture for your token from our collection.
-              </p>
+          <div className="grid gap-6 py-4">
+            <div className="text-center">
+              <h3 className="font-medium mb-2">Select Token Image</h3>
+              <p className="text-sm text-zinc-500 mb-4">Choose a profile picture for your token from our collection.</p>
 
-              <div className="launch-dialog__pfp-preview">
+              <div className="relative mx-auto w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-zinc-100 rounded-lg overflow-hidden">
                 <Image
                   src={pfpUrls[selectedPfpIndex] || "/placeholder.svg"}
                   alt="Token PFP"
                   fill
-                  className="launch-dialog__pfp-image"
+                  className="object-cover"
                 />
 
                 <Button
                   variant="outline"
                   size="icon"
-                  className="launch-dialog__pfp-nav launch-dialog__pfp-nav--prev"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
                   onClick={handlePrevPfp}
                 >
-                  <ChevronLeft className="launch-dialog__pfp-nav-icon" />
+                  <ChevronLeft className="h-4 w-4" />
                 </Button>
 
                 <Button
                   variant="outline"
                   size="icon"
-                  className="launch-dialog__pfp-nav launch-dialog__pfp-nav--next"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
                   onClick={handleNextPfp}
                 >
-                  <ChevronRight className="launch-dialog__pfp-nav-icon" />
+                  <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
 
-              <div className="launch-dialog__pfp-counter">
-                <span className="launch-dialog__pfp-current">{selectedPfpIndex + 1}</span> of {pfpUrls.length}
+              <div className="mt-4 text-sm">
+                <span className="font-medium">{selectedPfpIndex + 1}</span> of {pfpUrls.length}
               </div>
             </div>
 
-            <div className="launch-dialog__summary">
-              <h3 className="launch-dialog__section-title">Token Summary</h3>
-              <div className="launch-dialog__summary-grid">
-                <div className="launch-dialog__summary-label">Name:</div>
-                <div className="launch-dialog__summary-value">{name}</div>
-                <div className="launch-dialog__summary-label">Symbol:</div>
-                <div className="launch-dialog__summary-value">${symbol}</div>
-                <div className="launch-dialog__summary-label">Fee:</div>
-                <div className="launch-dialog__summary-value">{factoryFee} ETH</div>
+            <div className="bg-zinc-50 p-4 rounded-lg">
+              <h3 className="font-medium mb-2">Token Summary</h3>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="text-zinc-500">Name:</div>
+                <div className="font-medium">{name}</div>
+                <div className="text-zinc-500">Symbol:</div>
+                <div className="font-medium">${symbol}</div>
+                <div className="text-zinc-500">Fee:</div>
+                <div className="font-medium">{factoryFee} tCORE2</div>
               </div>
             </div>
           </div>
         )}
 
-        <DialogFooter className="launch-dialog__footer">
+        <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-2">
           {currentStep > 0 && (
-            <Button variant="outline" onClick={handlePrevStep} className="launch-dialog__back-button">
+            <Button variant="outline" onClick={handlePrevStep} className="sm:mr-auto">
               Back
             </Button>
           )}
 
           {currentStep === 0 && (
-            <Button onClick={handleNextStep} className="launch-dialog__next-button">
+            <Button onClick={handleNextStep} className="bg-orange-500 hover:bg-orange-600 text-white">
               Next
             </Button>
           )}
 
           {currentStep === 1 && (
-            <Button onClick={handleLaunch} className="launch-dialog__launch-button" disabled={isLoading}>
+            <Button
+              onClick={handleLaunch}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <>
-                  <Loader2 className="launch-dialog__spinner" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Creating...
                 </>
               ) : (

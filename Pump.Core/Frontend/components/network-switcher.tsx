@@ -12,26 +12,64 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 export function NetworkSwitcher() {
   const { switchToCorrectNetwork, addCoreTestnet2, isCorrectNetwork } = useWeb3()
   const [showDialog, setShowDialog] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
 
   const handleSwitchNetwork = async () => {
     try {
+      setIsLoading(true)
       await switchToCorrectNetwork()
-    } catch (error) {
+
+      // If we get here, the switch was successful
+      toast({
+        title: "Network Switched",
+        description: "Successfully connected to Core Testnet 2.",
+      })
+
+      setShowDialog(false)
+    } catch (error: any) {
       console.error("Error switching network:", error)
-      setShowDialog(true)
+
+      // If the network is not added, show the dialog to add it
+      if (error.code === 4902) {
+        setShowDialog(true)
+      } else {
+        toast({
+          title: "Network Switch Failed",
+          description: "There was an error switching networks. Please try again.",
+          variant: "destructive",
+        })
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleAddNetwork = async () => {
     try {
+      setIsLoading(true)
       await addCoreTestnet2()
+
+      toast({
+        title: "Network Added",
+        description: "Core Testnet 2 has been added to your wallet.",
+      })
+
       setShowDialog(false)
     } catch (error) {
       console.error("Error adding network:", error)
+      toast({
+        title: "Failed to Add Network",
+        description: "There was an error adding Core Testnet 2 to your wallet.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -46,9 +84,16 @@ export function NetworkSwitcher() {
         variant="destructive"
         size="sm"
         className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white"
+        disabled={isLoading}
       >
-        <AlertTriangle className="h-4 w-4" />
-        <span className="hidden sm:inline">Wrong Network</span>
+        {isLoading ? (
+          "Switching..."
+        ) : (
+          <>
+            <AlertTriangle className="h-4 w-4" />
+            <span className="hidden sm:inline">Wrong Network</span>
+          </>
+        )}
       </Button>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
@@ -82,8 +127,12 @@ export function NetworkSwitcher() {
           </div>
 
           <DialogFooter>
-            <Button onClick={handleAddNetwork} className="w-full bg-orange-500 hover:bg-orange-600 text-white">
-              Add Core Testnet 2 to Wallet
+            <Button
+              onClick={handleAddNetwork}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+              disabled={isLoading}
+            >
+              {isLoading ? "Adding Network..." : "Add Core Testnet 2 to Wallet"}
             </Button>
           </DialogFooter>
         </DialogContent>

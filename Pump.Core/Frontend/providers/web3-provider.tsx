@@ -119,8 +119,11 @@ export function Web3Provider({ children }: { children: ReactNode }) {
         params: [{ chainId: CORE_TESTNET_2_CHAIN_ID }],
       })
 
-      // Refresh the page to ensure all connections are updated
-      window.location.reload()
+      // Check network after switching
+      const provider = new BrowserProvider(window.ethereum)
+      setProvider(provider)
+      await checkNetwork()
+
       return true
     } catch (error: any) {
       // This error code indicates that the chain has not been added to MetaMask
@@ -141,8 +144,11 @@ export function Web3Provider({ children }: { children: ReactNode }) {
         params: [CORE_TESTNET_2_DETAILS],
       })
 
-      // Refresh the page to ensure all connections are updated
-      window.location.reload()
+      // Check network after adding
+      const provider = new BrowserProvider(window.ethereum)
+      setProvider(provider)
+      await checkNetwork()
+
       return true
     } catch (error) {
       console.error("Error adding network:", error)
@@ -175,12 +181,10 @@ export function Web3Provider({ children }: { children: ReactNode }) {
             // Check if on correct network
             await checkNetwork()
 
-            // Initialize contract only if on correct network
-            if (isCorrectNetwork) {
-              // Even if CONTRACT_ABI is empty, create a minimal contract to prevent loading issues
-              const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI.length ? CONTRACT_ABI : [], signer)
-              setContract(contract)
-            }
+            // Initialize contract
+            // Even if CONTRACT_ABI is empty, create a minimal contract to prevent loading issues
+            const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI.length ? CONTRACT_ABI : [], signer)
+            setContract(contract)
           }
         } catch (error) {
           console.error("Error checking connection:", error)
@@ -210,7 +214,15 @@ export function Web3Provider({ children }: { children: ReactNode }) {
 
       // Listen for chain changes
       const handleChainChanged = () => {
-        window.location.reload()
+        // Instead of reloading the page, update the chain ID and check if it's the correct network
+        checkNetwork().then((isCorrect) => {
+          if (isCorrect) {
+            toast({
+              title: "Network Changed",
+              description: "Successfully connected to Core Testnet 2.",
+            })
+          }
+        })
       }
 
       ethereum.on("accountsChanged", handleAccountsChanged)
@@ -223,23 +235,13 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  // Update contract when signer changes and network is correct
+  // Update contract when signer changes
   useEffect(() => {
-    const updateContract = async () => {
-      if (signer && CONTRACT_ABI && CONTRACT_ADDRESS) {
-        const isCorrect = await checkNetwork()
-
-        if (isCorrect) {
-          const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
-          setContract(contract)
-        } else {
-          setContract(null)
-        }
-      }
+    if (signer && CONTRACT_ABI && CONTRACT_ADDRESS) {
+      const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
+      setContract(contract)
     }
-
-    updateContract()
-  }, [signer, chainId])
+  }, [signer])
 
   // Connect wallet
   const connect = async () => {
@@ -272,23 +274,23 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       // Check if on correct network
       const isCorrect = await checkNetwork()
 
-      // Initialize contract only if on correct network
-      if (isCorrect) {
-        const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
-        setContract(contract)
-      } else {
-        // Prompt to switch network
-        toast({
-          title: "Wrong Network",
-          description: "Please switch to Core Testnet 2 to use this application.",
-          variant: "destructive",
-        })
-      }
+      // Initialize contract
+      const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI.length ? CONTRACT_ABI : [], signer)
+      setContract(contract)
 
       toast({
         title: "Wallet connected",
         description: "Your wallet has been successfully connected.",
       })
+
+      // If not on correct network, show a toast but don't force switch
+      if (!isCorrect) {
+        toast({
+          title: "Wrong Network",
+          description: "Please switch to Core Testnet 2 for full functionality.",
+          variant: "destructive",
+        })
+      }
     } catch (error) {
       console.error("Error connecting wallet:", error)
       toast({
