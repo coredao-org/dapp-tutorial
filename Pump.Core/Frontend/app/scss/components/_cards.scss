@@ -1,0 +1,100 @@
+.token-card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  
+  &__header {
+    padding: 0;
+  }
+  
+  &__image-container {
+    position: relative;
+    height: 12rem;
+    width: 100%;
+    background-color: $color-zinc-100;
+  }
+  
+  &__image {
+    object-fit: cover;
+  }
+  
+  &__badge {
+    position: absolute;
+    top: $spacing-3;
+    right: $spacing-3;
+    
+    &--open {
+      background-color: $color-green-500;
+    }
+    
+    &--closed {
+      background-color: $color-red-500;
+    }
+  }
+  
+  &__content {
+    padding: $spacing-6;
+  }
+  
+  &__title-row {
+    @include flex(row, space-between, flex-start);
+    margin-bottom: $spacing-4;
+  }
+  
+  &__name {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    margin-bottom: 0;
+  }
+  
+  &__symbol {
+    font-size: $font-size-sm;
+    color: $color-zinc-500;
+  }
+  
+  &__stats {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+  
+  &__stat {
+    &-header {
+      @include flex(row, space-between);
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-1;
+    }
+    
+    &-value {
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  &__progress {
+    height: 0.5rem;
+  }
+  
+  &__footer {
+    padding: $spacing-6;
+    padding-top: 0;
+  }
+  
+  &__button {
+    @include button-base;
+    width: 100%;
+    height: 2.5rem;
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
+    color: $color-white;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-primary-hover;
+      border-color: $color-primary-hover;
+    }
+    
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.progress {
+  width: 100%;
+  height: 0.5rem;
+  background-color: $color-zinc-200;
+  border-radius: $radius-full;
+  overflow: hidden;
+  
+  &__bar {
+    height: 100%;
+    background-color: $color-primary;
+    transition: width 0.3s ease;
+  }
+}

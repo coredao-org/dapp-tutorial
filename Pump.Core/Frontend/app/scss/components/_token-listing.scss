@@ -1,0 +1,55 @@
+.token-listing {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+  
+  &__header {
+    @include flex(row, space-between, center);
+  }
+  
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+    
+    @include sm {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  &__loading {
+    @include flex(row, center, center);
+    padding: $spacing-12;
+  }
+  
+  &__spinner {
+    height: 2rem;
+    width: 2rem;
+    animation: spin 1s linear infinite;
+    color: $color-primary;
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacing-12;
+    
+    &-title {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-medium;
+      margin-bottom: $spacing-2;
+    }
+    
+    &-text {
+      color: $color-zinc-500;
+    }
+  }
+}

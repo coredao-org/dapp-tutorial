@@ -1,0 +1,103 @@
+.dialog {
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: $z-index-modal-backdrop;
+    background-color: rgba($color-black, 0.8);
+    animation: fadeIn 0.2s ease;
+  }
+  
+  &__content {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: $z-index-modal;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 32rem;
+    background-color: $color-background;
+    border-radius: $radius-lg;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-lg;
+    padding: $spacing-6;
+    animation: zoomIn 0.2s ease;
+    
+    @include sm {
+      width: 90%;
+    }
+  }
+  
+  &__close {
+    position: absolute;
+    top: $spacing-4;
+    right: $spacing-4;
+    height: 1.5rem;
+    width: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-sm;
+    opacity: 0.7;
+    transition: $transition-base;
+    
+    &:hover {
+      opacity: 1;
+      background-color: $color-zinc-100;
+    }
+  }
+  
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    text-align: center;
+    margin-bottom: $spacing-4;
+    
+    @include sm {
+      text-align: left;
+    }
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    line-height: 1.2;
+  }
+  
+  &__description {
+    font-size: $font-size-sm;
+    color: $color-muted-foreground;
+  }
+  
+  &__footer {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: $spacing-2;
+    margin-top: $spacing-4;
+    
+    @include sm {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

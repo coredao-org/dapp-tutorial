@@ -1,0 +1,106 @@
+$color-orange-50: #fff8eb;
+$color-orange-100: #ffebc8;
+$color-orange-200: #ffd685;
+$color-orange-300: #ffbe42;
+$color-orange-400: #ffa50f;
+$color-orange-500: #ff9500; // Primary brand color
+$color-orange-600: #e66a00;
+$color-orange-700: #c04e00;
+$color-orange-800: #9a3d06;
+$color-orange-900: #7e340b;
+
+$color-white: #ffffff;
+$color-black: #000000;
+
+$color-zinc-50: #fafafa;
+$color-zinc-100: #f4f4f5;
+$color-zinc-200: #e4e4e7;
+$color-zinc-300: #d4d4d8;
+$color-zinc-400: #a1a1aa;
+$color-zinc-500: #71717a;
+$color-zinc-600: #52525b;
+$color-zinc-700: #3f3f46;
+$color-zinc-800: #27272a;
+$color-zinc-900: #18181b;
+
+$color-green-500: #22c55e;
+$color-red-500: #ef4444;
+
+// Theme colors
+$color-primary: $color-orange-500;
+$color-primary-hover: $color-orange-600;
+$color-primary-foreground: $color-white;
+
+$color-background: $color-white;
+$color-foreground: $color-zinc-900;
+$color-muted: $color-zinc-50;
+$color-muted-foreground: $color-zinc-500;
+
+$color-border: $color-zinc-200;
+$color-input: $color-zinc-200;
+
+// Typography
+$font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-lg: 1.125rem;  // 18px
+$font-size-xl: 1.25rem;   // 20px
+$font-size-2xl: 1.5rem;   // 24px
+$font-size-3xl: 1.875rem; // 30px
+$font-size-4xl: 2.25rem;  // 36px
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-0: 0;
+$spacing-1: 0.25rem;  // 4px
+$spacing-2: 0.5rem;   // 8px
+$spacing-3: 0.75rem;  // 12px
+$spacing-4: 1rem;     // 16px
+$spacing-5: 1.25rem;  // 20px
+$spacing-6: 1.5rem;   // 24px
+$spacing-8: 2rem;     // 32px
+$spacing-10: 2.5rem;  // 40px
+$spacing-12: 3rem;    // 48px
+$spacing-16: 4rem;    // 64px
+$spacing-20: 5rem;    // 80px
+$spacing-24: 6rem;    // 96px
+$spacing-32: 8rem;    // 128px
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Border radius
+$radius-sm: 0.125rem;  // 2px
+$radius-md: 0.25rem;   // 4px
+$radius-lg: 0.5rem;    // 8px
+$radius-xl: 0.75rem;   // 12px
+$radius-2xl: 1rem;     // 16px
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// Z-index
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// Transitions
+$transition-base: all 0.2s ease-in-out;
+$transition-slow: all 0.3s ease-in-out;
+$transition-fast: all 0.1s ease-in-out;
