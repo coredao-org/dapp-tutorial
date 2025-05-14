@@ -3,34 +3,35 @@
 import { createContext, useEffect, useState, type ReactNode } from "react"
 import { BrowserProvider, Contract, type JsonRpcSigner } from "ethers"
 import { useToast } from "@/hooks/use-toast"
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/constants/constansts"
 
-// This would be your actual contract ABI
-const CONTRACT_ABI = [
-  // Add your contract ABI here
-  // Example:
-  // {
-  //   "inputs": [
-  //     {
-  //       "internalType": "string",
-  //       "name": "name",
-  //       "type": "string"
-  //     },
-  //     {
-  //       "internalType": "string",
-  //       "name": "symbol",
-  //       "type": "string"
-  //     }
-  //   ],
-  //   "name": "create",
-  //   "outputs": [],
-  //   "stateMutability": "payable",
-  //   "type": "function"
-  // },
-  // ...
-]
+// // This would be your actual contract ABI
+// const CONTRACT_ABI = [
+//   // Add your contract ABI here
+//   // Example:
+//   // {
+//   //   "inputs": [
+//   //     {
+//   //       "internalType": "string",
+//   //       "name": "name",
+//   //       "type": "string"
+//   //     },
+//   //     {
+//   //       "internalType": "string",
+//   //       "name": "symbol",
+//   //       "type": "string"
+//   //     }
+//   //   ],
+//   //   "name": "create",
+//   //   "outputs": [],
+//   //   "stateMutability": "payable",
+//   //   "type": "function"
+//   // },
+//   // ...
+// ]
 
-// This would be your actual contract address
-const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"
+// // This would be your actual contract address
+// const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 // Core Testnet 2 Chain ID
 const CORE_TESTNET_2_CHAIN_ID = "0x45a" // 1114 in decimal

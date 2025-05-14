@@ -1,6 +1,6 @@
-const address = "0x06D1Ae8140f855490c09703793791d90F7Be2057"
+const CONTRACT_ADDRESS = "0x06D1Ae8140f855490c09703793791d90F7Be2057"
 
-const abi = [
+const CONTRACT_ABI = [
     {
       "inputs": [
         {
@@ -341,4 +341,4 @@ const abi = [
     }
   ]
 
-  export {address, abi}
+  export {CONTRACT_ADDRESS, CONTRACT_ABI}

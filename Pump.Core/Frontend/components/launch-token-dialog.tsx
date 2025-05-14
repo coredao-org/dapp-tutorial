@@ -17,6 +17,7 @@ import { Loader2, ChevronLeft, ChevronRight } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import Image from "next/image"
+import { ethers } from "ethers"
 
 interface LaunchTokenDialogProps {
   open: boolean
@@ -43,7 +44,7 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
   ]
 
   // Mock factory fee - in a real implementation, this would be fetched from the contract
-  const factoryFee = "0.01" // tCORE2
+  const factoryFee = ethers.parseEther("0.01" )// tCORE2
 
   // Reset state when dialog is opened or closed
   const handleOpenChange = (newOpen: boolean) => {
@@ -100,10 +101,10 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
       setIsLoading(true)
 
       // In a real implementation, this would call the contract's create function
-      // await contract.create(name, symbol, { value: parseEther(factoryFee) })
+      await contract.create(name, symbol, { value: factoryFee })
 
       // Simulate a transaction delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      // await new Promise((resolve) => setTimeout(resolve, 2000))
 
       toast({
         title: "Token launched!",
