@@ -1,28 +1,27 @@
-import {useState} from "react";
+import { useState } from "react";
 import "./App.css";
 import Todos from "./TodoList";
 import getContractInstance from "./getContractInstance";
 import { ethers } from "ethers";
-
+import ConnectWallet from "./connectWallet";
 
 function Contracting() {
-
   const [inputTodo, setInputTodo] = useState("");
   const [getAllTodos, setAllTodos] = useState([]);
   const [sortedRes, setSortedRes] = useState([]);
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   async function sendMessageToCreateTodo() {
     if (typeof window.ethereum !== "undefined") {
       try {
-        // await requestAccount();
         const contract = await getContractInstance();
-
-          if(inputTodo !== ""){
-            await contract.write.createTodo([inputTodo]);
-            
-            setInputTodo(""); 
-            await getAllTodosFromContract();
-          }else alert("input boxes cannot be empty");
+        if (inputTodo !== "") {
+          await contract.write.createTodo([inputTodo]);
+          setInputTodo("");
+          await getAllTodosFromContract();
+        } else {
+          alert("Input boxes cannot be empty");
+        }
       } catch (err) {
         console.log("Error setting message:", err);
         alert("Error setting message. Please check the console for details.");
@@ -33,13 +32,9 @@ function Contracting() {
   async function getAllTodosFromContract() {
     if (typeof window.ethereum !== "undefined") {
       try {
-        // await requestAccount();
         const contract = await getContractInstance();
         console.log("contract instance is ::: ", contract);
-
-        // console.log("logging :::", await contract.getAllTodos());
-        const allTodos = await  await buildTodos(contract);
-        
+        const allTodos = await buildTodos(contract);
         setAllTodos(allTodos);
       } catch (err) {
         console.log("Error getting message:", err);
@@ -49,28 +44,22 @@ function Contracting() {
   }
 
   async function buildTodos(contract) {
-    const [todos, isCompleted, lastUpdated ] = await contract.read.getAllTodos();
+    const [todos, isCompleted, lastUpdated] = await contract.read.getAllTodos();
     return todos.map((todo, i) => ({
-          todo: ethers.decodeBytes32String(todo),
-          isCompleted: isCompleted[i],
-          lastUpdated: lastUpdated[i]
-        }));
-  } 
+      todo: ethers.decodeBytes32String(todo),
+      isCompleted: isCompleted[i],
+      lastUpdated: lastUpdated[i],
+    }));
+  }
 
   async function getAllCompletedTodo() {
     if (typeof window.ethereum !== "undefined") {
       try {
-        // await requestAccount();
         const contract = await getContractInstance();
-
         const allTodos = await buildTodos(contract);
-
-        const result = allTodos.filter(x => x.isCompleted === true);
-
+        const result = allTodos.filter((x) => x.isCompleted === true);
         setSortedRes(result);
-
       } catch (err) {
-        // console.log("Error getting message:", err.message);
         alert("Error getting message. Please check the console for details.");
       }
     }
@@ -80,41 +69,52 @@ function Contracting() {
 
   const clearMessage = () => {
     setAllTodos([]);
-    setSortedRes([]);    
-  }
-
+    setSortedRes([]);
+  };
 
   return (
-    <div className="App" style={{background: "black"}}>
-      <div>
+    <div className="App">
+      <ConnectWallet onConnect={() => setIsWalletConnected(true)} />
+      <div className="container">
         <h1>Simple Todo</h1>
         <h2>Smart Contract and DApp Integration</h2>
         <h3>
-          <i>Getter and Setter Function call</i>
+          <i>Getter and Setter Function Call</i>
         </h3>
-        <br />
-        <input
-          type="text"
-          placeholder="enter todo here"
-          value={inputTodo}
-          onChange={handleSendTodo}
-          required
-        />
-        <button onClick={sendMessageToCreateTodo}>Create Todo</button>
-        <br /><br />
-        
-        <button onClick={getAllCompletedTodo}>Get Completed Todos</button>
-        <br /><br />
-        <div>
-          { sortedRes.length > 0 ?
-            <Todos todos={sortedRes}/> : <div style={{background: "white"}}>"No Completed Todo yet"</div>}
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Enter todo here"
+            value={inputTodo}
+            onChange={handleSendTodo}
+            required
+            disabled={!isWalletConnected}
+          />
+          <button onClick={sendMessageToCreateTodo} disabled={!isWalletConnected}>
+            Create Todo
+          </button>
         </div>
-        <button onClick={getAllTodosFromContract}>Get Todos</button>
-        <br /> <br />
-      </div>
-      <div>
-        <Todos todos={getAllTodos}/>
-        <button onClick={clearMessage}>Clear message</button>
+        <div className="button-group">
+          <button onClick={getAllCompletedTodo} disabled={!isWalletConnected}>
+            Get Completed Todos
+          </button>
+          <button onClick={getAllTodosFromContract} disabled={!isWalletConnected}>
+            Get Todos
+          </button>
+          <button onClick={clearMessage} disabled={!isWalletConnected}>
+            Clear Message
+          </button>
+        </div>
+        <div className="todo-section">
+          {sortedRes.length > 0 ? (
+            <Todos todos={sortedRes} />
+          ) : (
+            <div className="no-todos">No Completed Todos Yet</div>
+          )}
+        </div>
+        <div className="todo-section">
+          <Todos todos={getAllTodos} />
+        </div>
       </div>
     </div>
   );
