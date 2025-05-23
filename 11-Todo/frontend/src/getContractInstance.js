@@ -1,9 +1,6 @@
 
 
-// import { ethers } from "ethers";
 import contractABI from "./abi.json";
-// import { createWalletClient, custom, getAddress, getContract } from "viem";
-// import { coreTestnet2 } from "viem/chain";
 
 import {createWalletClient, custom, getAddress, getContract} from "viem";
 import {coreTestnet2} from "viem/chains";

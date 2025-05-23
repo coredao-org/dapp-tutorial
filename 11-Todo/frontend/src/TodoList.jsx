@@ -1,6 +1,6 @@
 import Todo from './Todo';
 
-const Todos = ({ todos }) => {
+const Todos = ({ todos, onToggle }) => {
   return (
     <div className="todo-list">
       {todos.map((todo, index) => (
@@ -9,7 +9,8 @@ const Todos = ({ todos }) => {
             todo={todo.todo}
             isCompleted={todo.isCompleted}
             updatedTime={todo.lastUpdated}
-            rightIndex={index}
+            contractIndex={todo.contractIndex}
+            onToggle={onToggle}
           />
         </div>
       ))}

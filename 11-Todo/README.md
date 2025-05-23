@@ -1,144 +1,209 @@
-11-Todo
-A decentralized todo list application (dApp) deployed on Core Testnet 2. It uses a Solidity smart contract (Task.sol) built with Foundry to manage todos and a React frontend (core_frontal) for user interaction, allowing users to create, toggle, and view todos on the blockchain.
-Project Overview
+# 11-Todo: A Decentralized Todo List on Core Testnet 2
 
-Smart Contract (Task.sol): Manages a todo list with functions to create todos, toggle completion, and retrieve all todos. Deployed on Core Testnet 2 at 0xf4Cc3E6A0EFE70c007243591B9d500760361Bad2.
-React Frontend (core_frontal): A single-page app that connects to the contract via Viem, enabling users to interact with todos using MetaMask on Core Testnet 2.
+## Overview
 
-Technologies
+**11-Todo** is a decentralized application (dApp) deployed on **Core Testnet 2**, designed to manage a todo list directly on the blockchain. It combines a Solidity smart contract (`Task.sol`) for backend logic with a responsive React frontend for user interaction.
 
-Foundry: Smart contract development and deployment.
-Solidity: ^0.8.13 for the Tasks contract.
-React: Frontend interface.
-Viem: Blockchain interaction library.
-Ethers.js: For decoding bytes32 strings.
-Node.js/npm: Frontend runtime and package management.
-MetaMask: Wallet for Core Testnet 2.
-Core Testnet 2: Deployment network.
+Users can create todos, toggle their completion status, and view both completed and all todos, with all data stored immutably on the blockchain.
 
-Getting Started
-Prerequisites
+## Technologies Used
 
-Node.js (v14.15.5+): Install from nodejs.org.
-npm (v7.5.3+): Included with Node.js.
-Foundry: Install via Foundry Book (forge and cast required).
-MetaMask: Browser extension set to Core Testnet 2.
-Core Testnet 2 RPC: Get from a provider like ChainList.
-Testnet ETH: Obtain from a Core Testnet 2 faucet.
-Git: For cloning the repository.
+* **Solidity** (^0.8.13) — Smart contract language
+* **Foundry** — Smart contract development and deployment toolkit
+* **React** — Frontend framework
+* **Viem** — Blockchain interaction library for dApps
+* **Ethers.js** — Utility library for decoding and blockchain interactions
+* **MetaMask** — Wallet for user authentication and transactions
+* **Core Testnet 2** — Blockchain test network
+* **Node.js & npm** — Environment for managing frontend dependencies
 
-Installation
+## Architecture
 
-Clone the Repository:
-fork the repository 
+### Smart Contract: `Task.sol`
+
+* **Functions**:
+
+  * `createTask(string _name)`: Adds a new todo
+  * `toggleTask(uint index)`: Marks a todo as completed/uncompleted
+  * `getAllTasks()`: Retrieves all todos with status and timestamp
+
+**Deployed Address**: `0xf4Cc3E6A0EFE70c007243591B9d500760361Bad2` (Core Testnet 2)
+
+### React Frontend: `core_frontal`
+
+* Connects to MetaMask
+* Displays all and completed todos
+* Allows creation and toggling of todos
+* Built using `ethers.js`, `viem`, and standard React hooks
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+* [Node.js (v14.15.5+)](https://nodejs.org/)
+* npm (v7.5.3+)
+* [Foundry](https://book.getfoundry.sh/) (includes `forge` and `cast`)
+* [MetaMask](https://metamask.io/) (configured for Core Testnet 2)
+* Core Testnet 2 RPC URL (e.g., via [ChainList](https://chainlist.org))
+* Testnet ETH (via Core faucet)
+* Git
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/your-username/dapp-tutorial.git
-cd 11-todo
+cd dapp-tutorial/11-todo
+```
 
+---
 
-Set Up Environment Variables:
+## Backend Setup (Foundry)
 
-In core_frontal, create .
+### 1. Navigate to Contracts Folder
 
-
-In contracts, create .env:PRIVATE_KEY=<your-wallet-private-key>
-RPC_URL=<your-core-testnet2-rpc-url>
-
-
-
-Smart Contract Deployment (Foundry)
-
-Navigate to Contracts Folder:
+```bash
 cd contracts
+```
 
+### 2. Set Environment Variables
 
-Install Foundry Dependencies:
+Create a `.env` file:
+
+```ini
+PRIVATE_KEY=<your-wallet-private-key>
+RPC_URL=<your-core-testnet2-rpc-url>
+```
+
+### 3. Install Dependencies
+
+```bash
 forge install
+```
 
+### 4. Compile Contract
 
-Compile Contract:
+```bash
 forge build
+```
 
+### 5. Deploy Contract
 
-Deploy to Core Testnet 2:
+```bash
+forge create --rpc-url $RPC_URL --private-key $PRIVATE_KEY src/Task.sol:Tasks
+```
 
-Ensure .env is set with PRIVATE_KEY and RPC_URL.
-Deploy Task.sol:forge create --rpc-url $RPC_URL --private-key $PRIVATE_KEY src/Task.sol:Tasks
+Copy the deployed contract address and update `core_frontal/src/getContractInstance.js` accordingly:
 
+```js
+address: getAddress("<new-contract-address>")
+```
 
-Copy the deployed contract address from the output.
-Update core_frontal/src/getContractInstance.js with the new address:address: getAddress("<new-contract-address>"),
+---
 
+## Frontend Setup (React)
 
+### 1. Navigate to Frontend
 
+```bash
+cd ../frontend
+```
 
+### 2. Install Frontend Dependencies
 
-Frontend Setup (React)
-
-Navigate to Frontend Folder:
-cd ../core_frontal
-
-
-Install npm Dependencies:
+```bash
 npm install
+```
 
+### 3. Start the Development Server
 
-Start Development Server:
+```bash
 npm start
+```
 
-Open http://localhost:3000 in a browser with MetaMask connected to Core Testnet 2.
+Visit [http://localhost:3000](http://localhost:3000) in your browser with MetaMask connected to Core Testnet 2.
 
+---
 
-Usage
+## Usage Guide
 
-Smart Contract:
+### Smart Contract
 
-Create Todo: Call createTask(string _name) to add a todo.
-Toggle Completion: Call toggleTask(uint index) to mark a todo as completed/uncompleted.
-Get Todos: Call getAllTasks() to retrieve all todos.
-Use cast to interact:cast call 0xf4Cc3E6A0EFE70c007243591B9d500760361Bad2 "getAllTasks()(bytes32[],bool[],uint256[])" --rpc-url $RPC_URL
+* **Create Todo**: `createTask(string _name)`
+* **Toggle Todo**: `toggleTask(uint index)`
+* **Get All Todos**: `getAllTasks()`
 
+Using Cast:
 
+```bash
+cast call 0xf4Cc3E6A0EFE70c007243591B9d500760361Bad2 \
+"getAllTasks()(bytes32[],bool[],uint256[])" \
+--rpc-url $RPC_URL
+```
 
+### Frontend (core\_frontal)
 
-Frontend:
+* **Connect Wallet**: Use MetaMask on Core Testnet 2
+* **Create Todo**: Input text and click **"Create Todo"**
+* **View Todos**: Click **"Get Todos"**
+* **View Completed Todos**: Click **"Get Completed Todos"**
+* **Toggle Todo**: Click **"Complete"** (disabled if already completed)
+* **Clear Display**: Click **"Clear message"** to reset list
 
-Connect MetaMask to Core Testnet 2.
-Create Todo: Enter a todo name and click "Create Todo".
-View Todos: Click "Get Todos" to list all todos (name, completion status, timestamp).
-View Completed Todos: Click "Get Completed Todos" to filter completed todos.
-Toggle Completion: Click "Complete" on a todo (disabled if completed).
-Clear Display: Click "Clear message" to reset the todo list display.
+---
 
+## Project Structure
 
-
-Project Structure
+```
 11-Todo/
-├── contracts/                # Foundry smart contract files
-│   ├── src/Task.sol          # Tasks contract
-│   ├── cache/                # Foundry cache
-│   ├── out/                  # Compiled artifacts
-│   ├── lib/                  # External libraries (if any)
-│   ├── test/                 # Test files (if any)
-│   └── foundry.toml          # Foundry config
-├── core_frontal/             # React frontend
-│   ├── src/                  # React source files
-│   │   ├── abi.json          # Contract ABI
-│   │   ├── App.js            # Main app component
-│   │   ├── Main.js           # Core logic
-│   │   ├── TodoList.jsx      # Todo list component
-│   │   ├── Todo.jsx          # Individual todo component
-│   │   ├── getContractInstance.js # Contract instance setup
-│   │   ├── index.js          # React entry point
-│   │   ├── App.css           # Styles
-│   │   └── reportWebVitals.js # Performance monitoring
-│   ├── public/               # Static assets
-│   ├── node_modules/         # npm dependencies
-│   ├── package.json          # Frontend dependencies
-│   └── package-lock.json     # Dependency lock file
-├── README.md                 # This file
+├── contracts/                # Foundry contracts
+│   ├── src/Task.sol          # Main contract
+│   ├── test/                 # Tests (optional)
+│   ├── lib/, cache/, out/    # Foundry generated
+│   └── foundry.toml          # Config file
+├── frontend/                 # React frontend
+│   ├── src/
+│   │   ├── abi.json
+│   │   ├── App.js
+│   │   ├── Main.js
+│   │   ├── TodoList.jsx
+│   │   ├── Todo.jsx
+│   │   ├── getContractInstance.js
+│   │   ├── index.js
+│   │   ├── App.css
+│   │   └── reportWebVitals.js
+│   ├── public/
+│   ├── package.json
+│   └── package-lock.json
+├── README.md
+```
 
-Troubleshooting
+---
 
-Contract Deployment Fails: Verify PRIVATE_KEY, RPC_URL, and testnet balance.
-Frontend Connection Issues: Ensure MetaMask is on Core Testnet 2.
-Dependency Errors: Run forge install in contracts and npm install in core_frontal again.
+## Troubleshooting
+
+| Issue                         | Solution                                                                   |
+| ----------------------------- | -------------------------------------------------------------------------- |
+| **Contract deployment fails** | Ensure `PRIVATE_KEY`, `RPC_URL`, and testnet ETH are correctly set.        |
+| **MetaMask not connecting**   | Confirm network is set to **Core Testnet 2** and refresh the page.         |
+| **Frontend errors**           | Run `npm install` and ensure `getContractInstance.js` has correct address. |
+| **Foundry issues**            | Re-run `forge install` or consult Foundry Book for setup assistance.       |
+
+---
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## Acknowledgements
+
+* [Core DAO](https://coredao.org/) for providing the testnet infrastructure
+* [Foundry Book](https://book.getfoundry.sh/) for smart contract tooling
+* [MetaMask](https://metamask.io/) for dApp user interaction
