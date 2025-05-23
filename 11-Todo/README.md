@@ -196,12 +196,6 @@ cast call 0xf4Cc3E6A0EFE70c007243591B9d500760361Bad2 \
 
 ---
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
 ## Acknowledgements
 
 * [Core DAO](https://coredao.org/) for providing the testnet infrastructure

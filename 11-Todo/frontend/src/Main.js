@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import Todos from "./TodoList";
 import getContractInstance from "./getContractInstance";
@@ -11,35 +11,10 @@ function Contracting() {
   const [sortedRes, setSortedRes] = useState([]);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshCount, setRefreshCount] = useState(0); // Trigger re-fetch
 
-  useEffect(() => {
-    if (isWalletConnected) {
-      getAllTodosFromContract();
-    }
-  }, [isWalletConnected]);
-
-  async function sendMessageToCreateTodo() {
-    if (typeof window.ethereum !== "undefined") {
-      setIsLoading(true);
-      try {
-        const contract = await getContractInstance();
-        if (inputTodo !== "") {
-          await contract.write.createTodo([inputTodo]);
-          setInputTodo("");
-          await getAllTodosFromContract();
-        } else {
-          alert("Input boxes cannot be empty");
-        }
-      } catch (err) {
-        console.log("Error setting message:", err);
-        alert("Error setting message. Please check the console for details.");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  }
-
-  async function getAllTodosFromContract() {
+  // ✅ Proper memoized function for fetching todos
+  const getAllTodosFromContract = useCallback(async () => {
     if (typeof window.ethereum !== "undefined") {
       setIsLoading(true);
       try {
@@ -55,6 +30,33 @@ function Contracting() {
         setIsLoading(false);
       }
     }
+  }, []);
+
+  useEffect(() => {
+    if (isWalletConnected) {
+      getAllTodosFromContract();
+    }
+  }, [isWalletConnected, refreshCount, getAllTodosFromContract]);
+
+  async function sendMessageToCreateTodo() {
+    if (typeof window.ethereum !== "undefined") {
+      setIsLoading(true);
+      try {
+        const contract = await getContractInstance();
+        if (inputTodo !== "") {
+          await contract.write.createTodo([inputTodo]);
+          setInputTodo("");
+          setRefreshCount((prev) => prev + 1); // Trigger refresh
+        } else {
+          alert("Input boxes cannot be empty");
+        }
+      } catch (err) {
+        console.log("Error setting message:", err);
+        alert("Error setting message. Please check the console for details.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
   }
 
   async function buildTodos(contract) {
@@ -63,7 +65,7 @@ function Contracting() {
       todo: ethers.decodeBytes32String(todo),
       isCompleted: isCompleted[i],
       lastUpdated: Number(lastUpdated[i]),
-      contractIndex: i, 
+      contractIndex: i,
     }));
     return todoList.sort((a, b) => b.lastUpdated - a.lastUpdated);
   }
@@ -96,7 +98,7 @@ function Contracting() {
     try {
       const contract = await getContractInstance();
       await contract.write.toggleTodo([contractIndex]);
-      await getAllTodosFromContract(); 
+      setRefreshCount((prev) => prev + 1); // Trigger refresh
     } catch (err) {
       console.log("Error toggling todo:", err);
       alert("Error toggling todo. Please check the console for details.");
