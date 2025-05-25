@@ -52,7 +52,7 @@ interface Web3ContextType {
   balance: bigint | null
   provider: BrowserProvider | null
   signer: JsonRpcSigner | null
-  contract: Contract | null
+  contract: Contract | any
   isConnecting: boolean
   isCorrectNetwork: boolean
   connect: () => Promise<void>

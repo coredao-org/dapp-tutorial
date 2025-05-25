@@ -59,60 +59,55 @@ export function TokenListing() {
   const fetchTokens = async () => {
     try {
       setLoading(true)
-
-      // In a real implementation, we would need to know how many tokens exist
-      // For this example, we'll assume there are 10 tokens (or fewer)
-      const tokenCount = 10
+      const tokenCount = await contract.totalTokens()
       const fetchedTokens: TokenSale[] = []
-
-      for (let i = 0; i < tokenCount; i++) {
+  
+      for (let i = 0; i < Number(tokenCount); i++) {
         try {
-          // Call the contract's getTokenSale function
-          // This is a placeholder for the actual contract call
-          // const tokenSale = await contract.getTokenSale(i)
-
-          // For demo purposes, we'll create mock data
-          // In a real implementation, replace this with actual contract calls
-          const mockToken = {
+          const tokenSale = await contract.getTokenSale(i)
+          
+          const tokenData: TokenSale = {
             id: i,
-            address: `0x${Array(40)
-              .fill(0)
-              .map(() => Math.floor(Math.random() * 16).toString(16))
-              .join("")}`,
-            name: ["MoonCoin", "RocketToken", "PumpToken", "MemeToken", "DogeCoin"][i % 5],
-            symbol: ["MOON", "RCKT", "PUMP", "MEME", "DOGE"][i % 5],
-            creator:
-              i % 3 === 0
-                ? account || ""
-                : `0x${Array(40)
-                    .fill(0)
-                    .map(() => Math.floor(Math.random() * 16).toString(16))
-                    .join("")}`,
-            sold: BigInt(Math.floor(Math.random() * 1000)),
-            target: BigInt(1000),
-            raised: BigInt(Math.floor(Math.random() * 10 * 1e18)),
+            address: tokenSale.token,
+            name: tokenSale.name,
+            symbol: tokenSale.symbol, // If your MemeToken doesn't return symbol via contract, use placeholder
+            creator: tokenSale.creator,
+            sold: BigInt(tokenSale.sold),
+            target: 3000000000000000000n, // 3 ether (TARGET)
+            raised: BigInt(tokenSale.raised),
             pfpUrl: pfpUrls[i % pfpUrls.length],
-            isOpen: i % 4 !== 0, // Some tokens are closed
+            isOpen: tokenSale.isOpen,
           }
-
-          fetchedTokens.push(mockToken)
+  
+          fetchedTokens.push(tokenData)
         } catch (error) {
-          // If we get an error, we might have reached the end of the tokens
           console.error(`Error fetching token at index ${i}:`, error)
           break
         }
       }
-
+  
       setTokens(fetchedTokens)
     } catch (error) {
       console.error("Error fetching tokens:", error)
     } finally {
-      // Ensure loading state is set to false after a short delay
       setTimeout(() => {
         setLoading(false)
       }, 500)
     }
   }
+
+  // listen for launches
+  useEffect(() => {
+    const onLaunched = () => {
+      fetchTokens();
+    };
+
+    window.addEventListener("tokenLaunched", onLaunched);
+    return () => {
+      window.removeEventListener("tokenLaunched", onLaunched);
+    };
+  }, [fetchTokens]);
+  
 
   const handleBuyClick = (token: TokenSale) => {
     if (!isCorrectNetwork) {
@@ -161,7 +156,7 @@ export function TokenListing() {
           <Card key={token.id} className="overflow-hidden">
             <CardHeader className="p-0">
               <div className="relative h-48 w-full bg-zinc-100">
-                <Image src={token.pfpUrl || "/placeholder.svg"} alt={token.name} fill className="object-cover" />
+                <Image src={token.pfpUrl || "/placeholder.svg"} alt={token.name} fill unoptimized className="object-cover" />
                 <Badge className={`absolute top-3 right-3 ${token.isOpen ? "bg-green-500" : "bg-red-500"}`}>
                   {token.isOpen ? "Open" : "Closed"}
                 </Badge>

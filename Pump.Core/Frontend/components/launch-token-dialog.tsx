@@ -101,7 +101,9 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
       setIsLoading(true)
 
       // In a real implementation, this would call the contract's create function
-      await contract.create(name, symbol, { value: factoryFee })
+      const tx = await contract.create(name, symbol, { value: factoryFee })
+
+      await tx.wait();
 
       // Simulate a transaction delay
       // await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -111,12 +113,17 @@ export function LaunchTokenDialog({ open, onOpenChange }: LaunchTokenDialogProps
         description: `Your token ${name} (${symbol}) has been successfully created.`,
       })
 
+      // 🔔 dispatch a global event so others can know “a token was just created”
+      window.dispatchEvent(new CustomEvent("tokenLaunched", {
+        detail: { name, symbol},
+      }));
+
       onOpenChange(false)
       setName("")
       setSymbol("")
       setCurrentStep(0)
     } catch (error) {
-      console.error("Error launching token:", error)
+      console.log("Error launching token")
       toast({
         title: "Transaction failed",
         description: "There was an error processing your transaction.",

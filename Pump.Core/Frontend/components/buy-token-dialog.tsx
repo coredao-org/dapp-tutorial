@@ -20,6 +20,7 @@ import { parseEther } from "ethers"
 import { useToast } from "@/hooks/use-toast"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import Image from "next/image"
+import { ethers } from "ethers"
 
 type TokenSale = {
   id: number
@@ -45,15 +46,28 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
   const { toast } = useToast()
   const [amount, setAmount] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [pricePerToken, setPricePerToken] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(1);
+
+  const forMath = 10**18;
 
   // This would be calculated from the contract in a real implementation
-  const calculatePrice = (amount: number) => {
+  const calculatePrice = async (amount: number) => {
     // Mock implementation of getCost(sold) * amount
     // In a real app, this would call the contract's getCost function
-    const baseCost = 0.0001 // ETH
-    const increment = 0.00001 // ETH per token sold
-    const currentCost = baseCost + Number(token.sold) * increment
-    return currentCost * amount
+    console.log("hii")
+      const cost = await contract.getCost(token.sold);
+      console.log(cost)
+      console.log(token.address)
+      const amountt = ethers.parseEther(amount.toString())
+      console.log(amountt)
+      const value = BigInt(cost ) * ( amountt / ethers.parseEther("1"));
+      console.log(value)
+
+      setPricePerToken(cost);
+      setTotalPrice(Number(value));
+
+      return value;
   }
 
   const price = calculatePrice(amount)
@@ -79,15 +93,33 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
       const costInWei = parseEther(price.toString())
 
       // In a real implementation, this would call the contract's buyToken function
-      // await contract.buyToken(token.address, amount, { value: costInWei })
+      console.log("hii")
+      const cost = await contract.getCost(token.sold);
+      console.log(cost)
+      console.log(token.address)
+      const amountt = ethers.parseEther(amount.toString())
+      console.log(amountt)
+      const value = BigInt(cost ) * ( amountt / ethers.parseEther("1"));
+      console.log(value)
 
-      // Simulate a transaction delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const tx = await contract.buyToken(token.address, amount, { value: value })
+
+      await tx.wait();
+
+      // // Simulate a transaction delay
+      // await new Promise((resolve) => setTimeout(resolve, 2000))
 
       toast({
         title: "Tokens purchased!",
         description: `You have successfully purchased ${amount} ${token.symbol} tokens.`,
       })
+
+      const name = token.name;
+      const symbol = token.symbol
+
+      window.dispatchEvent(new CustomEvent("tokenLaunched", {
+        detail: { name, symbol},
+      }));
 
       onOpenChange(false)
     } catch (error) {
@@ -167,11 +199,11 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
           <div className="bg-zinc-50 p-4 rounded-lg">
             <div className="flex justify-between mb-2">
               <span className="text-sm text-zinc-500">Price per token</span>
-              <span className="font-medium">{(price / amount).toFixed(6)} tCORE2</span>
+              <span className="font-medium">{pricePerToken} tCORE2</span>
             </div>
             <div className="flex justify-between text-lg font-bold">
               <span>Total price</span>
-              <span className="text-orange-500">{price.toFixed(6)} tCORE2</span>
+              <span className="text-orange-500">{totalPrice / forMath} tCORE2</span>
             </div>
           </div>
         </div>

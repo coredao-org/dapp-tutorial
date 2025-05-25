@@ -28,6 +28,7 @@ contract MemeFactory {
     struct TokenSale {
         address token;
         string name;
+        string symbol;
         address creator;
         uint256 sold;
         uint256 raised;
@@ -62,7 +63,7 @@ contract MemeFactory {
         totalTokens += 1;
 
         // List Token
-        TokenSale memory sale = TokenSale(address(token), _name, msg.sender, 0, 0, true);
+        TokenSale memory sale = TokenSale(address(token), _name, _symbol, msg.sender, 0, 0, true);
 
         tokenToSale[address(token)] = sale;
 
@@ -77,7 +78,7 @@ contract MemeFactory {
         TokenSale storage sale = tokenToSale[_token];
 
         if(!sale.isOpen) revert MemeFactory__SaleClosed();
-        if(_amount < 1 ether) revert MemeFactory__TokenAmountTooLow();
+        if(_amount < 0.01 ether) revert MemeFactory__TokenAmountTooLow();
         if(_amount >= 1000 ether) revert MemeFactory__AmountExceeded();
 
         // calculate the price of one token based on total bought
