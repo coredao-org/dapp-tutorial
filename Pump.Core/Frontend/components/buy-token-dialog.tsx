@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useWeb3 } from "@/hooks/use-web3"
 import {
   Dialog,
@@ -46,29 +46,52 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
   const { toast } = useToast()
   const [amount, setAmount] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
-  const [pricePerToken, setPricePerToken] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(1);
+  const [pricePerToken, setPricePerToken] = useState<bigint>(0n);   // cost of ONE token
+  const [totalPrice, setTotalPrice] = useState<bigint>(0n); 
 
   const forMath = 10**18;
 
   // This would be calculated from the contract in a real implementation
-  const calculatePrice = async (amount: number) => {
-    // Mock implementation of getCost(sold) * amount
-    // In a real app, this would call the contract's getCost function
-    console.log("hii")
-      const cost = await contract.getCost(token.sold);
-      console.log(cost)
-      console.log(token.address)
-      const amountt = ethers.parseEther(amount.toString())
-      console.log(amountt)
-      const value = BigInt(cost ) * ( amountt / ethers.parseEther("1"));
-      console.log(value)
+  // const calculatePrice = async (amount: number) => {
+  //   // Mock implementation of getCost(sold) * amount
+  //   // In a real app, this would call the contract's getCost function
+  //   console.log("hii")
+  //     const cost = await contract.getCost(token.sold);
+  //     console.log(cost)
+  //     console.log(token.address)
+  //     const amountt = ethers.parseEther(amount.toString())
+  //     console.log(amountt)
+  //     const value = BigInt(cost ) * ( amountt / ethers.parseEther("1"));
+  //     console.log(value)
 
-      setPricePerToken(cost);
-      setTotalPrice(Number(value));
+  //     setPricePerToken(cost);
+  //     setTotalPrice(Number(value));
 
-      return value;
-  }
+  //     return value;
+  // }
+
+  const calculatePrice = async (qty: number) => {
+    if (!contract) return 0n;
+  
+    // 1. cost of ONE token (wei)
+    const costPerToken: bigint = await contract.getCost(token.sold);   // returns bigint
+  
+    // 2. qty in token-wei (18 decimals)
+    const qtyWei       = ethers.parseEther(qty.toString());            // bigint
+  
+    // 3. total cost (wei)  — multiply *before* dividing to avoid rounding
+    const totalCostWei = costPerToken * qtyWei / ethers.parseEther("1");
+  
+    // update UI
+    setPricePerToken(costPerToken);
+    setTotalPrice(totalCostWei);
+  
+    return totalCostWei;     // bigint
+  };
+
+  useEffect(() => {
+    calculatePrice(amount);
+  }, [amount, contract]);
 
   const price = calculatePrice(amount)
 
@@ -90,19 +113,21 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
       setIsLoading(true)
 
       // Calculate the cost in wei
-      const costInWei = parseEther(price.toString())
+      // const costInWei = parseEther(price.toString())
 
       // In a real implementation, this would call the contract's buyToken function
       console.log("hii")
-      const cost = await contract.getCost(token.sold);
-      console.log(cost)
-      console.log(token.address)
-      const amountt = ethers.parseEther(amount.toString())
-      console.log(amountt)
-      const value = BigInt(cost ) * ( amountt / ethers.parseEther("1"));
-      console.log(value)
+    // make sure we have the latest price
+      const costInWei = await calculatePrice(amount);   // bigint
+      console.log(costInWei)
 
-      const tx = await contract.buyToken(token.address, amount, { value: value })
+      const amountWei = ethers.parseEther(amount.toString()); // qty in 18 decimals
+
+      const tx = await contract.buyToken(
+        token.address,
+        amountWei,                      // _amount (uint256)
+        { value: costInWei }            // msg.value
+      );
 
       await tx.wait();
 
@@ -203,7 +228,7 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
             </div>
             <div className="flex justify-between text-lg font-bold">
               <span>Total price</span>
-              <span className="text-orange-500">{totalPrice / forMath} tCORE2</span>
+              <span className="text-orange-500">{ethers.formatEther(totalPrice)} tCORE2</span>
             </div>
           </div>
         </div>

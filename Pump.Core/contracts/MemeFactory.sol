@@ -77,8 +77,8 @@ contract MemeFactory {
 
         TokenSale storage sale = tokenToSale[_token];
 
-        if(!sale.isOpen) revert MemeFactory__SaleClosed();
-        if(_amount < 0.01 ether) revert MemeFactory__TokenAmountTooLow();
+        if(sale.isOpen == false) revert MemeFactory__SaleClosed();
+        if(_amount < 0.001 ether) revert MemeFactory__TokenAmountTooLow();
         if(_amount >= 1000 ether) revert MemeFactory__AmountExceeded();
 
         // calculate the price of one token based on total bought
