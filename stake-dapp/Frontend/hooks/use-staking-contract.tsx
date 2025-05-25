@@ -93,7 +93,7 @@ export const useStakingContract = () => {
     if (!contract) return null
 
     try {
-      const tx = await contract.claimRewards()
+      const tx = await contract.getReward()
       return await tx.wait()
     } catch (error) {
       console.error("Error claiming rewards:", error)

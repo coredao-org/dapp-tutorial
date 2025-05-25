@@ -18,11 +18,11 @@ export const UserDashboard = () => {
   const [isClaiming, setIsClaiming] = useState(false)
   const [withdrawAmount, setWithdrawAmount] = useState("")
   const [withdrawError, setWithdrawError] = useState("")
-  const {stakedBalance, rewards, withdraw} = useStakingContract()
+  const {stakedBalance, rewards, withdraw, claimRewards} = useStakingContract()
 
   // In a real app, these would come from your contract
   // const stakedBalance = "42.5"
-  const userRewards = "1.32"
+  // const rewards = "1.32"
   const stakingStartDate = "2023-12-15"
   const lockupEndDate = "2024-01-14"
   const daysRemaining = 5
@@ -117,13 +117,15 @@ export const UserDashboard = () => {
       setIsClaiming(true)
 
       // Simulate claiming delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      // await new Promise((resolve) => setTimeout(resolve, 2000))
 
       // In a real app, you would call your staking contract here
 
+      claimRewards()
+
       toast({
         title: "Rewards claimed successfully",
-        description: `You have claimed ${userRewards} ETH in rewards`,
+        description: `You have claimed ${rewards} ETH in rewards`,
       })
     } catch (error) {
       console.error("Claiming error:", error)
@@ -290,7 +292,7 @@ export const UserDashboard = () => {
         </CardHeader>
         <CardContent className="pb-2">
           <div className="flex items-center">
-            <span className="text-3xl font-bold text-[#DAA520]">{userRewards}</span>
+            <span className="text-3xl font-bold text-[#DAA520]">{rewards}</span>
             <span className="ml-2 text-muted-foreground">ETH</span>
           </div>
 
@@ -326,7 +328,7 @@ export const UserDashboard = () => {
         <CardFooter>
           <Button
             onClick={handleClaimRewards}
-            disabled={isClaiming || Number.parseFloat(userRewards) <= 0}
+            disabled={isClaiming || Number.parseFloat(rewards) <= 0}
             className="w-full bg-[#DAA520] hover:bg-[#B8860B] text-white"
           >
             {isClaiming ? (
