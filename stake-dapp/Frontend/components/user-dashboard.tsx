@@ -18,7 +18,7 @@ export const UserDashboard = () => {
   const [isClaiming, setIsClaiming] = useState(false)
   const [withdrawAmount, setWithdrawAmount] = useState("")
   const [withdrawError, setWithdrawError] = useState("")
-  const {stakedBalance, rewards} = useStakingContract()
+  const {stakedBalance, rewards, withdraw} = useStakingContract()
 
   // In a real app, these would come from your contract
   // const stakedBalance = "42.5"
@@ -77,7 +77,8 @@ export const UserDashboard = () => {
         const amountAfterPenalty = withdrawValue - penalty
 
         // Simulate withdrawal delay
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        // await new Promise((resolve) => setTimeout(resolve, 2000))
+        await withdraw(withdrawAmount)
 
         // In a real app, you would call your staking contract here
 
@@ -86,14 +87,16 @@ export const UserDashboard = () => {
           description: `You have withdrawn ${amountAfterPenalty.toFixed(2)} ETH (10% penalty applied)`,
         })
       } else {
-        // Regular withdrawal after lockup period
-        await new Promise((resolve) => setTimeout(resolve, 2000))
 
         toast({
           title: "Withdrawal successful",
           description: `You have withdrawn ${withdrawAmount} ETH`,
         })
       }
+
+      window.dispatchEvent(new CustomEvent("withdraw", {
+        detail: { withdrawAmount},
+      }));
 
       // Reset the withdrawal amount after successful withdrawal
       setWithdrawAmount("")

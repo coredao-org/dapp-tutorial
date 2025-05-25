@@ -49,6 +49,15 @@ export const useStakingContract = () => {
     }
 
     initContract()
+
+    const onStake = () => {
+      initContract()
+    };
+
+    window.addEventListener("withdraw", onStake);
+    return () => {
+      window.removeEventListener("withdraw", onStake);
+    };
   }, [address, isConnected])
 
   const stake = async (amount: string) => {
@@ -71,6 +80,7 @@ export const useStakingContract = () => {
     if (!contract) return null
 
     try {
+      console.log("Withdrawing....")
       const tx = await contract.withdraw(ethers.parseEther(amount))
       return await tx.wait()
     } catch (error) {
