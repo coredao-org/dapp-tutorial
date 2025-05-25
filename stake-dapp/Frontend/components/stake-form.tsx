@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { InfoTooltip } from "@/components/info-tooltip"
 import { useToast } from "@/hooks/use-toast"
 import { ArrowRight, Loader2 } from "lucide-react"
+import { useStakingContract } from "@/hooks/use-staking-contract"
 
 export const StakeForm = () => {
   const { balance } = useWallet()
@@ -17,6 +18,7 @@ export const StakeForm = () => {
   const [amount, setAmount] = useState("")
   const [isStaking, setIsStaking] = useState(false)
   const [error, setError] = useState("")
+  const {stake} = useStakingContract();
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -60,7 +62,8 @@ export const StakeForm = () => {
       setIsStaking(true)
 
       // Simulate staking delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      // await new Promise((resolve) => setTimeout(resolve, 2000))
+      await stake(amount);
 
       // In a real app, you would call your staking contract here
 

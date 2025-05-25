@@ -6,7 +6,7 @@ async function main() {
 
 
     const RewardToken = await hre.ethers.getContractFactory("RewardToken");
-    const rewardContract  = await RewardToken.deploy(rate);
+    const rewardContract  = await RewardToken.deploy();
 
   console.log("Storage contract deployed to:", rewardContract.target);
 

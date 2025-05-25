@@ -3,19 +3,7 @@
 import { useState, useEffect } from "react"
 import { ethers } from "ethers"
 import { useWallet } from "@/components/wallet-provider"
-
-// This would be your actual contract ABI in a real application
-const STAKING_CONTRACT_ABI = [
-  // Example ABI entries
-  "function stake() payable",
-  "function withdraw(uint256 amount)",
-  "function claimRewards()",
-  "function getStakedBalance(address staker) view returns (uint256)",
-  "function getRewards(address staker) view returns (uint256)",
-]
-
-// This would be your actual contract address in a real application
-const STAKING_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"
+import { STAKING_CONTRACT_ABI, STAKING_CONTRACT_ADDRESS } from "@/constants/constansts"
 
 export const useStakingContract = () => {
   const { address, isConnected } = useWallet()
@@ -34,16 +22,17 @@ export const useStakingContract = () => {
           const stakingContract = new ethers.Contract(STAKING_CONTRACT_ADDRESS, STAKING_CONTRACT_ABI, signer)
 
           setContract(stakingContract)
+          console.log(stakingContract)
 
           // In a real app, you would fetch actual data from the contract
-          // const balance = await stakingContract.getStakedBalance(address)
+          // const balance = await stakingContract.balanceOf(address)
           // setStakedBalance(ethers.formatEther(balance))
 
-          // const rewardsAmount = await stakingContract.getRewards(address)
+          // const rewardsAmount = await stakingContract.currentEarned(address)
           // setRewards(ethers.formatEther(rewardsAmount))
 
           // For demo purposes, we're setting mock values
-          setStakedBalance("42.5")
+          setStakedBalance("22.5")
           setRewards("1.32")
 
           setIsLoading(false)
@@ -63,9 +52,11 @@ export const useStakingContract = () => {
   }, [address, isConnected])
 
   const stake = async (amount: string) => {
+    console.log("In here")
     if (!contract) return null
 
     try {
+      console.log("Staking");
       const tx = await contract.stake({
         value: ethers.parseEther(amount),
       })
