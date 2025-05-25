@@ -67,6 +67,17 @@ Replace `yourNetwork` with the appropriate Hardhat network (e.g., `localhost`, `
 
 ---
 
+## 👛 View Your Reward Tokens in Wallet
+
+To view your reward token balance in your wallet, you need to **import the token manually**:
+
+* **Token Contract Address:** `0xe11B22597Fbc161e2B8502D5D101C989a62dD288`
+* **Token Symbol:** `RTN`
+* **Decimals:** `18`
+
+> After importing, you will be able to see your claimed rewards directly in your wallet.
+
+
 ## 🗂️ Project Structure
 
 ```bash
