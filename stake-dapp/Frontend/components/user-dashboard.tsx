@@ -10,6 +10,7 @@ import { InfoTooltip } from "@/components/info-tooltip"
 import { useToast } from "@/hooks/use-toast"
 import { Loader2, TrendingUp, Clock, Award, ArrowDownToLine } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { useStakingContract } from "@/hooks/use-staking-contract"
 
 export const UserDashboard = () => {
   const { toast } = useToast()
@@ -17,9 +18,10 @@ export const UserDashboard = () => {
   const [isClaiming, setIsClaiming] = useState(false)
   const [withdrawAmount, setWithdrawAmount] = useState("")
   const [withdrawError, setWithdrawError] = useState("")
+  const {stakedBalance, rewards} = useStakingContract()
 
   // In a real app, these would come from your contract
-  const userStaked = "42.5"
+  // const stakedBalance = "42.5"
   const userRewards = "1.32"
   const stakingStartDate = "2023-12-15"
   const lockupEndDate = "2024-01-14"
@@ -36,7 +38,7 @@ export const UserDashboard = () => {
       // Validate amount
       if (value !== "") {
         const numValue = Number.parseFloat(value)
-        const numStaked = Number.parseFloat(userStaked)
+        const numStaked = Number.parseFloat(stakedBalance)
 
         if (numValue <= 0) {
           setWithdrawError("Amount must be greater than 0")
@@ -52,7 +54,7 @@ export const UserDashboard = () => {
   }
 
   const handleMaxWithdraw = () => {
-    setWithdrawAmount(userStaked)
+    setWithdrawAmount(stakedBalance)
     setWithdrawError("")
   }
 
@@ -159,7 +161,7 @@ export const UserDashboard = () => {
         </CardHeader>
         <CardContent className="pb-2">
           <div className="flex items-center">
-            <span className="text-3xl font-bold text-[#DAA520]">{userStaked}</span>
+            <span className="text-3xl font-bold text-[#DAA520]">{stakedBalance}</span>
             <span className="ml-2 text-muted-foreground">ETH</span>
           </div>
 
@@ -192,7 +194,7 @@ export const UserDashboard = () => {
                   Withdrawal Amount
                   <InfoTooltip content="The amount of ETH you want to withdraw from your staked tokens" />
                 </label>
-                <span className="text-sm text-muted-foreground">Available: {userStaked} ETH</span>
+                <span className="text-sm text-muted-foreground">Available: {stakedBalance} ETH</span>
               </div>
               <div className="relative">
                 <Input

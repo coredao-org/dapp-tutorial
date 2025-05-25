@@ -25,15 +25,15 @@ export const useStakingContract = () => {
           console.log(stakingContract)
 
           // In a real app, you would fetch actual data from the contract
-          // const balance = await stakingContract.balanceOf(address)
-          // setStakedBalance(ethers.formatEther(balance))
+          const balance = await stakingContract.balanceOf(address)
+          setStakedBalance(ethers.formatEther(balance))
 
-          // const rewardsAmount = await stakingContract.currentEarned(address)
-          // setRewards(ethers.formatEther(rewardsAmount))
+          const rewardsAmount = await stakingContract.currentEarned(address)
+          setRewards(ethers.formatEther(rewardsAmount))
 
           // For demo purposes, we're setting mock values
-          setStakedBalance("22.5")
-          setRewards("1.32")
+          // setStakedBalance("22.5")
+          // setRewards("1.32")
 
           setIsLoading(false)
         } catch (error) {
@@ -52,7 +52,6 @@ export const useStakingContract = () => {
   }, [address, isConnected])
 
   const stake = async (amount: string) => {
-    console.log("In here")
     if (!contract) return null
 
     try {
