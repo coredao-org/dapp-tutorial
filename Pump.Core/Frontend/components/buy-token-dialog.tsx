@@ -51,24 +51,6 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
 
   const forMath = 10**18;
 
-  // This would be calculated from the contract in a real implementation
-  // const calculatePrice = async (amount: number) => {
-  //   // Mock implementation of getCost(sold) * amount
-  //   // In a real app, this would call the contract's getCost function
-  //   console.log("hii")
-  //     const cost = await contract.getCost(token.sold);
-  //     console.log(cost)
-  //     console.log(token.address)
-  //     const amountt = ethers.parseEther(amount.toString())
-  //     console.log(amountt)
-  //     const value = BigInt(cost ) * ( amountt / ethers.parseEther("1"));
-  //     console.log(value)
-
-  //     setPricePerToken(cost);
-  //     setTotalPrice(Number(value));
-
-  //     return value;
-  // }
 
   const calculatePrice = async (qty: number) => {
     if (!contract) return 0n;
@@ -77,7 +59,7 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
     const costPerToken: bigint = await contract.getCost(token.sold);   // returns bigint
   
     // 2. qty in token-wei (18 decimals)
-    const qtyWei       = ethers.parseEther(qty.toString());            // bigint
+    const qtyWei = ethers.parseEther(qty.toString());            // bigint
   
     // 3. total cost (wei)  — multiply *before* dividing to avoid rounding
     const totalCostWei = costPerToken * qtyWei / ethers.parseEther("1");
@@ -92,8 +74,6 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
   useEffect(() => {
     calculatePrice(amount);
   }, [amount, contract]);
-
-  const price = calculatePrice(amount)
 
   const handleAmountChange = (value: number[]) => {
     setAmount(value[0])
@@ -113,9 +93,6 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
       setIsLoading(true)
 
       // Calculate the cost in wei
-      // const costInWei = parseEther(price.toString())
-
-      // In a real implementation, this would call the contract's buyToken function
       console.log("hii")
     // make sure we have the latest price
       const costInWei = await calculatePrice(amount);   // bigint
@@ -131,9 +108,6 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
 
       await tx.wait();
 
-      // // Simulate a transaction delay
-      // await new Promise((resolve) => setTimeout(resolve, 2000))
-
       toast({
         title: "Tokens purchased!",
         description: `You have successfully purchased ${amount} ${token.symbol} tokens.`,
@@ -148,7 +122,7 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
 
       onOpenChange(false)
     } catch (error) {
-      console.error("Error buying tokens:", error)
+      console.log("Error buying tokens")
       toast({
         title: "Transaction failed",
         description: "There was an error processing your transaction.",
@@ -224,7 +198,7 @@ export function BuyTokenDialog({ token, open, onOpenChange }: BuyTokenDialogProp
           <div className="bg-zinc-50 p-4 rounded-lg">
             <div className="flex justify-between mb-2">
               <span className="text-sm text-zinc-500">Price per token</span>
-              <span className="font-medium">{pricePerToken} tCORE2</span>
+              <span className="font-medium">{ethers.formatEther(pricePerToken)} tCORE2</span>
             </div>
             <div className="flex justify-between text-lg font-bold">
               <span>Total price</span>

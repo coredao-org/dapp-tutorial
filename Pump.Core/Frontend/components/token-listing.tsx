@@ -11,6 +11,7 @@ import { formatEther } from "ethers"
 import { BuyTokenDialog } from "@/components/buy-token-dialog"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import Image from "next/image"
+import { ethers } from "ethers"
 
 type TokenSale = {
   id: number
@@ -175,7 +176,7 @@ export function TokenListing() {
                   <div className="flex justify-between text-sm mb-1">
                     <span>Sold</span>
                     <span className="font-medium">
-                      {token.sold.toString()} / {TOKEN_LIMIT.toString()}
+                      {ethers.formatEther(token.sold.toString())} / {TOKEN_LIMIT.toString()}
                     </span>
                   </div>
                   <Progress value={Number((token.sold * 100n) / TOKEN_LIMIT)} className="h-2" />
