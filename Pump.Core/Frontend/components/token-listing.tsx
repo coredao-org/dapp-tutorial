@@ -174,8 +174,8 @@ export function TokenListing() {
                     </span>
                   </div>
                   <Progress
-                    value={Number(token.sold) / Number(TOKEN_LIMIT.toString()) * 100}
-                    className="h-2"
+                    value={Number(ethers.formatEther(token.sold.toString())) / Number(TOKEN_LIMIT.toString()) * 100}
+                    className="h-2 bg-zinc-200 [&>div]:bg-orange-500"
                   />
                 </div>
 
