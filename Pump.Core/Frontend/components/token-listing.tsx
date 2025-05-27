@@ -170,11 +170,11 @@ export function TokenListing() {
                   <div className="flex justify-between text-sm mb-1">
                     <span>Sold</span>
                     <span className="font-medium">
-                      {ethers.formatEther(token.sold.toString())} / 1000
+                      {ethers.formatEther(token.sold.toString())} / {TOKEN_LIMIT.toString()}
                     </span>
                   </div>
                   <Progress
-                    value={Number(token.sold) / Number(token.target) * 100}
+                    value={Number(token.sold) / Number(TOKEN_LIMIT.toString()) * 100}
                     className="h-2"
                   />
                 </div>
