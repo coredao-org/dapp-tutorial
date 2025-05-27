@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { Loader2 } from "lucide-react"
+import { Loader2, Check, Copy } from "lucide-react"
 import { formatEther } from "ethers"
 import { BuyTokenDialog } from "@/components/buy-token-dialog"
 import { NetworkSwitcher } from "@/components/network-switcher"
@@ -34,8 +34,8 @@ export function TokenListing() {
   const [loading, setLoading] = useState(true)
   const [selectedToken, setSelectedToken] = useState<TokenSale | null>(null)
   const [buyDialogOpen, setBuyDialogOpen] = useState(false)
+  const [copiedTokenId, setCopiedTokenId] = useState<number | null>(null)
 
-  // IPFS PFP URLs - in a real app, these would be associated with each token
   const pfpUrls = [
     "https://pump.mypinata.cloud/ipfs/QmZ4ea3wmwzwYwyWnhzs35hyxw4YryWB82TknGY3L5Wbxn",
     "https://pump.mypinata.cloud/ipfs/QmfFEKp9zFzTmcDjHLXi5H6E5dnKn8NjeaT5ZN2yenFfUR",
@@ -49,7 +49,6 @@ export function TokenListing() {
     if (contract && isCorrectNetwork) {
       fetchTokens()
     } else {
-      // If no contract is available or wrong network, still set loading to false after a delay
       const timer = setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -62,31 +61,31 @@ export function TokenListing() {
       setLoading(true)
       const tokenCount = await contract.totalTokens()
       const fetchedTokens: TokenSale[] = []
-  
+
       for (let i = 0; i < Number(tokenCount); i++) {
         try {
           const tokenSale = await contract.getTokenSale(i)
-          
+
           const tokenData: TokenSale = {
             id: i,
             address: tokenSale.token,
             name: tokenSale.name,
-            symbol: tokenSale.symbol, // If your MemeToken doesn't return symbol via contract, use placeholder
+            symbol: tokenSale.symbol,
             creator: tokenSale.creator,
             sold: BigInt(tokenSale.sold),
-            target: 3000000000000000000n, // 3 ether (TARGET)
+            target: 3000000000000000000n, // 3 ether target
             raised: BigInt(tokenSale.raised),
             pfpUrl: pfpUrls[i % pfpUrls.length],
             isOpen: tokenSale.isOpen,
           }
-  
+
           fetchedTokens.push(tokenData)
         } catch (error) {
           console.error(`Error fetching token at index ${i}:`, error)
           break
         }
       }
-  
+
       setTokens(fetchedTokens)
     } catch (error) {
       console.error("Error fetching tokens:", error)
@@ -97,7 +96,6 @@ export function TokenListing() {
     }
   }
 
-  // listen for launches
   useEffect(() => {
     const onLaunched = () => {
       fetchTokens();
@@ -108,13 +106,9 @@ export function TokenListing() {
       window.removeEventListener("tokenLaunched", onLaunched);
     };
   }, [fetchTokens]);
-  
 
   const handleBuyClick = (token: TokenSale) => {
-    if (!isCorrectNetwork) {
-      return
-    }
-
+    if (!isCorrectNetwork) return
     setSelectedToken(token)
     setBuyDialogOpen(true)
   }
@@ -176,10 +170,13 @@ export function TokenListing() {
                   <div className="flex justify-between text-sm mb-1">
                     <span>Sold</span>
                     <span className="font-medium">
-                      {ethers.formatEther(token.sold.toString())} / {TOKEN_LIMIT.toString()}
+                      {ethers.formatEther(token.sold.toString())} / 1000
                     </span>
                   </div>
-                  <Progress value={Number((token.sold * 100n) / TOKEN_LIMIT)} className="h-2" />
+                  <Progress
+                    value={Number(token.sold) / Number(token.target) * 100}
+                    className="h-2"
+                  />
                 </div>
 
                 <div>
@@ -188,6 +185,24 @@ export function TokenListing() {
                     <span className="font-medium">
                       {Number.parseFloat(formatEther(token.raised)).toFixed(4)} tCORE2
                     </span>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center text-sm mt-3">
+                    <span className="truncate text-zinc-500 max-w-[75%]">{token.address}</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        navigator.clipboard.writeText(token.address)
+                        setCopiedTokenId(token.id)
+                        setTimeout(() => setCopiedTokenId(null), 2000)
+                      }}
+                      className="text-zinc-600 hover:text-black"
+                    >
+                      {copiedTokenId === token.id ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -211,7 +226,9 @@ export function TokenListing() {
         ))}
       </div>
 
-      {selectedToken && <BuyTokenDialog token={selectedToken} open={buyDialogOpen} onOpenChange={setBuyDialogOpen} />}
+      {selectedToken && (
+        <BuyTokenDialog token={selectedToken} open={buyDialogOpen} onOpenChange={setBuyDialogOpen} />
+      )}
     </section>
   )
 }
