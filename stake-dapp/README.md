@@ -1,9 +1,13 @@
+Here's your updated `README.md` with the requested changes:
+
+---
+
+````markdown
 # 💰 Staking DApp – Reward-Based Token Staking
 
 A fast, responsive, and developer-friendly staking DApp that allows users to stake tokens, view real-time rewards, and interact with the smart contract using a clean UI.
 
-
-> 🧠 **GitHub Repository:** [https://github.com/adamsdavee/dapp-tutorial/tree/staking](https://github.com/adamsdavee/dapp-tutorial/tree/staking)
+> 🧠 **GitHub Repository:** [https://github.com/coredao-org/dapp-tutorial](https://github.com/coredao-org/dapp-tutorial)
 
 ---
 
@@ -23,18 +27,37 @@ A fast, responsive, and developer-friendly staking DApp that allows users to sta
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/adamsdavee/dapp-tutorial.git
+git clone https://github.com/coredao-org/dapp-tutorial.git
 cd dapp-tutorial
 git checkout staking
+````
+
+### 2. Setup Environment
+
+Create a `.env` file in the root directory and add your private key:
+
+```bash
+PRIVATE_KEY=your_private_key_here
 ```
 
-### 2. Install Dependencies
+> **Note:** Never commit your `.env` file to version control. Keep your private key safe.
+
+### 3. Install Dependencies
+
+Install smart contract dependencies:
 
 ```bash
 npm install
 ```
 
-### 3. Run the DApp Locally
+Then navigate to the frontend directory and install frontend dependencies:
+
+```bash
+cd ./Frontend
+npm install
+```
+
+### 4. Run the DApp Locally
 
 ```bash
 npm run dev
@@ -77,6 +100,7 @@ To view your reward token balance in your wallet, you need to **import the token
 
 > After importing, you will be able to see your claimed rewards directly in your wallet.
 
+---
 
 ## 🗂️ Project Structure
 
@@ -84,8 +108,9 @@ To view your reward token balance in your wallet, you need to **import the token
 ├── contracts/           # Smart contracts (RewardToken, NativeStaking)
 ├── scripts/
 │   └── mint.js          # Script to mint additional reward tokens
-├── Frontend
+├── Frontend             # Frontend Next.js app
 ├── hardhat.config.js    # Hardhat config for deployment
+├── .env                 # Store your private key here
 └── README.md
 ```
 
@@ -110,4 +135,9 @@ Feel free to fork the repo, tweak the staking logic, improve the UI, or submit a
 
 ## 📞 Contact
 
-For questions or collaborations, feel free to reach out on \[davidkenechukwu591@gmial.com].
+For questions or collaborations, feel free to reach out at **[davidkenechukwu591@gmail.com](mailto:davidkenechukwu591@gmail.com)**
+
+```
+
+Let me know if you'd like this formatted version pushed into the actual file or if you're preparing a markdown preview for a web page or docs site.
+```
