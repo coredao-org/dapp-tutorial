@@ -22,7 +22,7 @@ A fast, responsive, and developer-friendly staking DApp that allows users to sta
 
 ```bash
 git clone https://github.com/coredao-org/dapp-tutorial.git
-cd dapp-tutorial
+cd dapp-tutorial/Adavanced-Stake-Dapp
 ````
 
 ### 2. Setup Environment
