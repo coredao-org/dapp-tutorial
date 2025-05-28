@@ -29,8 +29,7 @@ MemeLaunch is a dynamic, pump.fun-inspired DApp built on the Core Blockchain, en
 
 ```bash
 git clone https://github.com/coredao-org/dapp-tutorial.git
-cd dapp-tutorial
-git checkout pump.core
+cd dapp-tutorial/Pump.Core
 ````
 
 ### 2. Setup Environment
@@ -83,7 +82,7 @@ Make sure your `.env` file in the root directory includes:
 
 ```env
 PRIVATE_KEY=your_private_key
-CORE_TESTNET_RPC=https://rpc.test.btcs.network
+CORE_TESTNET_RPC=https://rpc.test2.btcs.network
 ```
 
 ### 2. Update Hardhat Config
