@@ -1,8 +1,3 @@
-Here’s the updated `README.md` with a **Deployment Guide to Core Testnet** included under a new section `🚀 Deploy to Core Testnet`. This guide covers setting up your `.env`, configuring Hardhat, and deploying your contracts to Core Testnet.
-
----
-
-````markdown
 # 🚀 MemeLaunch – Token Launchpad on Core Blockchain
 
 MemeLaunch is a dynamic, pump.fun-inspired DApp built on the Core Blockchain, enabling users to **easily launch tokens**, **view all launched tokens**, **buy any token**, and **track token balances** in their wallets. It is **modular**, **extensible**, and ready for builders who want to expand functionality like adding a **creator dashboard**, **liquidity tools**, and more.
