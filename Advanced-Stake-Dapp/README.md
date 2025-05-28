@@ -1,8 +1,3 @@
-Here's your updated `README.md` with the requested changes:
-
----
-
-````markdown
 # 💰 Staking DApp – Reward-Based Token Staking
 
 A fast, responsive, and developer-friendly staking DApp that allows users to stake tokens, view real-time rewards, and interact with the smart contract using a clean UI.
@@ -17,8 +12,7 @@ A fast, responsive, and developer-friendly staking DApp that allows users to sta
 * ⛏️ **Staking System:** Users can stake and withdraw tokens with clear feedback and updates.
 * 💹 **Real-Time Rewards:** Users see their rewards update instantly without needing to reload or resync.
 * 🔄 **Claim Rewards:** Reward tokens can be claimed any time, with sufficient pre-minted supply in the contract.
-* 📁 **Modular Code:** `staker/` directory contains reusable logic to integrate the staking system into your own apps.
-* 🧪 **Test Tokens:** Built-in faucet mechanism to withdraw test tokens for quick experimentation.
+* 🧪 **Test Tokens:** Built-in faucet mechanism to withdraw test tokens for quick experimentation by running a mint.js script.
 
 ---
 
@@ -29,7 +23,6 @@ A fast, responsive, and developer-friendly staking DApp that allows users to sta
 ```bash
 git clone https://github.com/coredao-org/dapp-tutorial.git
 cd dapp-tutorial
-git checkout staking
 ````
 
 ### 2. Setup Environment
@@ -136,8 +129,3 @@ Feel free to fork the repo, tweak the staking logic, improve the UI, or submit a
 ## 📞 Contact
 
 For questions or collaborations, feel free to reach out at **[davidkenechukwu591@gmail.com](mailto:davidkenechukwu591@gmail.com)**
-
-```
-
-Let me know if you'd like this formatted version pushed into the actual file or if you're preparing a markdown preview for a web page or docs site.
-```
