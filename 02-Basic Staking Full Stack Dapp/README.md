@@ -474,3 +474,15 @@ const rewardTokenAddress = '0xAddreess_of_Reward_Token_Contract';
 
 ## 🎉 **Congratulations!** 
 You've just interacted with your deployed contract using your dApp's front end! You can build on the codebase by adding new UI components or more functionality to the staking dapp.
+
+
+## 🔄 Updates
+
+The following updates were made to improve and maintain the Staking DApp project:
+
+- **Hardhat Configuration Updated**: Modified the `hardhat.config.js` to reflect updated settings, including compiler versions and new chain configurations.
+- **Deployment to Latest Core Testnet**: Contracts were successfully deployed to the latest Core Testnet with **Chain ID 1114**.
+- **Frontend Integration**: The frontend logic was updated to interact with the **latest deployed contract address** on Chain ID 1114.
+
+## What are we building
+...
