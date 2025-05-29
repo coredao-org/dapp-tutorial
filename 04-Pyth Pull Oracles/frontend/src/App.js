@@ -4,7 +4,7 @@ import './App.css';
 import PythFeedBoilerplateArtifact from './PythFeedBoilerplateAbi.json';
 
 // Replace with your deployed contract address on the mainnet
-const PythFeedBoilerplateAddress = '0xd83f0E21D8b7364A9617C56B00d150067a7E2Db7'; // Use the actual deployed contract address
+const PythFeedBoilerplateAddress = '0x903cf85F1Fe496F196f6645Db76efa568F27F676'; // Use the actual deployed contract address
 
 // Extract the ABI from the artifact
 const PythFeedBoilerplateABI = PythFeedBoilerplateArtifact.abi;
