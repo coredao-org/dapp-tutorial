@@ -1,0 +1,75 @@
+.dropdown {
+  position: relative;
+  
+  &__content {
+    position: absolute;
+    z-index: $z-index-dropdown;
+    min-width: 12rem;
+    background-color: $color-background;
+    border-radius: $radius-md;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-md;
+    padding: $spacing-1;
+    margin-top: $spacing-1;
+    
+    &--right {
+      right: 0;
+    }
+  }
+  
+  &__label {
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+  
+  &__separator {
+    height: 1px;
+    background-color: $color-border;
+    margin: $spacing-1 0;
+  }
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: $color-zinc-50;
+    }
+    
+    &--danger {
+      color: $color-red-500;
+      
+      &:hover {
+        background-color: rgba($color-red-500, 0.1);
+      }
+    }
+  }
+  
+  &__link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    color: $color-foreground;
+    text-decoration: none;
+    
+    &:hover {
+      background-color: $color-zinc-50;
+    }
+  }
+  
+  &__icon {
+    margin-left: $spacing-2;
+    height: 1rem;
+    width: 1rem;
+  }
+}

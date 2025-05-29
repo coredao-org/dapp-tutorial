@@ -1,0 +1,77 @@
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+  
+  @include md {
+    padding: 0 $spacing-6;
+  }
+}
+
+.main {
+  min-height: 100vh;
+  background-color: $color-zinc-50;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+  padding: $spacing-8 0;
+}
+
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-4;
+  background-color: $color-white;
+  padding: $spacing-6;
+  border-radius: $radius-xl;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid $color-zinc-100;
+  
+  @include md {
+    flex-direction: row;
+  }
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  max-width: 100%;
+  
+  @include md {
+    max-width: 60%;
+  }
+}
+
+.hero-title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-2;
+  
+  @include md {
+    font-size: $font-size-3xl;
+  }
+}
+
+.hero-description {
+  color: $color-zinc-500;
+  max-width: 32rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

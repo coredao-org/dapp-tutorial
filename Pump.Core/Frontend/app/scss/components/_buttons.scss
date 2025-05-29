@@ -1,0 +1,82 @@
+.button {
+  @include button-base;
+  height: 2.5rem;
+  padding: 0 $spacing-4;
+  font-size: $font-size-sm;
+  background-color: $color-background;
+  border: 1px solid $color-border;
+  color: $color-foreground;
+  
+  &:hover:not(:disabled) {
+    background-color: $color-zinc-50;
+  }
+  
+  &:focus {
+    @include focus-ring;
+  }
+  
+  &--connect,
+  &--connecting {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    color: $color-white;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-primary-hover;
+      border-color: $color-primary-hover;
+    }
+  }
+  
+  &--connected {
+    border-color: $color-primary;
+    color: $color-primary;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba($color-primary, 0.05);
+    }
+  }
+  
+  &__icon {
+    margin-right: $spacing-2;
+    height: 1rem;
+    width: 1rem;
+    
+    &--spinner {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+.launch-button {
+  @include button-base;
+  height: 2.5rem;
+  padding: 0 $spacing-4;
+  font-size: $font-size-sm;
+  background-color: $color-primary;
+  border: 1px solid $color-primary;
+  color: $color-white;
+  
+  &:hover:not(:disabled) {
+    background-color: $color-primary-hover;
+    border-color: $color-primary-hover;
+  }
+  
+  &:focus {
+    @include focus-ring;
+  }
+  
+  &__icon {
+    margin-right: $spacing-2;
+    height: 1rem;
+    width: 1rem;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

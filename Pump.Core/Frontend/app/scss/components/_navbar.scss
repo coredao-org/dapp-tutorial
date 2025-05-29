@@ -1,0 +1,127 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+  width: 100%;
+  background-color: $color-white;
+  transition: $transition-base;
+  
+  &--scrolled {
+    background-color: rgba($color-white, 0.8);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  &__content {
+    @include flex(row, space-between, center);
+    height: 4rem;
+  }
+  
+  &__left {
+    @include flex(row, flex-start, center);
+    gap: $spacing-6;
+  }
+  
+  &__logo {
+    @include flex(row, center, center);
+    gap: $spacing-2;
+    
+    &-icon {
+      @include flex(row, center, center);
+      height: 2rem;
+      width: 2rem;
+      border-radius: $radius-full;
+      background-color: $color-primary;
+      color: $color-white;
+      font-weight: $font-weight-bold;
+    }
+    
+    &-text {
+      font-weight: $font-weight-bold;
+      font-size: $font-size-lg;
+      display: none;
+      
+      @include md {
+        display: inline-block;
+      }
+    }
+  }
+  
+  &__nav {
+    display: none;
+    
+    @include md {
+      @include flex(row, flex-start, center);
+      gap: $spacing-6;
+    }
+  }
+  
+  &__nav-link {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-foreground;
+    transition: $transition-base;
+    
+    &:hover {
+      color: $color-primary;
+    }
+  }
+  
+  &__right {
+    @include flex(row, flex-end, center);
+    gap: $spacing-4;
+  }
+  
+  &__balance {
+    @include flex(row, flex-start, center);
+    gap: $spacing-2;
+    font-size: $font-size-sm;
+    background-color: $color-zinc-100;
+    padding: $spacing-1 $spacing-3;
+    border-radius: $radius-full;
+    display: none;
+    
+    @include md {
+      display: flex;
+    }
+    
+    &-indicator {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: $radius-full;
+      background-color: $color-green-500;
+    }
+    
+    &-text {
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  &__menu-button {
+    @include md {
+      display: none;
+    }
+  }
+  
+  &__menu-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+  
+  &__mobile-nav {
+    @include flex(column);
+    gap: $spacing-4;
+    margin-top: $spacing-8;
+  }
+  
+  &__mobile-link {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: $color-foreground;
+    transition: $transition-base;
+    
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
