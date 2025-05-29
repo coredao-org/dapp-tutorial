@@ -10,11 +10,11 @@ module.exports = {
 
     networks: {
        hardhat: {},
-       mainnet: {
-          url: 'https://rpc.ankr.com/core',
-          accounts: [PRIVATE_KEY],
-          chainId: 1116,
-       }
+       core_testnet: {
+         url: 'https://rpc.test2.btcs.network',
+         accounts: [PRIVATE_KEY],
+         chainId: 1114,
+       },
     },
     solidity: {
        compilers: [
