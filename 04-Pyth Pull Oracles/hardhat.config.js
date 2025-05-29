@@ -1,16 +1,18 @@
 require('@nomiclabs/hardhat-ethers');
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config();
 
-const { PrivateKey } = require('./secret.json');
+/** @type import('hardhat/config').HardhatUserConfig */
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 module.exports = {
-    defaultNetwork: 'mainnet',
+    defaultNetwork: 'hardhat',
 
     networks: {
        hardhat: {},
        mainnet: {
           url: 'https://rpc.ankr.com/core',
-          accounts: [PrivateKey],
+          accounts: [PRIVATE_KEY],
           chainId: 1116,
        }
     },
