@@ -9,9 +9,9 @@ import Modal from './components/Modal';
 import './App.css';
 import coreLogo from './core-logo.png';
 
-const stakingDappAddress = '0x7F15ab8c28DDaBC1b8840d3d3658C7549ed2f99B';
-const stakingTokenAddress = '0xb99C4b42259617b531e2f9f9defd4Ebe91C515d7';
-const rewardTokenAddress = '0x26E3F3259EF1e94b96E5EFCA875EDf90c63A1DA3'; 
+const stakingDappAddress = '0x341B5aC2189e73d444883CB608FfF7d8e8AC4F93';
+const stakingTokenAddress = '0x9Ba37DAA676B30599B67093FACDA8b3B7BD0Fb44';
+const rewardTokenAddress = '0xDa0bBC600188Bf2C995de241Cb3B50f62Da925B5'; 
 
 function App() {
   const [stakingAmount, setStakingAmount] = useState('');
