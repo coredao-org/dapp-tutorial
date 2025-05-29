@@ -1,45 +1,23 @@
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
-
-require('@nomiclabs/hardhat-ethers');
-require("@nomiclabs/hardhat-waffle");
+require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
-
+/** @type import('hardhat/config').HardhatUserConfig */
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 module.exports = {
-   defaultNetwork: 'testnet',
+  solidity: "0.8.28",
 
-   networks: {
-      hardhat: {
-      },
-      testnet: {
-         url: 'https://rpc.test.btcs.network',
-         accounts: [PRIVATE_KEY],
-         chainId: 1115,
-      }
-   },
-   solidity: {
-      compilers: [
-        {
-           version: '0.8.9',
-           settings: {
-              optimizer: {
-                 enabled: true,
-                 runs: 200,
-              },
-           },
-        },
-      ],
-   },
-   paths: {
-      sources: './contracts',
-      cache: './cache',
-      artifacts: './artifacts',
-   },
-   mocha: {
-      timeout: 20000,
-   },
+  networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545/",
+      // accounts: Thanks hardhat!
+      chainId: 31337,
+      allowUnlimitedContractSize: true,
+    },
+    core: {
+      url: 'https://rpc.test2.btcs.network',
+      accounts: [PRIVATE_KEY],
+      chainId: 1114,
+    },
+  },
 };
