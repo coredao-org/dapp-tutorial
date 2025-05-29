@@ -17,6 +17,7 @@
     "hardhat": "^2.22.8"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }

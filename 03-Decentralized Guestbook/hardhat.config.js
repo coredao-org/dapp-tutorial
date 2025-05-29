@@ -4,8 +4,10 @@
 
 require('@nomiclabs/hardhat-ethers');
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config();
 
-const { PrivateKey } = require('./secret.json');
+
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 module.exports = {
    defaultNetwork: 'testnet',
@@ -15,7 +17,7 @@ module.exports = {
       },
       testnet: {
          url: 'https://rpc.test.btcs.network',
-         accounts: [PrivateKey],
+         accounts: [PRIVATE_KEY],
          chainId: 1115,
       }
    },
