@@ -133,8 +133,8 @@ module.exports = {
       hardhat: {
       },
       testnet: {
-         url: 'https://rpc.test.btcs.network',
-         accounts: [PrivateKey],
+         url: 'https://rpc.test2.btcs.network',
+         accounts: [PRIVATE_KEY],
          chainId: 1115,  // Ensure this matches the Core testnet chain ID
       }
    },
@@ -417,13 +417,4 @@ By following these steps, you should have a basic decentralized guestbook applic
 
 You can clone this repository to use as a boilerplate, or an educational resource.
 
-
-## 🔄 Updates
-
-The following updates were made to improve and maintain the Staking DApp project:
-
-- **🔧 Hardhat Configuration Updated**: Modified the `hardhat.config.js` to reflect updated settings, including compiler versions and new chain configurations.
-- **🚀 Rewrote Deployment Script**: Rewrote the `scripts/deploy.js` script to properly deploy the GuestBook contract to the latest Core Testnet.
-- **🌐 Deployment on Latest Core Testnet**: Contracts were successfully deployed to the latest Core Testnet with **Chain ID 1114**.
-- **🖥️ Frontend Integration Updated**: The frontend logic was updated to interact with the **latest deployed contract address** on Chain ID 1114.
 
