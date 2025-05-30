@@ -10,3 +10,4 @@ In this repository, you will find a variety of boilerplates tailored for differe
 * **[Basic Staking Full Stack Dapp](./02-Basic%20Staking%20Full%20Stack%20Dapp/README.md):** a simple staking dapp that uses custom ERC20 tokens for staking and rewarding users. It uses Hardhat for development, Solidity for smart contracts, and React for the frontend. 
 
 * **[Decentralized Guestbook](./03-Decentralized%20Guestbook/README.md):** a decentralized guestbook application using Hardhat for development, Solidity for smart contracts, and React for the frontend. 
+* **[Todo](./11-Todo/README.md):** a decentralized Todo application using the foundry developing the smart contract (Solidity), React for building the dapp.
