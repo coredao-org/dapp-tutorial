@@ -19,7 +19,7 @@ Welcome to this tutorial where we will build a simple NFT Minting DApp on Core B
 - [Metamask Wallet](https://metamask.io/download/)
 - **Core Testnet Configuration**: Configure MetaMask to connect to the Core Testnet. Refer here for more details.
   - **Network Name**: Core Testnet
-  - **New RPC URL**: [https://rpc.test.btcs.network](https://rpc.test.btcs.network)
+  - **New RPC URL**: [https://rpc.test2.btcs.network](https://rpc.test2.btcs.network)
   - **Chain ID**: 1115
   - **Currency Symbol**: CORE
 - **Core Faucet**: To get test CORE tokens for transactions, visit the Core Faucet, refer [here](https://docs.coredao.org/docs/Dev-Guide/core-faucet) for more details.
@@ -71,9 +71,11 @@ Replace the contents of `hardhat.config.js` file with the following code. Make s
 
 ```javascript
 require("@nomicfoundation/hardhat-toolbox");
-const { PrivateKey } = require("./secret.json");
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
 module.exports = {
   solidity: "0.8.24",
   defaultNetwork: "core_testnet",
@@ -82,7 +84,7 @@ module.exports = {
     hardhat: {},
     core_testnet: {
       url: "https://rpc.test.btcs.network",
-      accounts: [PrivateKey],
+      accounts: [PRIVATE_KEY],
       chainId: 1115,
     },
   },
@@ -211,7 +213,7 @@ main()
   });
 ```
 
-Make sure your metamask wallet has tCORE testnet tokens to deploy the contract. If not, visit the [Core Faucet](https://scan.test.btcs.network/faucet) to get some testnet CORE tokens.
+Make sure your metamask wallet has tCORE testnet tokens to deploy the contract. If not, visit the [Core Faucet](https://scan.test2.btcs.network/faucet) to get some testnet CORE tokens.
 
 Great! Now run the following command in the root directory of your project to deploy the smart contract:
 
