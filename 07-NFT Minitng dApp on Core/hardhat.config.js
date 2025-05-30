@@ -1,16 +1,18 @@
 require("@nomicfoundation/hardhat-toolbox");
-const { PrivateKey } = require("./secret.json");
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
 module.exports = {
   solidity: "0.8.24",
-  defaultNetwork: "core_testnet",
+  defaultNetwork: "hardhat",
 
   networks: {
     hardhat: {},
     core_testnet: {
       url: "https://rpc.test.btcs.network",
-      accounts: [PrivateKey],
+      accounts: [PRIVATE_KEY],
       chainId: 1115,
     },
   },
