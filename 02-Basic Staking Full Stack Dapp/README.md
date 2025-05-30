@@ -99,8 +99,8 @@ module.exports = {
       hardhat: {
       },
       core_testnet: {
-         url: 'https://rpc.test.btcs.network',
-         accounts: [PrivateKey],
+         url: 'https://rpc.test2.btcs.network',
+         accounts: [PRIVATE_KEY],
          chainId: 1115,
       }
    },
