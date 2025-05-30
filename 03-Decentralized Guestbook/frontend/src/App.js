@@ -3,7 +3,7 @@ import { Web3Provider } from '@ethersproject/providers'; // Updated import for W
 import { Contract } from 'ethers';
 import GuestbookArtifact from './GuestbookAbi.json';
 
-const contractAddress = '0x0D0b3bAc514d53AafC95c74294Bb1B613D1862c2';
+const contractAddress = '0x2e8EDe4E6A5Fd2d93072dBcF1BBe324Ff1677302';
 const GuestbookAbi = GuestbookArtifact.abi;
 
 function App() {
