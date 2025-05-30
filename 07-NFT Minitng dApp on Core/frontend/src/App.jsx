@@ -9,7 +9,7 @@ function App() {
   const [provider, setProvider] = useState();
   const [signer, setSigner] = useState();
 
-  const contractAddress = "0x984eE96FE316006533c0BB78c97e3A02E41c7759";
+  const contractAddress = "0x9dfbeCC80806F8312E0136eb85761e675fa7A82a";
   const abi = MyNFTAbi.abi;
   const nftImage =
     "https://raw.githubusercontent.com/GM-11/NFT_Minting_Tutorial/master/assets/nft.png";
