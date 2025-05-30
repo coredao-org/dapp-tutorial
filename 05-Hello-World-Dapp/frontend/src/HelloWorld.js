@@ -11,7 +11,7 @@ import HelloWorldABI from './Contract-ABI/HelloWorld.json';
 import logo from './core-dao-logo.png'; // Adjust the path as needed
 
 // Replace with your contract's address
-const contractAddress = "0xBF46BAA6210Ae6c9050F5453B996070209f69830";
+const contractAddress = "0xf5d9Dd0f6EAa91802979707b91407d8448136DD0";
 
 function HelloWorld() {
     const [message, setMessage] = useState('');
