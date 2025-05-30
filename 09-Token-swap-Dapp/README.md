@@ -26,10 +26,10 @@ Native-to-ERC20 swaps: Users will also have the ability to swap `Core's native t
 - [MetaMask Web Wallet Extension](https://metamask.io/download/)Git v2.44.0
 - **Core Testnet Configuration:** Configure MetaMask to connect to the Core Testnet. Refer [here](https://docs.coredao.org/docs/Dev-Guide/core-testnet-wallet-config#adding-core-testnet-to-metamask) for more details.
   - **Network Name:** Core Testnet
-  - **New RPC URL:** https://rpc.test.btcs.network
+  - **New RPC URL:** https://rpc.test2.btcs.network
   - **Chain ID:** 1115
   - **Currency Symbol:** CORE
-- **Core Faucet:** To get test CORE tokens for transactions, visit the [Core Faucet](https://scan.test.btcs.network/faucet), refer [here]
+- **Core Faucet:** To get test CORE tokens for transactions, visit the [Core Faucet](https://scan.test2.btcs.network/faucet), refer [here]
   (https://docs.coredao.org/docs/Dev-Guide/core-faucet) for more details.
 
 ## Setting up Dev Environment
@@ -95,26 +95,22 @@ ignition/deployments/chain-31337
 Replace the contents of `hardhat.config.js` with the following configuration. Ensure that the network settings are configured correctly for Core Testnet.
 
 ```
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
+require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
-require('@nomiclabs/hardhat-ethers');
-require("@nomiclabs/hardhat-waffle");
-
-const { PrivateKey } = require('./secret.json');
+/** @type import('hardhat/config').HardhatUserConfig */
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 module.exports = {
-   defaultNetwork: 'core_testnet',
+  defaultNetwork: "hardhat",
 
-   networks: {
-      hardhat: {
-      },
-      core_testnet: {
-         url: 'https://rpc.test.btcs.network',
-         accounts: [PrivateKey],
-         chainId: 1115,
-      }
+  networks: {
+    hardhat: {},
+    core_testnet: {
+      url: "https://rpc.test2.btcs.network",
+      accounts: [PRIVATE_KEY],
+      chainId: 1114,
+     },
    },
    solidity: {
       compilers: [
@@ -423,11 +419,11 @@ The application's key blockchain logic is implemented in [App.js](./frontend/src
 ```js
 const tokenAddresses = {
   CORE: "0x0000000000000000000000000000000000000000",
-  USDT: "0xB8D44C863a7eF981E704803323d7F8d5c29D59d5",
-  USDC: "0xb871FA65c8026DFc6aeFF9A0Ea7dfF132634D769",
+  USDT: "0xdBb5e35236536d38239102596adcaA5626e27bE2",
+  USDC: "0x82fa6E5EDCE48bA4EBcA82dCDdec08d124d7Eed3",
 };
 
-const swapContractAddress = "0xC4396b030a6db1F3DEB4B33eA0EB6013d25a6582";
+const swapContractAddress = "0x8ac209ee5dfaC9c2D915f24edD34d4072059558b";
 ```
 
 ### Testing Locally

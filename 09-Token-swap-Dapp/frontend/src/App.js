@@ -8,11 +8,11 @@ import coreLogo from "./assets/core-logo.png";
 // Replace these addresses with your actual token and swap contract addresses
 const tokenAddresses = {
   CORE: "0x0000000000000000000000000000000000000000",
-  USDT: "0xB8D44C863a7eF981E704803323d7F8d5c29D59d5",
-  USDC: "0xb871FA65c8026DFc6aeFF9A0Ea7dfF132634D769",
+  USDT: "0xdBb5e35236536d38239102596adcaA5626e27bE2",
+  USDC: "0x82fa6E5EDCE48bA4EBcA82dCDdec08d124d7Eed3",
 };
 
-const swapContractAddress = "0xC4396b030a6db1F3DEB4B33eA0EB6013d25a6582"; // Add your swap contract address here
+const swapContractAddress = "0x8ac209ee5dfaC9c2D915f24edD34d4072059558b"; // Add your swap contract address here
 
 const tokens = ["CORE", "USDT", "USDC"];
 const feePercentage = 0.5;
