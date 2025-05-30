@@ -12,9 +12,9 @@ module.exports = {
      hardhat: {
      },
      core_testnet: {
-        url: 'https://rpc.test.btcs.network',
+        url: 'https://rpc.test2.btcs.network',
         accounts: [PRIVATE_KEY],
-        chainId: 1115,
+        chainId: 1114,
      }
   },
   solidity: {
