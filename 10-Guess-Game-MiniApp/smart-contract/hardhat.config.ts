@@ -8,6 +8,8 @@ dotenv.config();
 
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const CORE_TEST_SCAN_KEY = process.env.CORE_TEST_SCAN_KEY;
+const CORE_MAIN_SCAN_KEY = process.env.CORE_MAIN_SCAN_KEY;
 
 // module.exports = {
 //   solidity: "0.8.20",
@@ -42,17 +44,17 @@ module.exports = {
     },
   },
   etherscan: {
-  //  apiKey: {
-  //    testnet: process.env.CORE_TEST_SCAN_KEY!,
-  //    mainnet: process.env.CORE_MAIN_SCAN_KEY!,
-  //  },
+   apiKey: {
+     testnet: CORE_TEST_SCAN_KEY!,
+     mainnet: CORE_MAIN_SCAN_KEY!,
+   },
    customChains: [
      {
        network: "testnet",
        chainId: 1115,
        urls: {
-         apiURL: "https://api.test.btcs.network/api",
-         browserURL: "https://scan.test.btcs.network/"
+         apiURL: "https://api.test2.btcs.network/api",
+         browserURL: "https://scan.test2.btcs.network/"
        }
      },
      {
