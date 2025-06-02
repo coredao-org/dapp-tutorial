@@ -39,7 +39,7 @@ function App() {
   const [celebrate, setCelebrate] = useState(false); // Celebration state
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
   const [showError, setShowError] = useState(false); // Error display state
-  const contractAddress="0x7DfB4C470477CF665AaD2E0E32d905dEAb0cf206"; // Contract address
+  const contractAddress="0x05d0ED9806Dcd6192fefd5EA6A53B13e88F5e470"; // Contract address
   const [hasClaimed,setHasClaimed] = useState(false); // Claim state
 
   const {address,isConnected} = useAccount(); // User account info
