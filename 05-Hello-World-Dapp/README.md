@@ -80,10 +80,12 @@ dapp-tutorial.
 
 ```js
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 
-const { PrivateKey } = require('./secret.json');
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
 module.exports = {
   defaultNetwork: 'core_testnet',
 
@@ -91,8 +93,8 @@ module.exports = {
      hardhat: {
      },
      core_testnet: {
-        url: 'https://rpc.test.btcs.network',
-        accounts: [PrivateKey],
+        url: 'https://rpc.test2.btcs.network',
+        accounts: [PRIVATE_KEY],
         chainId: 1115,
      }
   },
