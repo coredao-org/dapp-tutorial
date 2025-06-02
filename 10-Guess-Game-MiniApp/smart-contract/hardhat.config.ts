@@ -7,7 +7,7 @@ dotenv.config();
 
 
 
-// const ACCOUNT_PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 // module.exports = {
 //   solidity: "0.8.20",
@@ -25,27 +25,27 @@ dotenv.config();
 
 
 module.exports = {
-  defaultNetwork: 'testnet',
+  defaultNetwork: 'hardhat',
 
   networks: {
      hardhat: {
      },
      testnet: {
         url: 'https://rpc.test.btcs.network',
-        accounts: [process.env.PRIVATE_KEY!],
+        accounts: [PRIVATE_KEY!],
         chainId: 1115,
      },
      mainnet: {
        url: 'https://rpc.coredao.org',
-       accounts: [process.env.PRIVATE_KEY],
+       accounts: [PRIVATE_KEY],
        chainId: 1116,
     },
   },
   etherscan: {
-   apiKey: {
-     testnet: process.env.CORE_TEST_SCAN_KEY!,
-     mainnet: process.env.CORE_MAIN_SCAN_KEY!,
-   },
+  //  apiKey: {
+  //    testnet: process.env.CORE_TEST_SCAN_KEY!,
+  //    mainnet: process.env.CORE_MAIN_SCAN_KEY!,
+  //  },
    customChains: [
      {
        network: "testnet",
