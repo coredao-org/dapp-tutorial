@@ -23,16 +23,16 @@ import {
 
 
 const coreTestnet = {
-  id: 1115,
+  id: 1114,
   name: 'Core Testnet',
   iconUrl: 'https://images.app.goo.gl/rqMHLjxM8YPaGZHT9',
   iconBackground: '#fff',
   nativeCurrency: { name: 'CORE', symbol: 'tCORE', decimals: 18 },
   rpcUrls: {
-    default: { http: ['https://rpc.test.btcs.network'] },
+    default: { http: ['https://rpc.test2.btcs.network'] },
   },
   blockExplorers: {
-    default: { name: 'Core Explorer', url: 'https://scan.test.btcs.network/' },
+    default: { name: 'Core Explorer', url: 'https://scan.test2.btcs.network/' },
   },
   contracts: {
     multicall3: {
