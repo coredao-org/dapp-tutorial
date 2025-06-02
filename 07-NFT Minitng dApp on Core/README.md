@@ -51,13 +51,10 @@ Select yes adding a `.gitignore` and installing additional packages
 
 ### 3. Create a Secret File
 
-- Create a `secret.json` file in the root folder and store the private key of your MetaMask wallet in it.
-- Refer [here](https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-reveal-your-Secret-Recovery-Phrase) for details on how to get MetaMask account's private key.
+- Create a `.env` file in the root folder and store the private key of your MetaMask wallet in it.
 
-```json
-{
-  "PrivateKey": "you private key, do not leak this file, do keep it absolutely safe"
-}
+```bash
+  PRIVATE_KEY = <YOUR PRIVATE KEY>
 ```
 
 ### 4. Update .gitignore
