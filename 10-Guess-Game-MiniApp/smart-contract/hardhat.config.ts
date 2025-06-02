@@ -30,12 +30,12 @@ module.exports = {
   networks: {
      hardhat: {
      },
-     testnet: {
-        url: 'https://rpc.test.btcs.network',
-        accounts: [PRIVATE_KEY!],
-        chainId: 1115,
+     core_testnet: {
+        url: 'https://rpc.test2.btcs.network',
+        accounts: [PRIVATE_KEY],
+        chainId: 1114,
      },
-     mainnet: {
+     core_mainnet: {
        url: 'https://rpc.coredao.org',
        accounts: [PRIVATE_KEY],
        chainId: 1116,
