@@ -133,8 +133,8 @@ module.exports = {
       hardhat: {
       },
       testnet: {
-         url: 'https://rpc.test.btcs.network',
-         accounts: [PrivateKey],
+         url: 'https://rpc.test2.btcs.network',
+         accounts: [PRIVATE_KEY],
          chainId: 1115,  // Ensure this matches the Core testnet chain ID
       }
    },
@@ -416,3 +416,5 @@ By deploying your frontend to one of these services, users can access your DApp 
 By following these steps, you should have a basic decentralized guestbook application deployed on the Core Test network with a React frontend to interact with it. 
 
 You can clone this repository to use as a boilerplate, or an educational resource.
+
+
