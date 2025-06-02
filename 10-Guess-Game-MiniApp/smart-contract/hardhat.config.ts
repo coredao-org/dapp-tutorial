@@ -7,7 +7,9 @@ dotenv.config();
 
 
 
-// const ACCOUNT_PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const CORE_TEST_SCAN_KEY = process.env.CORE_TEST_SCAN_KEY;
+const CORE_MAIN_SCAN_KEY = process.env.CORE_MAIN_SCAN_KEY;
 
 // module.exports = {
 //   solidity: "0.8.20",
@@ -25,34 +27,34 @@ dotenv.config();
 
 
 module.exports = {
-  defaultNetwork: 'testnet',
+  defaultNetwork: 'hardhat',
 
   networks: {
      hardhat: {
      },
-     testnet: {
-        url: 'https://rpc.test.btcs.network',
-        accounts: [process.env.PRIVATE_KEY!],
-        chainId: 1115,
+     core_testnet: {
+        url: 'https://rpc.test2.btcs.network',
+        accounts: [PRIVATE_KEY],
+        chainId: 1114,
      },
-     mainnet: {
+     core_mainnet: {
        url: 'https://rpc.coredao.org',
-       accounts: [process.env.PRIVATE_KEY],
+       accounts: [PRIVATE_KEY],
        chainId: 1116,
     },
   },
   etherscan: {
    apiKey: {
-     testnet: process.env.CORE_TEST_SCAN_KEY!,
-     mainnet: process.env.CORE_MAIN_SCAN_KEY!,
+     testnet: CORE_TEST_SCAN_KEY!,
+     mainnet: CORE_MAIN_SCAN_KEY!,
    },
    customChains: [
      {
        network: "testnet",
        chainId: 1115,
        urls: {
-         apiURL: "https://api.test.btcs.network/api",
-         browserURL: "https://scan.test.btcs.network/"
+         apiURL: "https://api.test2.btcs.network/api",
+         browserURL: "https://scan.test2.btcs.network/"
        }
      },
      {
