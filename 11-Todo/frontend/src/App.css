@@ -1,0 +1,142 @@
+.App {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+  background: #f4f4f4;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1, h2, h3 {
+  color: #333;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+  font-size: 16px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.todo-section {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.completed-todos {
+  background: #e6f4ea;
+  border: 2px solid #4caf50;
+}
+
+.completed-todos h3 {
+  color: #4caf50;
+}
+
+.all-todos {
+  background: #e3f2fd;
+  border: 2px solid #2196f3;
+}
+
+.all-todos h3 {
+  color: #2196f3;
+}
+
+.no-todos {
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.todo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.todo-wrapper {
+  flex: 0 0 calc(33.33% - 20px);
+  max-width: calc(33.33% - 20px);
+}
+
+.todo-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+
+.todo-item {
+  margin-bottom: 10px;
+}
+
+.todo-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.todo-button {
+  margin-top: 10px;
+}
+
+.connect-wallet {
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.connect-wallet:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.loading {
+  color: #333;
+  font-weight: bold;
+  margin: 10px 0;
+}
