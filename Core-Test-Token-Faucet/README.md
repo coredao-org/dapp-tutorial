@@ -1,6 +1,6 @@
-# 🪙 Lending Token Faucet
+# 🪙 Core Token Test Faucet
 
-This is a simple ERC-20 token faucet built to distribute testnet versions of **DAI**, **USDT**, and **USDC** tokens for lending and borrowing dApps on the **Core Testnet**.
+This is a simple ERC-20 token faucet built to distribute testnet versions of tokens for various test dApps on the **Core Testnet**.
 
 ## 📌 Deployed Token Addresses
 
@@ -16,11 +16,6 @@ This is a simple ERC-20 token faucet built to distribute testnet versions of **D
 
 ## 💡 About the Project
 
-The Lending Token Faucet allows developers and testers to receive testnet tokens instantly. It supports the following use cases:
-
-* Testing DeFi lending/borrowing flows
-* Simulating wallet interactions
-* Validating contract logic using mock stablecoins
 
 Tokens available for request:
 
@@ -32,7 +27,7 @@ Tokens available for request:
 
 ## 🔗 Live Faucet Interface
 
-👉 [**https://token-faucet-sandy.vercel.app/**](https://token-faucet-sandy.vercel.app/) — *Frontend placeholder for local testing*
+👉 [**https://token-faucet-sandy.vercel.app/**](https://token-faucet-sandy.vercel.app/)
 
 ---
 
@@ -52,7 +47,7 @@ Each wallet can request tokens based on optional rate limits (e.g., per hour/day
 * **Solidity** (`^0.8.x`)
 * **OpenZeppelin** ERC20 contracts
 * **Hardhat** for smart contract development
-* **React + Ethers.js** frontend *(optional)*
+* **Nextjs + Ethers.js** frontend *(optional)*
 * **Core Blockchain Testnet**
 
 ---
@@ -81,8 +76,25 @@ npx hardhat compile
 ### 4. Deploy to Core Testnet
 
 ```bash
-npx hardhat run scripts/deploy.js --network coreTestnet
+npx hardhat run scripts/deploy.js --network core
 ```
+
+
+### 5. Launch the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+### ✅ Requesting Test Tokens
+
+1. Connect your wallet to the **Core Testnet**
+2. Visit your localhost link.
+3. Click on any token's **Request** button to receive test tokens directly to your wallet
 
 ---
 
@@ -102,7 +114,7 @@ Block Explorer: https://scan.test.btcs.network
 
 ## 🤝 Contributing
 
-Feel free to fork the repo, suggest features, and open pull requests. Every contribution helps improve the faucet!
+Feel free to fork the repo, suggest features, and open pull requests and add your test tokens to the faucet. Every contribution helps improve the faucet!
 
 ---
 
@@ -117,4 +129,4 @@ This faucet is intended for **testing and development only**. Tokens dispensed h
 **David Kenechukwu**
 
 * GitHub: [@adamsdavee](https://github.com/adamsdavee)
-* Live Frontend: [http://localhost:3000/loans](https://token-faucet-sandy.vercel.app/)
+* Live Frontend: [https://token-faucet-sandy.vercel.app/](https://token-faucet-sandy.vercel.app/)
