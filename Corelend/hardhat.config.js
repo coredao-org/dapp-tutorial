@@ -14,7 +14,7 @@ module.exports = {
       chainId: 31337,
       allowUnlimitedContractSize: true,
     },
-    core: {
+    coreTestnet: {
       url: "https://rpc.test2.btcs.network",
       accounts: [PRIVATE_KEY],
       chainId: 1114,
