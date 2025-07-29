@@ -97,8 +97,8 @@ npm run dev
 ├── contracts/           # Lending smart contracts (CoreLend.sol)
 ├── frontend/            # Frontend application (Next.js + Ethers.js)
 ├── scripts/             # Hardhat deployment scripts
-│   └── deploy.ts        # Deploys the CoreLend contract
-├── hardhat.config.ts    # Network configuration
+│   └── deploy.js        # Deploys the CoreLend contract
+├── hardhat.config.js    # Network configuration
 ├── .env                 # Private key for deployment
 └── README.md
 ```
