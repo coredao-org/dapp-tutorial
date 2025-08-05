@@ -125,11 +125,3 @@ Got an idea to improve the protocol? Feel free to:
 * Propose pull requests
 
 We welcome community contributions!
-
----
-
-## 📬 Contact
-
-For feedback, questions, or collaboration:
-
-📧 **[davidkenechukwu591@gmail.com](mailto:davidkenechukwu591@gmail.com)**
