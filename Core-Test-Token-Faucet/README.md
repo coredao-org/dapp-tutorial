@@ -57,7 +57,7 @@ Each wallet can request tokens based on optional rate limits (e.g., per hour/day
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/token-faucet.git
+git clone https://github.com/coredao-org/dapp-tutorial
 cd token-faucet
 ```
 
@@ -104,10 +104,10 @@ You can manually add Core Testnet to MetaMask using:
 
 ```
 Network Name: Core Testnet
-Chain ID: 1115
+Chain ID: 1114
 Currency Symbol: tCORE
-RPC URL: https://rpc.test.btcs.network
-Block Explorer: https://scan.test.btcs.network
+RPC URL: https://rpc.test2.btcs.network
+Block Explorer: https://scan.test2.btcs.network
 ```
 
 ---
@@ -121,12 +121,3 @@ Feel free to fork the repo, suggest features, and open pull requests and add you
 ## 📢 Disclaimer
 
 This faucet is intended for **testing and development only**. Tokens dispensed have **no real monetary value** and should **not be used on mainnet**.
-
----
-
-## 👤 Author
-
-**David Kenechukwu**
-
-* GitHub: [@adamsdavee](https://github.com/adamsdavee)
-* Live Frontend: [https://token-faucet-sandy.vercel.app/](https://token-faucet-sandy.vercel.app/)
