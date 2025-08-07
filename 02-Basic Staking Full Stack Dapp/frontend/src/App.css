@@ -1,121 +1,422 @@
-/* App.css */
-body {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Light Mode Colors */
+  --light-bg: #f5f7fa;
+  --light-card: #ffffff;
+  --light-text: #2d3748;
+  --light-text-secondary: #4a5568;
+  --light-border: #e2e8f0;
+  --light-primary: #ff9211;
+  --light-primary-hover: #ed6a2e;
+  
+  /* Dark Mode Colors */
+  --dark-bg: #1a202c;
+  --dark-card: #2d3748;
+  --dark-text: #f7fafc;
+  --dark-text-secondary: #cbd5e0;
+  --dark-border: #ff9501;
+  --dark-primary: #ff9211;
+  --dark-primary-hover: #ed6a2e;
+}
+
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
 }
 
 .App {
-  text-align: center;
-  padding: 20px;
-  position: relative; /* Ensure the App container is positioned relatively for absolute children */
+  min-height: 100vh;
+  padding: 0 2rem;
 }
 
-.logo-container {
-  text-align: center;
-  margin-bottom: 20px;
+/* Theme Styles */
+.light-mode {
+  background-color: var(--light-bg);
+  color: var(--light-text);
 }
 
-.logo {
-  max-width: 150px; /* Adjust as needed for logo size */
+.dark-mode {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
 }
 
+/* Header Styles */
 .App-header {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-bottom: 2px solid #eaeaea;
-  position: relative; /* To position elements inside it */
-  margin-bottom: 20px; /* Space between header and content */
-}
-
-.App-header h1 {
-  margin: 0;
-  color: #ff6f00; /* Core Chain orange color */
-}
-
-.btn-primary {
-  background-color: #ff6f00; /* Core Chain orange color */
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  width: 200px; /* Set a consistent width for all buttons */
-  height: 40px; /* Set a consistent height for all buttons */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 10px; /* Add margin to separate buttons */
-}
-
-.btn-primary:hover {
-  background-color: #e65c00; /* Darker orange for hover effect */
-}
-
-.input-field {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 200px;
-  margin: 5px;
-}
-
-.input-field:focus {
-  border-color: #ff6f00;
-  outline: none;
-}
-
-.amount-ticker {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid;
 }
 
-.amount-ticker p {
-  margin: 5px 20px;
-  font-size: 18px;
+.light-mode .App-header {
+  border-color: var(--light-border);
 }
 
-.stake-container,
-.unstake-container {
-  margin: 20px 0;
+.dark-mode .App-header {
+  border-color: var(--dark-border);
 }
 
-.stake-container input,
-.unstake-container input {
-  width: 200px;
+.logo-container img {
+  height: 40px;
 }
 
-.modal-btns {
+.header-right {
   display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.light-mode .theme-toggle  {
+  background-color: rgba(0, 0, 0, 0.05);
+      width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dark-mode .theme-toggle {
+  background-color: rgba(255, 255, 255, 0.05);
+      width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Button Styles */
+.btn-wallet {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.light-mode .btn-wallet {
+  background-color: var(--light-primary);
+  color: white;
+}
+
+.dark-mode .btn-wallet {
+  background-color: var(--dark-primary);
+  color: white;
+}
+
+.btn-wallet:hover {
+  transform: translateY(-1px);
+}
+
+.light-mode .btn-wallet:hover {
+  background-color: var(--light-primary-hover);
+}
+
+.dark-mode .btn-wallet:hover {
+  background-color: var(--dark-primary-hover);
+}
+
+.btn-wallet.large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Main Content Styles */
+main {
+  padding: 2rem 0;
+}
+
+.main-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+/* Connect Prompt Styles */
+.connect-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
+  text-align: center;
+  padding: 3rem 0;
 }
 
-.disconnect-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+.connect-illustration {
+  margin-bottom: 2rem;
 }
 
+.connect-illustration img {
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
+.connect-prompt p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.light-mode .connect-prompt p {
+  color: var(--light-text-secondary);
+}
+
+.dark-mode .connect-prompt p {
+  color: var(--dark-text-secondary);
+}
+
+/* Dashboard Styles */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wallet-info {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.wallet-address {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.light-mode .wallet-address {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .wallet-address {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Stats Grid Styles */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.light-mode .stat-card {
+  background-color: var(--light-card);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode .stat-card {
+  background-color: var(--dark-card);
+}
+
+.stat-card.highlight {
+  border: 2px solid;
+}
+
+.light-mode .stat-card.highlight {
+  border-color: var(--light-primary);
+}
+
+.dark-mode .stat-card.highlight {
+  border-color: var(--dark-primary);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.light-mode .stat-value {
+  color: var(--light-primary);
+}
+
+.dark-mode .stat-value {
+  color: var(--dark-primary);
+}
+
+.claim-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+}
+
+.light-mode .claim-btn {
+  background-color: var(--light-primary);
+  color: white;
+}
+
+.dark-mode .claim-btn {
+  background-color: var(--dark-primary);
+  color: white;
+}
+
+.claim-btn:hover {
+  transform: translateY(-1px);
+}
+
+.light-mode .claim-btn:hover {
+  background-color: var(--light-primary-hover);
+}
+
+.dark-mode .claim-btn:hover {
+  background-color: var(--dark-primary-hover);
+}
+
+/* Action Cards css */
+.action-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.action-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.light-mode .action-card {
+  background-color: var(--light-card);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode .action-card {
+  background-color: var(--dark-card);
+}
+
+.action-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-field {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  font-size: 1rem;
+}
+
+.light-mode .input-field {
+  border-color: var(--light-border);
+  background-color: white;
+  color: var(--light-text);
+}
+
+.dark-mode .input-field {
+  border-color: var(--dark-border);
+  background-color: #1a202c;
+  color: var(--dark-text);
+}
+
+.input-field:focus {
+  outline: none;
+  border-width: 2px;
+}
+
+.light-mode .input-field:focus {
+  border-color: var(--light-primary);
+}
+
+.dark-mode .input-field:focus {
+  border-color: var(--dark-primary);
+}
+
+.btn-action {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+
+.light-mode .btn-action {
+  background-color: var(--light-primary);
+  color: white;
+}
+
+.dark-mode .btn-action {
+  background-color: var(--dark-primary);
+  color: white;
+}
+
+.btn-action:hover {
+  transform: translateY(-1px);
+}
+
+.light-mode .btn-action:hover {
+  background-color: var(--light-primary-hover);
+}
+
+.dark-mode .btn-action:hover {
+  background-color: var(--dark-primary-hover);
+}
+
+/* Responsive css */
 @media (max-width: 768px) {
-  .amount-ticker {
+  .App {
+    padding: 0 1rem;
+  }
+  
+  .stats-grid, .action-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .input-group {
     flex-direction: column;
-    align-items: flex-start;
   }
-
-  .amount-ticker p {
-    margin: 5px 0;
-  }
-
-  .disconnect-btn {
-    position: relative;
-    top: auto;
-    right: auto;
+  
+  .btn-action {
+    width: 100%;
   }
 }
