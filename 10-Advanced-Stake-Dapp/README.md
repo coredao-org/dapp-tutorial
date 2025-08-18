@@ -8,11 +8,11 @@ A fast, responsive, and developer-friendly staking DApp that allows users to sta
 
 ## ✨ Features
 
-* 🖥️ **Modern UI:** Sleek, clean, and intuitive interface built for seamless user interaction.
-* ⛏️ **Staking System:** Users can stake and withdraw tokens with clear feedback and updates.
-* 💹 **Real-Time Rewards:** Users see their rewards update instantly without needing to reload or resync.
-* 🔄 **Claim Rewards:** Reward tokens can be claimed any time, with sufficient pre-minted supply in the contract.
-* 🧪 **Test Tokens:** Built-in faucet mechanism to withdraw test tokens for quick experimentation by running a mint.js script.
+- 🖥️ **Modern UI:** Sleek, clean, and intuitive interface built for seamless user interaction.
+- ⛏️ **Staking System:** Users can stake and withdraw tokens with clear feedback and updates.
+- 💹 **Real-Time Rewards:** Users see their rewards update instantly without needing to reload or resync.
+- 🔄 **Claim Rewards:** Reward tokens can be claimed any time, with sufficient pre-minted supply in the contract.
+- 🧪 **Test Tokens:** Built-in faucet mechanism to withdraw test tokens for quick experimentation by running a mint.js script.
 
 ---
 
@@ -22,8 +22,8 @@ A fast, responsive, and developer-friendly staking DApp that allows users to sta
 
 ```bash
 git clone https://github.com/coredao-org/dapp-tutorial.git
-cd dapp-tutorial/Adavanced-Stake-Dapp
-````
+cd dapp-tutorial/10-Adavanced-Stake-Dapp
+```
 
 ### 2. Setup Environment
 
@@ -58,10 +58,10 @@ npm run dev
 
 > The DApp will be available at `http://localhost:3000`. You can now:
 >
-> * Stake tokens
-> * View your staked balance
-> * Claim your real-time rewards
-> * Withdraw test tokens for tinkering
+> - Stake tokens
+> - View your staked balance
+> - Claim your real-time rewards
+> - Withdraw test tokens for tinkering
 
 ---
 
@@ -87,9 +87,9 @@ Replace `yourNetwork` with the appropriate Hardhat network (e.g., `localhost`, `
 
 To view your reward token balance in your wallet, you need to **import the token manually**:
 
-* **Token Contract Address:** `0xe11B22597Fbc161e2B8502D5D101C989a62dD288`
-* **Token Symbol:** `RTN`
-* **Decimals:** `18`
+- **Token Contract Address:** `0xe11B22597Fbc161e2B8502D5D101C989a62dD288`
+- **Token Symbol:** `RTN`
+- **Decimals:** `18`
 
 > After importing, you will be able to see your claimed rewards directly in your wallet.
 
@@ -111,12 +111,12 @@ To view your reward token balance in your wallet, you need to **import the token
 
 ## 📘 Tech Stack
 
-* **Next.js** – Frontend framework
-* **Tailwind CSS** – Responsive design
-* **Hardhat** – Smart contract development
-* **Ethers.js** – Blockchain interaction
-* **Solidity** – Smart contract language
-* **OpenZeppelin** – Secure ERC20 implementation
+- **Next.js** – Frontend framework
+- **Tailwind CSS** – Responsive design
+- **Hardhat** – Smart contract development
+- **Ethers.js** – Blockchain interaction
+- **Solidity** – Smart contract language
+- **OpenZeppelin** – Secure ERC20 implementation
 
 ---
 
@@ -125,7 +125,3 @@ To view your reward token balance in your wallet, you need to **import the token
 Feel free to fork the repo, tweak the staking logic, improve the UI, or submit a PR!
 
 ---
-
-## 📞 Contact
-
-For questions or collaborations, feel free to reach out at **[davidkenechukwu591@gmail.com](mailto:davidkenechukwu591@gmail.com)**
