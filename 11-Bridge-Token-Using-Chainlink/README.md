@@ -39,8 +39,8 @@ https://sepolia.etherscan.io/address/0xa2024ba377ADc11388766d873406fd3C666f6d6A
 ### 1️⃣ **Clone the Repository**
 
 ```sh
-git clone https://github.com/yourusername/crosschain-bridge-example.git
-cd crosschain-bridge-example
+git clone https://github.com/coredao-org/dapp-tutorial.git
+cd dapp-tutorial/11-Bridge-Token-Using-Chainlink
 ```
 
 ### 2️⃣ **Smart Contracts (Foundry)**

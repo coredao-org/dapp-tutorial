@@ -1,6 +1,6 @@
 # MultiSig Wallet Factory
 
-Welcome to the MultiSig Wallet Factory project! This blockchain-based application enables users to easily deploy and manage multisignature (multisig) wallets for various use cases, enhancing security and collaborative control over assets. 
+Welcome to the MultiSig Wallet Factory project! This blockchain-based application enables users to easily deploy and manage multisignature (multisig) wallets for various use cases, enhancing security and collaborative control over assets.
 
 ## Features
 
@@ -26,8 +26,8 @@ Ensure you have the following installed:
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/adamsdavee/MultiSig-Wallet-Factory.git
-   cd MultiSig-Wallet-Factory
+   git clone https://github.com/coredao-org/dapp-tutorial.git
+   cd dapp-tutorial/12-Core-MultiSig
    ```
 
 2. **Install Dependencies**:
@@ -97,13 +97,3 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes (`git commit -m 'Add YourFeature'`).
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a Pull Request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-This project was inspired by various multisig wallet implementations and aims to provide an easy-to-use platform for deploying and managing multisig wallets.
-
-For more information, visit the [GitHub repository](https://github.com/adamsdavee/MultiSig-Wallet-Factory). 
