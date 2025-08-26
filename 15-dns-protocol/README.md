@@ -47,8 +47,8 @@ dns-protocol/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/adamsdavee/dns-protocol.git
-cd dns-protocol
+git clone https://github.com/coredao-org/dapp-tutorial.git
+cd dapp-tutorial/15-dns-protocol
 ```
 
 ### 2. Install dependencies (root)
@@ -84,31 +84,33 @@ npx hardhat run scripts/deploy.js --network core
 
 ### 5. Configure Front-end
 
-1. Navigate to the `Frontend` folder:
-   ```bash
-   cd Frontend
-   ```
-2. Install front-end dependencies:
-   ```bash
-   npm install
-   ```
-3. Open the config.json file located in the constants folder within the Frontend directory:
-   ```bash
-   Frontend/constants/config.json
-   ```
-   Update the contract addresses as follows:
+1.  Navigate to the `Frontend` folder:
+    ```bash
+    cd Frontend
+    ```
+2.  Install front-end dependencies:
+    ```bash
+    npm install
+    ```
+3.  Open the config.json file located in the constants folder within the Frontend directory:
 
-        Contract One Address: Replace with the deployed address of the ENS Registry contract.
-        Contract Two Address: Replace with the deployed address of the Registrar contract.
-        Ensure that the addresses are correctly formatted as strings. For example:
-   ```ini
-    {
-    "contractOneAddress": "0xYourENSRegistryAddress",
-    "contractTwoAddress": "0xYourRegistrarAddress"
-    }
+    ```bash
+    Frontend/constants/config.json
+    ```
 
-   ```
+    Update the contract addresses as follows:
 
+         Contract One Address: Replace with the deployed address of the ENS Registry contract.
+         Contract Two Address: Replace with the deployed address of the Registrar contract.
+         Ensure that the addresses are correctly formatted as strings. For example:
+
+    ```ini
+     {
+     "contractOneAddress": "0xYourENSRegistryAddress",
+     "contractTwoAddress": "0xYourRegistrarAddress"
+     }
+
+    ```
 
 ### 6. Run the Front-end
 
@@ -146,12 +148,3 @@ Contributions are welcome! Please:
 3. Commit your changes (`git commit -m "Add awesome feature"`)
 4. Push to your branch (`git push origin feature/YourFeature`)
 5. Open a Pull Request
-
-## 📜 License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
----
-
-_Enjoy building on CORE!_
-
