@@ -85,8 +85,7 @@ npm install
 #### 3.2 Create New Project
 1. Navigate to the dashboard
 2. Click "Create Project"
-3. Choose your project settings
-4. Save your **Client ID** and **Secret Key**
+3. Save your **Client ID** and **Secret Key**
 
 ![Thirdweb Project Creation](https://github.com/user-attachments/assets/709a2b90-4fa5-47f9-91de-acb71e08c7ca)
 
