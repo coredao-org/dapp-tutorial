@@ -72,6 +72,10 @@ cd crowdfunding-dapp
 ### Step 2: Install Dependencies
 
 ```bash
+cd Frontend
+npm install
+
+cd Contract
 npm install
 ```
 
