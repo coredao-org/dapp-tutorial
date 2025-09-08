@@ -27,6 +27,17 @@ Before you begin, ensure you have the following installed and configured:
 - **Node.js** 18.0.0 or higher
 - **npm** or **yarn** package manager
 - **Git** for version control
+- **Thirdweb CLI** for smart contract deployment and management
+
+#### Install Thirdweb CLI
+```bash
+npm install -g @thirdweb-dev/cli
+```
+
+Verify installation:
+```bash
+thirdweb --version
+```
 
 ### Blockchain Setup
 - **MetaMask** wallet extension
@@ -203,6 +214,11 @@ Provides wallet connectivity and theme switching functionality.
 
 ### Common Issues
 
+**Thirdweb CLI Issues**
+- Ensure you have the latest version: `npm update -g @thirdweb-dev/cli`
+- Check your Node.js version is 18.0.0 or higher
+- Run `thirdweb login` to authenticate if needed
+
 **Environment Variables Not Loading**
 - Ensure your `.env` file is in the project root
 - Restart the development server after changes
@@ -230,6 +246,7 @@ If you encounter issues:
 
 - [Core Testnet 2 Explorer](https://scan.test2.btcs.network)
 - [Thirdweb Documentation](https://portal.thirdweb.com)
+- [Thirdweb CLI Documentation](https://portal.thirdweb.com/cli)
 - [React Documentation](https://react.dev)
 - [Vite Documentation](https://vitejs.dev)
 - [Tailwind CSS Documentation](https://tailwindcss.com)
