@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/smartWallet/locale/tl.ts"],
+  "sourcesContent": ["import type { SmartWalletLocale } from \"./types.js\";\n\nconst smartWalletLocaleTl: SmartWalletLocale = {\n  connecting: \"Kumokonekta sa Smart Account\",\n  failedToConnect: \"Hindi nagawa ang pagkonekta sa Smart Account\",\n  wrongNetworkScreen: {\n    title: \"Maling Network\",\n    subtitle: \"Hindi konektado ang iyong wallet sa kinakailangang network\",\n    failedToSwitch: \"Hindi nagawa ang pagpapalit ng network\",\n  },\n};\n\nexport default smartWalletLocaleTl;\n"],
+  "mappings": ";;;AAEA,IAAM,sBAAyC;EAC7C,YAAY;EACZ,iBAAiB;EACjB,oBAAoB;IAClB,OAAO;IACP,UAAU;IACV,gBAAgB;;;AAIpB,IAAA,aAAe;",
+  "names": []
+}

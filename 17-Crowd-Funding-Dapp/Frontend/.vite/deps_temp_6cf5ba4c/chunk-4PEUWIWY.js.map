@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/rpc/actions/eth_getBalance.ts"],
+  "sourcesContent": ["import type { Address } from \"abitype\";\nimport type { BlockTag, EIP1193RequestFn, EIP1474Methods, Hex } from \"viem\";\nimport { hexToBigInt } from \"../../utils/encoding/hex.js\";\n\ntype GetBalanceParams = {\n  address: Address;\n  blockTag?: BlockTag;\n};\n\n/**\n * Retrieves the balance of the specified Ethereum address.\n * @param request - The EIP1193 request function.\n * @param params - The parameters for retrieving the balance.\n * @returns A promise that resolves to the balance of the address in wei as bigint.\n * @rpc\n * @example\n * ```ts\n * import { getRpcClient, eth_getBalance } from \"thirdweb/rpc\";\n * const rpcRequest = getRpcClient({ client, chain });\n * const balance = await eth_getBalance(rpcRequest, {\n *  address: \"0x...\",\n * });\n * ```\n */\nexport async function eth_getBalance(\n  request: EIP1193RequestFn<EIP1474Methods>,\n  params: GetBalanceParams,\n): Promise<bigint> {\n  const hexBalance = await request({\n    method: \"eth_getBalance\",\n    params: [params.address as Hex, params.blockTag || \"latest\"],\n  });\n  return hexToBigInt(hexBalance);\n}\n"],
+  "mappings": ";;;;;AAwBA,eAAsB,eACpB,SACA,QAAwB;AAExB,QAAM,aAAa,MAAM,QAAQ;IAC/B,QAAQ;IACR,QAAQ,CAAC,OAAO,SAAgB,OAAO,YAAY,QAAQ;GAC5D;AACD,SAAO,YAAY,UAAU;AAC/B;",
+  "names": []
+}

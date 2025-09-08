@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/random.ts"],
+  "sourcesContent": ["import { uint8ArrayToHex } from \"./encoding/hex.js\";\n\n/**\n * @internal\n */\nexport function randomBytesHex(length = 32) {\n  return uint8ArrayToHex(randomBytesBuffer(length));\n}\n\n/**\n * @internal\n */\nexport function randomBytesBuffer(length = 32) {\n  return globalThis.crypto.getRandomValues(new Uint8Array(length));\n}\n"],
+  "mappings": ";;;;;AAKM,SAAU,eAAe,SAAS,IAAE;AACxC,SAAO,gBAAgB,kBAAkB,MAAM,CAAC;AAClD;AAKM,SAAU,kBAAkB,SAAS,IAAE;AAC3C,SAAO,WAAW,OAAO,gBAAgB,IAAI,WAAW,MAAM,CAAC;AACjE;",
+  "names": []
+}

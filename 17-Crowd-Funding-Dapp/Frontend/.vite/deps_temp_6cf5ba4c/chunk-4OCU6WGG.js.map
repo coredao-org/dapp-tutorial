@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/sleep.ts"],
+  "sourcesContent": ["/**\n * Delay an async thread\n * @param ms Sleep time in millisecond\n * @internal\n */\nexport function sleep(ms: number) {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n"],
+  "mappings": ";AAKM,SAAU,MAAM,IAAU;AAC9B,SAAO,IAAI,QAAQ,CAAC,YAAY,WAAW,SAAS,EAAE,CAAC;AACzD;",
+  "names": []
+}

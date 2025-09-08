@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/injected/locale/vi.ts"],
+  "sourcesContent": ["import type { InjectedWalletLocale } from \"./types.js\";\n\n/**\n * @internal\n */\nconst injectedWalletLocaleVi = (wallet: string): InjectedWalletLocale => ({\n  connectionScreen: {\n    inProgress: \"Đang đợi xác nhận\",\n    failed: \"Kết nối thất bại\",\n    instruction: `Kết nối bằng ứng dụng ${wallet}`,\n    retry: \"Thử lại\",\n  },\n  getStartedScreen: {\n    instruction: `Quét mã QR để tải ứng dụng ${wallet}`,\n  },\n  scanScreen: {\n    instruction: `Quét mã QR bằng ứng dụng ${wallet} để kết nối`,\n  },\n  getStartedLink: `Tôi không có ứng dụng ${wallet}`,\n  download: {\n    chrome: \"Tải cho trình duyệt Chrome\",\n    android: \"Tải trên Google Play\",\n    iOS: \"Tải trên App Store\",\n  },\n});\n\nexport default injectedWalletLocaleVi;\n"],
+  "mappings": ";;;AAKA,IAAM,yBAAyB,CAAC,YAA0C;EACxE,kBAAkB;IAChB,YAAY;IACZ,QAAQ;IACR,aAAa,yBAAyB,MAAM;IAC5C,OAAO;;EAET,kBAAkB;IAChB,aAAa,8BAA8B,MAAM;;EAEnD,YAAY;IACV,aAAa,4BAA4B,MAAM;;EAEjD,gBAAgB,yBAAyB,MAAM;EAC/C,UAAU;IACR,QAAQ;IACR,SAAS;IACT,KAAK;;;AAIT,IAAA,aAAe;",
+  "names": []
+}

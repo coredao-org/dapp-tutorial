@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@walletconnect/modal/src/client.ts"],
+  "sourcesContent": ["import type { ConfigCtrlState, ThemeCtrlState } from '@walletconnect/modal-core'\nimport { ConfigCtrl, ModalCtrl, OptionsCtrl, ThemeCtrl } from '@walletconnect/modal-core'\n\n/**\n * Types\n */\nexport type WalletConnectModalConfig = ConfigCtrlState & ThemeCtrlState\n\n/**\n * Client\n */\nexport class WalletConnectModal {\n  public constructor(config: WalletConnectModalConfig) {\n    ThemeCtrl.setThemeConfig(config)\n    ConfigCtrl.setConfig(config)\n    this.initUi()\n  }\n\n  private async initUi() {\n    if (typeof window !== 'undefined') {\n      await import('@walletconnect/modal-ui')\n      const modal = document.createElement('wcm-modal')\n      document.body.insertAdjacentElement('beforeend', modal)\n      OptionsCtrl.setIsUiLoaded(true)\n    }\n  }\n\n  public openModal = ModalCtrl.open\n\n  public closeModal = ModalCtrl.close\n\n  public subscribeModal = ModalCtrl.subscribe\n\n  public setTheme = ThemeCtrl.setThemeConfig\n}\n"],
+  "mappings": ";;;;;;;;;AAWO,IAAM,qBAAN,MAAyB;EACvB,YAAY,QAAkC;AAerD,SAAO,YAAY,UAAU;AAE7B,SAAO,aAAa,UAAU;AAE9B,SAAO,iBAAiB,UAAU;AAElC,SAAO,WAAW,UAAU;AApB1B,cAAU,eAAe,MAAM;AAC/B,eAAW,UAAU,MAAM;AAC3B,SAAK,OAAO;EAAA;EAGd,MAAc,SAAS;AACjB,QAAA,OAAO,WAAW,aAAa;AACjC,YAAM,OAAO,oBAAyB;AAChC,YAAA,QAAQ,SAAS,cAAc,WAAW;AACvC,eAAA,KAAK,sBAAsB,aAAa,KAAK;AACtD,kBAAY,cAAc,IAAI;IAAA;EAChC;AAUJ;",
+  "names": []
+}

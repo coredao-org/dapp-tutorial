@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/contract/contract.ts"],
+  "sourcesContent": ["import type { Abi } from \"abitype\";\nimport type { Chain } from \"../chains/types.js\";\nimport type { ThirdwebClient } from \"../client/client.js\";\n\n/**\n * @contract\n */\nexport type ContractOptions<abi extends Abi = []> = {\n  client: ThirdwebClient;\n  address: string;\n  chain: Chain;\n  readonly abi?: abi;\n};\n\n/**\n * @contract\n */\nexport type ThirdwebContract<abi extends Abi = []> = Readonly<\n  ContractOptions<abi>\n>;\n\n/**\n * Creates a Thirdweb contract by combining the Thirdweb client and contract options.\n * @param options - The options for creating the contract.\n * @returns The Thirdweb contract.\n * @example\n * ```ts\n * import { createThirdwebClient, getContract } from \"thirdweb\";\n * import { sepolia } from \"thirdweb/chains\";\n *\n * const client = createThirdwebClient({ clientId: \"...\" });\n * const contract = getContract({\n *  client,\n *  chain: sepolia,\n *  address: \"0x123...\",\n *  // optional ABI\n *  abi: [...],\n * });\n * ```\n * @contract\n */\nexport function getContract<const abi extends Abi = []>(\n  options: ContractOptions<abi>,\n): ThirdwebContract<abi> {\n  return options;\n}\n"],
+  "mappings": ";AAyCM,SAAU,YACd,SAA6B;AAE7B,SAAO;AACT;",
+  "names": []
+}

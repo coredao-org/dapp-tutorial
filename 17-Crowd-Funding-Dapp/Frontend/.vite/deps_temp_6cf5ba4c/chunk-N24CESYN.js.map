@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/analytics/track/index.ts"],
+  "sourcesContent": ["import type { ThirdwebClient } from \"../../client/client.js\";\nimport { getThirdwebBaseUrl } from \"../../utils/domains.js\";\nimport { getClientFetch } from \"../../utils/fetch.js\";\nimport { stringify } from \"../../utils/json.js\";\nimport type { Ecosystem } from \"../../wallets/in-app/core/wallet/types.js\";\n\n/**\n * @internal\n */\nexport async function track({\n  client,\n  ecosystem,\n  data,\n}: {\n  client: ThirdwebClient;\n  ecosystem?: Ecosystem;\n  data: object;\n}) {\n  const fetch = getClientFetch(client, ecosystem);\n  const event = {\n    source: \"sdk\",\n    ...data,\n  };\n\n  return fetch(`${getThirdwebBaseUrl(\"analytics\")}/event`, {\n    method: \"POST\",\n    body: stringify(event),\n  }).catch(() => {});\n}\n"],
+  "mappings": ";;;;;;;;;;;AASA,eAAsB,MAAM,EAC1B,QACA,WACA,KAAI,GAKL;AACC,QAAM,QAAQ,eAAe,QAAQ,SAAS;AAC9C,QAAM,QAAQ;IACZ,QAAQ;IACR,GAAG;;AAGL,SAAO,MAAM,GAAG,mBAAmB,WAAW,CAAC,UAAU;IACvD,QAAQ;IACR,MAAM,UAAU,KAAK;GACtB,EAAE,MAAM,MAAK;EAAE,CAAC;AACnB;",
+  "names": []
+}

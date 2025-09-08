@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/hashing/keccak256.ts"],
+  "sourcesContent": ["import { keccak_256 } from \"@noble/hashes/sha3\";\nimport {\n  type Hex,\n  hexToUint8Array,\n  isHex,\n  uint8ArrayToHex,\n} from \"../encoding/hex.js\";\n\ntype To = \"hex\" | \"bytes\";\n\ntype Keccak256Hash<TTo extends To> =\n  | (TTo extends \"bytes\" ? Uint8Array : never)\n  | (TTo extends \"hex\" ? Hex : never);\n\n/**\n * Calculates the Keccak-256 hash of the given value.\n * @param value - The value to hash, either as a hexadecimal string or a Uint8Array.\n * @param to - The desired output format of the hash (optional). Defaults to 'hex'.\n * @returns The Keccak-256 hash of the value in the specified format.\n * @example\n * ```ts\n * import { keccak256 } from \"thirdweb/utils\";\n * const hash = keccak256(\"0x1234\");\n * ```\n * @utils\n */\nexport function keccak256<TTo extends To = \"hex\">(\n  value: Hex | Uint8Array,\n  to?: TTo,\n): Keccak256Hash<TTo> {\n  const bytes = keccak_256(\n    isHex(value, { strict: false }) ? hexToUint8Array(value) : value,\n  );\n  if (to === \"bytes\") {\n    return bytes as Keccak256Hash<TTo>;\n  }\n  // default fall through to hex\n  return uint8ArrayToHex(bytes) as Keccak256Hash<TTo>;\n}\n"],
+  "mappings": ";;;;;;;;;;AA0BM,SAAU,UACd,OACA,IAAQ;AAER,QAAM,QAAQ,WACZ,MAAM,OAAO,EAAE,QAAQ,MAAK,CAAE,IAAI,gBAAgB,KAAK,IAAI,KAAK;AAElE,MAAI,OAAO,SAAS;AAClB,WAAO;EACT;AAEA,SAAO,gBAAgB,KAAK;AAC9B;",
+  "names": []
+}

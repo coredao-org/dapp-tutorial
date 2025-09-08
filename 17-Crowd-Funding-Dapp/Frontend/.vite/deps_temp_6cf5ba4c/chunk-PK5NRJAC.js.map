@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/bytecode/detectExtension.ts"],
+  "sourcesContent": ["import type { AbiFunction } from \"abitype\";\nimport { toFunctionSelector } from \"viem\";\nimport type { PreparedMethod } from \"../abi/prepare-method.js\";\n\ntype DetectExtensionOptions = {\n  method: string | AbiFunction | PreparedMethod<AbiFunction>;\n  availableSelectors: string[];\n};\n\n/**\n * Detects if the specified method is present in the contract bytecode.\n * @param options - The options for detecting the extension.\n * @returns A promise that resolves to a boolean indicating if the extension is detected.\n * @example\n * ```ts\n * import { detectMethod } from \"thirdweb/utils/extensions/detect.js\";\n * const hasDecimals = await detectMethod({\n *  contract,\n *  method: \"function decimals() view returns (uint8)\",\n * });\n * ```\n * @contract\n */\nexport function detectMethod(options: DetectExtensionOptions): boolean {\n  const fnSelector = Array.isArray(options.method)\n    ? options.method[0]\n    : toFunctionSelector(options.method);\n\n  return options.availableSelectors.includes(fnSelector);\n}\n"],
+  "mappings": ";;;;;AAuBM,SAAU,aAAa,SAA+B;AAC1D,QAAM,aAAa,MAAM,QAAQ,QAAQ,MAAM,IAC3C,QAAQ,OAAO,CAAC,IAChB,mBAAmB,QAAQ,MAAM;AAErC,SAAO,QAAQ,mBAAmB,SAAS,UAAU;AACvD;",
+  "names": []
+}

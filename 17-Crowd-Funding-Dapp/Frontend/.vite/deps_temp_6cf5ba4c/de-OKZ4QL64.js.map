@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/smartWallet/locale/de.ts"],
+  "sourcesContent": ["import type { SmartWalletLocale } from \"./types.js\";\n\nconst smartWalletLocalEn: SmartWalletLocale = {\n  connecting: \"Verbindung zum Smart Account wird hergestellt\",\n  failedToConnect: \"Verbindung zum Smart Account fehlgeschlagen\",\n  wrongNetworkScreen: {\n    title: \"Falsches Netzwerk\",\n    subtitle: \"Dein Wallet ist nicht mit dem erforderlichen Netzwerk verbunden\",\n    failedToSwitch: \"Netzwerkwechsel fehlgeschlagen\",\n  },\n};\n\nexport default smartWalletLocalEn;\n"],
+  "mappings": ";;;AAEA,IAAM,qBAAwC;EAC5C,YAAY;EACZ,iBAAiB;EACjB,oBAAoB;IAClB,OAAO;IACP,UAAU;IACV,gBAAgB;;;AAIpB,IAAA,aAAe;",
+  "names": []
+}

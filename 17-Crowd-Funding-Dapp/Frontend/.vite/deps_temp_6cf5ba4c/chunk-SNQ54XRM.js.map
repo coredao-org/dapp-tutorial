@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/caching/lru.ts"],
+  "sourcesContent": ["/**\n * Map with a LRU (Least recently used) policy.\n *\n * @link https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU\n */\nexport class LruMap<value = unknown> extends Map<string, value> {\n  maxSize: number;\n\n  constructor(size: number) {\n    super();\n    this.maxSize = size;\n  }\n\n  override get(key: string) {\n    const value = super.get(key);\n\n    if (super.has(key) && value !== undefined) {\n      this.delete(key);\n      super.set(key, value);\n    }\n\n    return value;\n  }\n\n  override set(key: string, value: value) {\n    super.set(key, value);\n    if (this.maxSize && this.size > this.maxSize) {\n      const firstKey = this.keys().next().value;\n      if (firstKey) {\n        this.delete(firstKey);\n      }\n    }\n    return this;\n  }\n}\n"],
+  "mappings": ";AAKM,IAAO,SAAP,cAAuC,IAAkB;EAG7D,YAAY,MAAY;AACtB,UAAK;AAHP,WAAA,eAAA,MAAA,WAAA;;;;;;AAIE,SAAK,UAAU;EACjB;EAES,IAAI,KAAW;AACtB,UAAM,QAAQ,MAAM,IAAI,GAAG;AAE3B,QAAI,MAAM,IAAI,GAAG,KAAK,UAAU,QAAW;AACzC,WAAK,OAAO,GAAG;AACf,YAAM,IAAI,KAAK,KAAK;IACtB;AAEA,WAAO;EACT;EAES,IAAI,KAAa,OAAY;AACpC,UAAM,IAAI,KAAK,KAAK;AACpB,QAAI,KAAK,WAAW,KAAK,OAAO,KAAK,SAAS;AAC5C,YAAM,WAAW,KAAK,KAAI,EAAG,KAAI,EAAG;AACpC,UAAI,UAAU;AACZ,aAAK,OAAO,QAAQ;MACtB;IACF;AACA,WAAO;EACT;;",
+  "names": []
+}

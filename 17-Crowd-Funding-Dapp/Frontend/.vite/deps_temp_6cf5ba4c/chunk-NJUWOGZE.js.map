@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/json.ts"],
+  "sourcesContent": ["/**\n * Stringify a JSON object and convert all bigint values to string\n *\n * If you are getting this error: \"Exception: Do not know how to serialize a BigInt\",\n * you probably can use this function to parse the data.\n * Because bigint is not an accepted value of the JSON format.\n *\n * @returns An object with all bigint values converted to string\n * @example\n * ```ts\n * import { stringify } from \"thirdweb/utils\";\n * const obj = { tokenId: 0n };\n * const str = stringify(obj); // \"{\"tokenId\":\"0\"}\"\n * ```\n * @utils\n */\nexport const stringify: typeof JSON.stringify = (value, replacer, space) => {\n  const res = JSON.stringify(\n    value,\n    (key, value_) => {\n      const value__ = typeof value_ === \"bigint\" ? value_.toString() : value_;\n      return typeof replacer === \"function\" ? replacer(key, value__) : value__;\n    },\n    space,\n  );\n  return res;\n};\n"],
+  "mappings": ";AAgBO,IAAM,YAAmC,CAAC,OAAO,UAAU,UAAS;AACzE,QAAM,MAAM,KAAK,UACf,OACA,CAAC,KAAK,WAAU;AACd,UAAM,UAAU,OAAO,WAAW,WAAW,OAAO,SAAQ,IAAK;AACjE,WAAO,OAAO,aAAa,aAAa,SAAS,KAAK,OAAO,IAAI;EACnE,GACA,KAAK;AAEP,SAAO;AACT;",
+  "names": []
+}

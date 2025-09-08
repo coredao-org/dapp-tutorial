@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/type-guards.ts"],
+  "sourcesContent": ["/**\n * Checks if a value is an object.\n * @param value - The value to check.\n * @returns True if the value is an object, false otherwise.\n * @internal\n */\nfunction isObject(value: unknown): value is object {\n  return typeof value === \"object\" && value !== null;\n}\n\n/**\n * Checks if a value is an object with specified keys.\n * @param value - The value to check.\n * @param keys - The keys to check for in the object. Defaults to an empty array.\n * @returns True if the value is an object with the specified keys, false otherwise.\n * @internal\n */\nexport function isObjectWithKeys<key extends string>(\n  value: unknown,\n  keys: key[] = [],\n): value is Record<key, unknown> {\n  return isObject(value) && keys.every((key) => key in value);\n}\n"],
+  "mappings": ";AAMA,SAAS,SAAS,OAAc;AAC9B,SAAO,OAAO,UAAU,YAAY,UAAU;AAChD;AASM,SAAU,iBACd,OACA,OAAc,CAAA,GAAE;AAEhB,SAAO,SAAS,KAAK,KAAK,KAAK,MAAM,CAAC,QAAQ,OAAO,KAAK;AAC5D;",
+  "names": []
+}

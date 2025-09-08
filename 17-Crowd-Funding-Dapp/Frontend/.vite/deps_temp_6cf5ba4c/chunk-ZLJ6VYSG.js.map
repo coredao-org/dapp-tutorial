@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/chains/chain-definitions/ethereum.ts"],
+  "sourcesContent": ["import { defineChain } from \"../utils.js\";\n\n/**\n * @chain\n */\nexport const ethereum = /* @__PURE__ */ defineChain({\n  id: 1,\n  name: \"Ethereum\",\n  nativeCurrency: {\n    name: \"Ether\",\n    symbol: \"ETH\",\n    decimals: 18,\n  },\n  blockExplorers: [\n    {\n      name: \"Etherscan\",\n      url: \"https://etherscan.io\",\n    },\n  ],\n});\n\n/**\n * @alias ethereum\n * @chain\n */\nexport const mainnet = ethereum;\n"],
+  "mappings": ";;;;;AAKO,IAAM,WAA2B,YAAY;EAClD,IAAI;EACJ,MAAM;EACN,gBAAgB;IACd,MAAM;IACN,QAAQ;IACR,UAAU;;EAEZ,gBAAgB;IACd;MACE,MAAM;MACN,KAAK;;;CAGV;",
+  "names": []
+}

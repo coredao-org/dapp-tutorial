@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/smartWallet/locale/kr.ts"],
+  "sourcesContent": ["import type { SmartWalletLocale } from \"./types.js\";\nconst smartWalletLocale: SmartWalletLocale = {\n  connecting: \"스마트 계정에 연결 중\",\n  failedToConnect: \"스마트 계정에 연결하지 못했습니다\",\n  wrongNetworkScreen: {\n    title: \"잘못된 네트워크\",\n    subtitle: \"지갑이 필요한 네트워크에 연결되어 있지 않습니다\",\n    failedToSwitch: \"네트워크 전환 실패\",\n  },\n};\nexport default smartWalletLocale;\n"],
+  "mappings": ";;;AACA,IAAM,oBAAuC;EAC3C,YAAY;EACZ,iBAAiB;EACjB,oBAAoB;IAClB,OAAO;IACP,UAAU;IACV,gBAAgB;;;AAGpB,IAAA,aAAe;",
+  "names": []
+}

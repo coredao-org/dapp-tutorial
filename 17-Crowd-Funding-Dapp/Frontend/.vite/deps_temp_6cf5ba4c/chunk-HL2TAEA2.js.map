@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/rpc/actions/eth_getStorageAt.ts"],
+  "sourcesContent": ["import type { BlockTag, EIP1193RequestFn, EIP1474Methods, Hex } from \"viem\";\n\ntype GetStorageAtParams = {\n  address: string;\n  position: Hex;\n  blockTag?: BlockTag;\n};\n\n/**\n * Retrieves the value stored at a specific position in the storage of a contract.\n * @param request - The EIP1193 request function.\n * @param params - The parameters for the eth_getStorageAt method.\n * @returns A promise that resolves to the value stored at the specified position.\n * @rpc\n * @example\n * ```ts\n * import { getRpcClient, eth_getStorageAt } from \"thirdweb/rpc\";\n * const rpcRequest = getRpcClient({ client, chain });\n * const storageValue = await eth_getStorageAt(rpcRequest, {\n * address: \"0x...\",\n *  position: 0n,\n * });\n * ```\n */\nexport async function eth_getStorageAt(\n  request: EIP1193RequestFn<EIP1474Methods>,\n  params: GetStorageAtParams,\n): Promise<Hex> {\n  return await request({\n    method: \"eth_getStorageAt\",\n    params: [params.address, params.position, params.blockTag ?? \"latest\"],\n  });\n}\n"],
+  "mappings": ";AAwBA,eAAsB,iBACpB,SACA,QAA0B;AAE1B,SAAO,MAAM,QAAQ;IACnB,QAAQ;IACR,QAAQ,CAAC,OAAO,SAAS,OAAO,UAAU,OAAO,YAAY,QAAQ;GACtE;AACH;",
+  "names": []
+}

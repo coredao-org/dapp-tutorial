@@ -1,0 +1,35 @@
+import "./chunk-SEVZ5PBP.js";
+
+// node_modules/thirdweb/dist/esm/wallets/__generated__/wallet/com.webauth/index.js
+var wallet = {
+  id: "com.webauth",
+  name: "WebAuth",
+  homepage: "https://webauth.com",
+  image_id: "93fcd24e-431d-421f-32c2-9563d725c800",
+  app: {
+    browser: null,
+    ios: "https://apps.apple.com/us/app/webauth/id1594500069",
+    android: "https://play.google.com/store/apps/details?id=com.metallicus.webauth&hl=en_US",
+    mac: null,
+    windows: null,
+    linux: null,
+    chrome: null,
+    firefox: null,
+    safari: null,
+    edge: null,
+    opera: null
+  },
+  rdns: null,
+  mobile: {
+    native: "proton://",
+    universal: null
+  },
+  desktop: {
+    native: null,
+    universal: null
+  }
+};
+export {
+  wallet
+};
+//# sourceMappingURL=com-IATVSYRF.js.map
