@@ -197,6 +197,3 @@ npx tailwindcss init -p
 
 - Multiple lockfiles warning → Delete extra package-lock.json so only one remains in frontend/ or root
 
-## 📜 License
-
-Do you want me to also **add frontend `page.tsx` + `WalletProvider.tsx` code** inside this README so others can copy-paste and directly run, or just keep it backend + setup instructions?
