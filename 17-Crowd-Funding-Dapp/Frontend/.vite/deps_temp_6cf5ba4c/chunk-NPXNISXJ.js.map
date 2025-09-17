@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/rpc/actions/eth_getCode.ts"],
+  "sourcesContent": ["import type { Address } from \"abitype\";\nimport type { BlockTag, EIP1193RequestFn, EIP1474Methods, Hex } from \"viem\";\n\ntype GetCodeParams = {\n  address: Address;\n  blockTag?: BlockTag;\n};\n\n/**\n * Retrieves the bytecode of a smart contract at the specified address.\n * @param request - The EIP1193 request function.\n * @param params - The parameters for the eth_getCode method.\n * @returns A promise that resolves to the bytecode of the smart contract.\n * @rpc\n * @example\n * ```ts\n * import { getRpcClient, eth_getCode } from \"thirdweb/rpc\";\n * const rpcRequest = getRpcClient({ client, chain });\n * const bytecode = await eth_getCode(rpcRequest, {\n *  address: \"0x...\",\n * });\n * ```\n */\nexport async function eth_getCode(\n  request: EIP1193RequestFn<EIP1474Methods>,\n  params: GetCodeParams,\n): Promise<Hex> {\n  return request({\n    method: \"eth_getCode\",\n    params: [params.address as Hex, params.blockTag || \"latest\"],\n  });\n}\n"],
+  "mappings": ";AAuBA,eAAsB,YACpB,SACA,QAAqB;AAErB,SAAO,QAAQ;IACb,QAAQ;IACR,QAAQ,CAAC,OAAO,SAAgB,OAAO,YAAY,QAAQ;GAC5D;AACH;",
+  "names": []
+}

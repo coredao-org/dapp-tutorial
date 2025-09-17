@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/wallets/smart/lib/smart-wallet-capabilities.ts"],
+  "sourcesContent": ["import type { Wallet } from \"../../interfaces/wallet.js\";\n\n/**\n * @internal\n */\nexport function smartWalletGetCapabilities(args: {\n  wallet: Wallet<\"smart\">;\n}) {\n  const { wallet } = args;\n\n  const chain = wallet.getChain();\n  if (chain === undefined) {\n    return {\n      message: `Can't get capabilities, no active chain found for wallet: ${wallet.id}`,\n    };\n  }\n\n  const account = wallet.getAccount();\n\n  const config = wallet.getConfig() ?? {};\n  return {\n    [chain.id]: {\n      paymasterService: {\n        supported: \"sponsorGas\" in config ? config.sponsorGas : false,\n      },\n      atomicBatch: {\n        supported: account?.sendBatchTransaction !== undefined,\n      },\n    },\n  };\n}\n"],
+  "mappings": ";;;AAKM,SAAU,2BAA2B,MAE1C;AACC,QAAM,EAAE,OAAM,IAAK;AAEnB,QAAM,QAAQ,OAAO,SAAQ;AAC7B,MAAI,UAAU,QAAW;AACvB,WAAO;MACL,SAAS,6DAA6D,OAAO,EAAE;;EAEnF;AAEA,QAAM,UAAU,OAAO,WAAU;AAEjC,QAAM,SAAS,OAAO,UAAS,KAAM,CAAA;AACrC,SAAO;IACL,CAAC,MAAM,EAAE,GAAG;MACV,kBAAkB;QAChB,WAAW,gBAAgB,SAAS,OAAO,aAAa;;MAE1D,aAAa;QACX,YAAW,mCAAS,0BAAyB;;;;AAIrD;",
+  "names": []
+}

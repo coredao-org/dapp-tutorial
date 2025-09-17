@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/base64/base64.ts"],
+  "sourcesContent": ["import { base64ToString } from \"../uint8-array.js\";\n\ntype Base64Prefix = \"data:application/json;base64\";\ntype Base64String = `${Base64Prefix},${string}`;\n\n/**\n * Checks if a given string is a base64 encoded JSON string.\n * @param input - The string to be checked.\n * @returns True if the input string starts with \"data:application/json;base64\", false otherwise.\n * @example\n * ```ts\n * isBase64JSON(\"data:application/json;base64,eyJ0ZXN0IjoiYmFzZTY0In0=\")\n * // true\n * ```\n */\nexport function isBase64JSON(input: string): input is Base64String {\n  if (input.startsWith(\"data:application/json;base64\")) {\n    return true;\n  }\n  return false;\n}\n\n/**\n * Parses a base64 string and returns the decoded string.\n * @param input - The base64 string to parse.\n * @returns The decoded string.\n * @example\n * ```ts\n * parseBase64String(\"data:application/json;base64,eyJ0ZXN0IjoiYmFzZTY0In0=\")\n * // '{\"test\":\"base64\"}'\n * ```\n */\nexport function parseBase64String(input: Base64String) {\n  const [, base64] = input.split(\",\") as [Base64Prefix, string];\n  return base64ToString(base64);\n}\n"],
+  "mappings": ";;;;;AAeM,SAAU,aAAa,OAAa;AACxC,MAAI,MAAM,WAAW,8BAA8B,GAAG;AACpD,WAAO;EACT;AACA,SAAO;AACT;AAYM,SAAU,kBAAkB,OAAmB;AACnD,QAAM,CAAC,EAAE,MAAM,IAAI,MAAM,MAAM,GAAG;AAClC,SAAO,eAAe,MAAM;AAC9B;",
+  "names": []
+}

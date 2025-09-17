@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/storage/webStorage.ts"],
+  "sourcesContent": ["import type { AsyncStorage } from \"./AsyncStorage.js\";\n\nexport const webLocalStorage: AsyncStorage = {\n  async getItem(key: string) {\n    if (typeof window !== \"undefined\" && window.localStorage) {\n      return localStorage.getItem(key);\n    }\n    return null;\n  },\n  async setItem(key: string, value: string) {\n    if (typeof window !== \"undefined\" && window.localStorage) {\n      localStorage.setItem(key, value);\n    }\n  },\n  async removeItem(key: string) {\n    if (typeof window !== \"undefined\" && window.localStorage) {\n      localStorage.removeItem(key);\n    }\n  },\n};\n"],
+  "mappings": ";AAEO,IAAM,kBAAgC;EAC3C,MAAM,QAAQ,KAAW;AACvB,QAAI,OAAO,WAAW,eAAe,OAAO,cAAc;AACxD,aAAO,aAAa,QAAQ,GAAG;IACjC;AACA,WAAO;EACT;EACA,MAAM,QAAQ,KAAa,OAAa;AACtC,QAAI,OAAO,WAAW,eAAe,OAAO,cAAc;AACxD,mBAAa,QAAQ,KAAK,KAAK;IACjC;EACF;EACA,MAAM,WAAW,KAAW;AAC1B,QAAI,OAAO,WAAW,eAAe,OAAO,cAAc;AACxD,mBAAa,WAAW,GAAG;IAC7B;EACF;;",
+  "names": []
+}

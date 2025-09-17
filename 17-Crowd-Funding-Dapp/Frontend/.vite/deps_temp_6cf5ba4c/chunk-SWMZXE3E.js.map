@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/signatures/helpers/parseTypedData.ts"],
+  "sourcesContent": ["import type { TypedData } from \"abitype\";\nimport type { TypedDataDefinition } from \"viem\";\nimport { type Hex, hexToNumber, isHex } from \"../../encoding/hex.js\";\n\ntype UnknownDomain = unknown & { chainId?: unknown }; // TODO: create our own typed data types so this is cleaner\ntype HexDomain = unknown & { chainId: Hex }; // TODO: create our own typed data types so this is cleaner\n\n/**\n * @internal\n */\nexport function parseTypedData<\n  typedData extends TypedData | Record<string, unknown> = TypedData,\n  primaryType extends keyof typedData | \"EIP712Domain\" = keyof typedData,\n>(\n  typedData: TypedDataDefinition<typedData, primaryType>,\n): TypedDataDefinition<typedData, primaryType> {\n  const domain = typedData.domain as UnknownDomain;\n  if (domain?.chainId !== undefined && isHex(domain.chainId)) {\n    typedData.domain = {\n      ...(typedData.domain as HexDomain),\n      chainId: hexToNumber((typedData.domain as unknown as HexDomain).chainId),\n    } as unknown as TypedDataDefinition<typedData, primaryType>[\"domain\"];\n  }\n  return typedData;\n}\n"],
+  "mappings": ";;;;;;AAUM,SAAU,eAId,WAAsD;AAEtD,QAAM,SAAS,UAAU;AACzB,OAAI,iCAAQ,aAAY,UAAa,MAAM,OAAO,OAAO,GAAG;AAC1D,cAAU,SAAS;MACjB,GAAI,UAAU;MACd,SAAS,YAAa,UAAU,OAAgC,OAAO;;EAE3E;AACA,SAAO;AACT;",
+  "names": []
+}

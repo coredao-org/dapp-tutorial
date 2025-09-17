@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/injected/locale/tl.ts"],
+  "sourcesContent": ["import type { InjectedWalletLocale } from \"./types.js\";\n\n/**\n * @internal\n */\nconst injectedWalletLocaleTl = (walletName: string): InjectedWalletLocale => ({\n  connectionScreen: {\n    inProgress: \"Naghihintay ng Kumpirmasyon\",\n    failed: \"Nabigo ang Pagkakonekta\",\n    instruction: `Tanggapin ang connection request sa ${walletName} wallet`,\n    retry: \"Subukan Muli\",\n  },\n  getStartedScreen: {\n    instruction: `I-scan ang QR code para ma-download ang ${walletName} app`,\n  },\n  scanScreen: {\n    instruction: `I-scan ang QR code gamit ang ${walletName} app para makonekta`,\n  },\n  getStartedLink: `Wala kang ${walletName} wallet?`,\n  download: {\n    chrome: \"I-download ang Chrome Extension\",\n    android: \"I-download sa Google Play\",\n    iOS: \"I-download sa App Store\",\n  },\n});\n\nexport default injectedWalletLocaleTl;\n"],
+  "mappings": ";;;AAKA,IAAM,yBAAyB,CAAC,gBAA8C;EAC5E,kBAAkB;IAChB,YAAY;IACZ,QAAQ;IACR,aAAa,uCAAuC,UAAU;IAC9D,OAAO;;EAET,kBAAkB;IAChB,aAAa,2CAA2C,UAAU;;EAEpE,YAAY;IACV,aAAa,gCAAgC,UAAU;;EAEzD,gBAAgB,aAAa,UAAU;EACvC,UAAU;IACR,QAAQ;IACR,SAAS;IACT,KAAK;;;AAIT,IAAA,aAAe;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/rpc/actions/eth_estimateGas.ts"],
+  "sourcesContent": ["import type {\n  EIP1193RequestFn,\n  EIP1474Methods,\n  RpcTransactionRequest,\n} from \"viem\";\nimport { hexToBigInt } from \"../../utils/encoding/hex.js\";\n\n/**\n * Estimates the gas required to execute a transaction on the Ethereum network.\n * @param request - The EIP1193 request function.\n * @param transactionRequest - The transaction request object.\n * @returns A promise that resolves to the estimated gas as a bigint.\n * @rpc\n * @example\n * ```ts\n * import { getRpcClient, eth_estimateGas } from \"thirdweb/rpc\";\n * const rpcRequest = getRpcClient({ client, chain });\n * const gas = await eth_estimateGas(rpcRequest, {\n *  to: \"0x...\",\n *  ...\n * });\n * ```\n */\nexport async function eth_estimateGas(\n  request: EIP1193RequestFn<EIP1474Methods>,\n  transactionRequest: RpcTransactionRequest,\n): Promise<bigint> {\n  const estimateResult = await request({\n    method: \"eth_estimateGas\",\n    params: [transactionRequest],\n  });\n  return hexToBigInt(estimateResult);\n}\n"],
+  "mappings": ";;;;;AAuBA,eAAsB,gBACpB,SACA,oBAAyC;AAEzC,QAAM,iBAAiB,MAAM,QAAQ;IACnC,QAAQ;IACR,QAAQ,CAAC,kBAAkB;GAC5B;AACD,SAAO,YAAY,cAAc;AACnC;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/rpc/actions/eth_sendRawTransaction.ts"],
+  "sourcesContent": ["import type { EIP1193RequestFn, EIP1474Methods, Hex } from \"viem\";\n\n/**\n * Sends a raw transaction to the Ethereum network.\n * @param request - The EIP1193 request function.\n * @param signedTransaction - The signed transaction in hex format.\n * @returns A promise that resolves to the transaction hash.\n * @rpc\n * @example\n * ```ts\n * import { getRpcClient, eth_sendRawTransaction } from \"thirdweb/rpc\";\n * const rpcRequest = getRpcClient({ client, chain });\n * const transactionHash = await eth_sendRawTransaction(rpcRequest, \"0x...\");\n * ```\n */\nexport async function eth_sendRawTransaction(\n  request: EIP1193RequestFn<EIP1474Methods>,\n  signedTransaction: Hex,\n) {\n  return await request({\n    method: \"eth_sendRawTransaction\",\n    params: [signedTransaction],\n  });\n}\n"],
+  "mappings": ";AAeA,eAAsB,uBACpB,SACA,mBAAsB;AAEtB,SAAO,MAAM,QAAQ;IACnB,QAAQ;IACR,QAAQ,CAAC,iBAAiB;GAC3B;AACH;",
+  "names": []
+}

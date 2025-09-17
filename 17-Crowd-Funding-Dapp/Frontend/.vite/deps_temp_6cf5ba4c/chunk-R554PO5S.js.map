@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/wallets/wallet-connect/receiver/request-handlers/switch-chain.ts"],
+  "sourcesContent": ["import { defineChain } from \"../../../../chains/utils.js\";\nimport { type Hex, hexToNumber } from \"../../../../utils/encoding/hex.js\";\nimport type { Wallet } from \"../../../interfaces/wallet.js\";\nimport type { WalletConnectSwitchEthereumChainRequestParams } from \"../types.js\";\n\n/**\n * @internal\n */\nexport async function handleSwitchChain(options: {\n  wallet: Wallet;\n  params: WalletConnectSwitchEthereumChainRequestParams;\n}): Promise<Hex> {\n  const { wallet, params } = options;\n\n  if (wallet.getChain()?.id === hexToNumber(params[0].chainId)) {\n    return \"0x1\";\n  }\n  await wallet.switchChain(defineChain(hexToNumber(params[0].chainId)));\n  return \"0x1\";\n}\n"],
+  "mappings": ";;;;;;;;AAQA,eAAsB,kBAAkB,SAGvC;AAXD;AAYE,QAAM,EAAE,QAAQ,OAAM,IAAK;AAE3B,QAAI,YAAO,SAAQ,MAAf,mBAAmB,QAAO,YAAY,OAAO,CAAC,EAAE,OAAO,GAAG;AAC5D,WAAO;EACT;AACA,QAAM,OAAO,YAAY,YAAY,YAAY,OAAO,CAAC,EAAE,OAAO,CAAC,CAAC;AACpE,SAAO;AACT;",
+  "names": []
+}

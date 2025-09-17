@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/any-evm/zksync/isZkSyncChain.ts"],
+  "sourcesContent": ["import type { Chain } from \"../../../chains/types.js\";\n\nexport async function isZkSyncChain(chain: Chain) {\n  if (chain.id === 1337 || chain.id === 31337) {\n    return false;\n  }\n\n  // check known zksync chain-ids first\n  if (\n    chain.id === 324 ||\n    chain.id === 300 ||\n    chain.id === 302 ||\n    chain.id === 11124 ||\n    chain.id === 282 ||\n    chain.id === 388 ||\n    chain.id === 4654 ||\n    chain.id === 333271 ||\n    chain.id === 37111 ||\n    chain.id === 978658 ||\n    chain.id === 531050104 ||\n    chain.id === 4457845 ||\n    chain.id === 2741\n  ) {\n    return true;\n  }\n\n  // fallback to checking the stack on rpc\n  try {\n    const { getChainMetadata } = await import(\"../../../chains/utils.js\");\n    const chainMetadata = await getChainMetadata(chain);\n    return chainMetadata.stackType === \"zksync_stack\";\n  } catch {\n    // If the network check fails, assume it's not a ZkSync chain\n    return false;\n  }\n}\n"],
+  "mappings": ";AAEA,eAAsB,cAAc,OAAY;AAC9C,MAAI,MAAM,OAAO,QAAQ,MAAM,OAAO,OAAO;AAC3C,WAAO;EACT;AAGA,MACE,MAAM,OAAO,OACb,MAAM,OAAO,OACb,MAAM,OAAO,OACb,MAAM,OAAO,SACb,MAAM,OAAO,OACb,MAAM,OAAO,OACb,MAAM,OAAO,QACb,MAAM,OAAO,UACb,MAAM,OAAO,SACb,MAAM,OAAO,UACb,MAAM,OAAO,aACb,MAAM,OAAO,WACb,MAAM,OAAO,MACb;AACA,WAAO;EACT;AAGA,MAAI;AACF,UAAM,EAAE,iBAAgB,IAAK,MAAM,OAAO,qBAA0B;AACpE,UAAM,gBAAgB,MAAM,iBAAiB,KAAK;AAClD,WAAO,cAAc,cAAc;EACrC,QAAQ;AAEN,WAAO;EACT;AACF;",
+  "names": []
+}

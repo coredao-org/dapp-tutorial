@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/wallets/types.ts"],
+  "sourcesContent": ["import type { Chain } from \"../chains/types.js\";\n\nexport type AppMetadata = {\n  /**\n   * the name of your app\n   */\n  name: string;\n  /**\n   * the url where your app is hosted\n   */\n  url?: string;\n  /**\n   * optional - a description of your app\n   */\n  description?: string;\n  /**\n   * optional - a url that points to a logo (or favicon) of your app\n   */\n  logoUrl?: string;\n};\n\nexport const socialAuthOptions = [\n  \"google\",\n  \"apple\",\n  \"facebook\",\n  \"discord\",\n  \"line\",\n  \"x\",\n  \"coinbase\",\n  \"farcaster\",\n  \"telegram\",\n  \"github\",\n  \"twitch\",\n] as const;\nexport type SocialAuthOption = (typeof socialAuthOptions)[number];\nexport type OAuthOption = SocialAuthOption | \"guest\";\n\nexport const authOptions = [\n  ...socialAuthOptions,\n  \"guest\",\n  \"email\",\n  \"phone\",\n  \"passkey\",\n  \"wallet\",\n] as const;\nexport type AuthOption = (typeof authOptions)[number];\n\nexport type DisconnectFn = () => Promise<void>;\nexport type SwitchChainFn = (chain: Chain) => Promise<void>;\n"],
+  "mappings": ";AAqBO,IAAM,oBAAoB;EAC/B;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAKK,IAAM,cAAc;EACzB,GAAG;EACH;EACA;EACA;EACA;EACA;;",
+  "names": []
+}

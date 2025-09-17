@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/injected/locale/de.ts"],
+  "sourcesContent": ["import type { InjectedWalletLocale } from \"./types.js\";\n\n/**\n * @internal\n */\nconst injectedWalletLocaleEn = (wallet: string): InjectedWalletLocale => ({\n  connectionScreen: {\n    inProgress: \"Verbindung wird hergestellt\",\n    failed: \"Verbindung fehlgeschlagen\",\n    instruction: `Akzeptiere die Verbindung in ${wallet}`,\n    retry: \"Erneut versuchen\",\n  },\n  getStartedScreen: {\n    instruction: `Scanne den QR Code um ${wallet} herunterzuladen`,\n  },\n  scanScreen: {\n    instruction: `Scanne den QR Code um ${wallet} zu verbinden`,\n  },\n  getStartedLink: `Du hast ${wallet} nicht?`,\n  download: {\n    chrome: \"Chrome Extension installieren\",\n    android: \"Von Google Play herunterladen\",\n    iOS: \"Von App Store herunterladen\",\n  },\n});\n\nexport default injectedWalletLocaleEn;\n"],
+  "mappings": ";;;AAKA,IAAM,yBAAyB,CAAC,YAA0C;EACxE,kBAAkB;IAChB,YAAY;IACZ,QAAQ;IACR,aAAa,gCAAgC,MAAM;IACnD,OAAO;;EAET,kBAAkB;IAChB,aAAa,yBAAyB,MAAM;;EAE9C,YAAY;IACV,aAAa,yBAAyB,MAAM;;EAE9C,gBAAgB,WAAW,MAAM;EACjC,UAAU;IACR,QAAQ;IACR,SAAS;IACT,KAAK;;;AAIT,IAAA,aAAe;",
+  "names": []
+}

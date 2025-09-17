@@ -1,0 +1,9 @@
+import "./chunk-SEVZ5PBP.js";
+
+// node_modules/thirdweb/dist/esm/wallets/__generated__/wallet/finance.klever/image.js
+var image = "data:image/webp;base64,UklGRkICAABXRUJQVlA4IDYCAACQEQCdASqAAIAAPm00lEgkIyIhKJWpMIANiWMAfcjpf8vybfWsPB53vK+wV5gNzM6mnnxfZe+wDMq4B9beL4TNDe/PACdR8AF6wrtaUC9gE0c1Nr0F0JOzxt0cXfvD3/Lq8jLFEGBme6m1R8aYE8zYD/weafUEoFwWhL3xDpQs30jz3tvnczg08EsbFcQCwYIPgRS2QAD+/KgAd1i1lyf8aSuekbHFqpfX3Dm50PQHTuAFuoCpTbpQDiK4EKq2Z2erP6u9m3eJYWfb4VrBnDkHW/8OL4DOCN2Pp2gSHGO2OSSKn0l1xy9zC/wq//VSV4nJJGbti/3tqHd9It0FGi0A/Ngs20JKzA7bWjwy+0JoCH4Ln8rUVw/jMWUjW/JAdN+FCMgxghRDmYF7CLzT0v9ZJXJnReM0KNSZCeZ+Q5NufJ9sK7vNFAJ+Al7Gh/X/YRwkAn2PRDVnwXHsW6+vSZQMdex3WWehWQs6RVHsZrq5ujYyM1JWNk13d6qGr9ZA3ZuJpxy4HoqKYzVwoU/ylS49ns7/1sexGwuOx1L/5Uyw5Uijx0eJyuWWccL/3+qVWeMp+3o+QXwAC7Ycrvm9wud21gEk2qZarpwCEQ96JlQSouML3FnwOI6NcQz/NlmTKU1HTMnRHWQUn7CNkZQmqt+gfO+Hvrf1gyV+XioqjRd/gD2dKnrze5OOYNCxsdcXyvoGbHcEsejM9weIEpP2+YhjPsCcXrZD8fqZUlDC1nHGszwpuAAAAA==";
+var image_default = image;
+export {
+  image_default as default
+};
+//# sourceMappingURL=image-MYNVEIRO.js.map

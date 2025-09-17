@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/wallets/constants.ts"],
+  "sourcesContent": ["// Constants for most common wallets\nexport const COINBASE = \"com.coinbase.wallet\";\nexport const METAMASK = \"io.metamask\";\nexport const RAINBOW = \"me.rainbow\";\nexport const ZERION = \"io.zerion.wallet\";\n"],
+  "mappings": ";AACO,IAAM,WAAW;AACjB,IAAM,WAAW;AACjB,IAAM,UAAU;AAChB,IAAM,SAAS;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/constants/addresses.ts"],
+  "sourcesContent": ["/**\n * The address of the native token.\n */\nexport const NATIVE_TOKEN_ADDRESS =\n  \"0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\";\n\n/**\n * @internal\n */\nexport function isNativeTokenAddress(address: string) {\n  return address.toLowerCase() === NATIVE_TOKEN_ADDRESS;\n}\n\n/**\n * The zero address in Ethereum, represented as a hexadecimal string.\n */\nexport const ZERO_ADDRESS = \"0x0000000000000000000000000000000000000000\";\n"],
+  "mappings": ";AAGO,IAAM,uBACX;AAKI,SAAU,qBAAqB,SAAe;AAClD,SAAO,QAAQ,YAAW,MAAO;AACnC;AAKO,IAAM,eAAe;",
+  "names": []
+}

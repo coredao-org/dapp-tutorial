@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/platform.ts"],
+  "sourcesContent": ["function isReactNative(): boolean {\n  return (\n    typeof document === \"undefined\" &&\n    typeof navigator !== \"undefined\" &&\n    navigator.product === \"ReactNative\"\n  );\n}\n\nfunction isNode(): boolean {\n  return (\n    typeof process !== \"undefined\" &&\n    typeof process.versions !== \"undefined\" &&\n    typeof process.versions.node !== \"undefined\"\n  );\n}\n\nexport function isBrowser(): boolean {\n  return !isReactNative() && !isNode();\n}\n"],
+  "mappings": ";AAAA,SAAS,gBAAa;AACpB,SACE,OAAO,aAAa,eACpB,OAAO,cAAc,eACrB,UAAU,YAAY;AAE1B;AAEA,SAAS,SAAM;AACb,SACE,OAAO,YAAY,eACnB,OAAO,QAAQ,aAAa,eAC5B,OAAO,QAAQ,SAAS,SAAS;AAErC;AAEM,SAAU,YAAS;AACvB,SAAO,CAAC,cAAa,KAAM,CAAC,OAAM;AACpC;",
+  "names": []
+}

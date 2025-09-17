@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/wallets/utils/defaultDappMetadata.ts"],
+  "sourcesContent": ["import { isBrowser } from \"../../utils/platform.js\";\nimport type { AppMetadata } from \"../types.js\";\n\n/**\n * @internal\n */\nexport function getDefaultAppMetadata(): Required<AppMetadata> {\n  if (!isBrowser()) {\n    return {\n      name: \"thirdweb powered dApp\",\n      url: \"https://thirdweb.com\",\n      description: \"thirdweb powered dApp\",\n      logoUrl: \"https://thirdweb.com/favicon.ico\",\n    };\n  }\n\n  const { protocol, hostname, port } = window.location;\n  let baseUrl = `${protocol}//${hostname}`;\n\n  // Add the port if it's not the default HTTP or HTTPS port\n  if (port && port !== \"80\" && port !== \"443\") {\n    baseUrl += `:${port}`;\n  }\n\n  const logoUrl = `${baseUrl}/favicon.ico`;\n\n  return {\n    name: window.document.title || \"thirdweb powered dApp\",\n    url: baseUrl,\n    description: window.document.title || \"thirdweb powered dApp\",\n    logoUrl,\n  };\n}\n"],
+  "mappings": ";;;;;AAMM,SAAU,wBAAqB;AACnC,MAAI,CAAC,UAAS,GAAI;AAChB,WAAO;MACL,MAAM;MACN,KAAK;MACL,aAAa;MACb,SAAS;;EAEb;AAEA,QAAM,EAAE,UAAU,UAAU,KAAI,IAAK,OAAO;AAC5C,MAAI,UAAU,GAAG,QAAQ,KAAK,QAAQ;AAGtC,MAAI,QAAQ,SAAS,QAAQ,SAAS,OAAO;AAC3C,eAAW,IAAI,IAAI;EACrB;AAEA,QAAM,UAAU,GAAG,OAAO;AAE1B,SAAO;IACL,MAAM,OAAO,SAAS,SAAS;IAC/B,KAAK;IACL,aAAa,OAAO,SAAS,SAAS;IACtC;;AAEJ;",
+  "names": []
+}

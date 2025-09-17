@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/extensions/erc20/read/decimals.ts"],
+  "sourcesContent": ["import type { BaseTransactionOptions } from \"../../../transaction/types.js\";\nimport { withCache } from \"../../../utils/promise/withCache.js\";\nimport { decimals as generatedDecimals } from \"../__generated__/IERC20/read/decimals.js\";\n\nexport { isDecimalsSupported } from \"../__generated__/IERC20/read/decimals.js\";\n\n/**\n * Retrieves the number of decimal places for a given ERC20 contract.\n * @param options - The options for the transaction.\n * @returns A promise that resolves to the number of decimal places.\n * @extension ERC20\n * @example\n * ```ts\n * import { decimals } from \"thirdweb/extensions/erc20\";\n *\n * const tokenDecimals = await decimals({ contract });\n * ```\n */\nexport async function decimals(\n  options: BaseTransactionOptions,\n): Promise<number> {\n  return withCache(() => generatedDecimals(options), {\n    cacheKey: `${options.contract.chain.id}:${options.contract.address}:decimals`,\n    // can never change, so cache forever\n    cacheTime: Number.POSITIVE_INFINITY,\n  });\n}\n"],
+  "mappings": ";;;;;;;;AAkBA,eAAsBA,UACpB,SAA+B;AAE/B,SAAO,UAAU,MAAM,SAAkB,OAAO,GAAG;IACjD,UAAU,GAAG,QAAQ,SAAS,MAAM,EAAE,IAAI,QAAQ,SAAS,OAAO;;IAElE,WAAW,OAAO;GACnB;AACH;",
+  "names": ["decimals"]
+}

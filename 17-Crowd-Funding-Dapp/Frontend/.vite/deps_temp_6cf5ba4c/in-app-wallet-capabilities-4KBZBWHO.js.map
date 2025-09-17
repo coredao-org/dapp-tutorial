@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/wallets/in-app/core/eip5972/in-app-wallet-capabilities.ts"],
+  "sourcesContent": ["import type { Wallet } from \"../../../interfaces/wallet.js\";\n\n/**\n * @internal\n */\nexport function inAppWalletGetCapabilities(args: {\n  wallet: Wallet<\"inApp\" | \"embedded\">;\n}) {\n  const { wallet } = args;\n\n  const chain = wallet.getChain();\n  if (chain === undefined) {\n    return {\n      message: `Can't get capabilities, no active chain found for wallet: ${wallet.id}`,\n    };\n  }\n\n  const account = wallet.getAccount();\n\n  const config = wallet.getConfig();\n  const sponsorGas =\n    config?.smartAccount && \"sponsorGas\" in config.smartAccount\n      ? config.smartAccount.sponsorGas\n      : false;\n\n  return {\n    [chain.id]: {\n      paymasterService: {\n        supported: sponsorGas,\n      },\n      atomicBatch: {\n        supported: account?.sendBatchTransaction !== undefined,\n      },\n    },\n  };\n}\n"],
+  "mappings": ";;;AAKM,SAAU,2BAA2B,MAE1C;AACC,QAAM,EAAE,OAAM,IAAK;AAEnB,QAAM,QAAQ,OAAO,SAAQ;AAC7B,MAAI,UAAU,QAAW;AACvB,WAAO;MACL,SAAS,6DAA6D,OAAO,EAAE;;EAEnF;AAEA,QAAM,UAAU,OAAO,WAAU;AAEjC,QAAM,SAAS,OAAO,UAAS;AAC/B,QAAM,cACJ,iCAAQ,iBAAgB,gBAAgB,OAAO,eAC3C,OAAO,aAAa,aACpB;AAEN,SAAO;IACL,CAAC,MAAM,EAAE,GAAG;MACV,kBAAkB;QAChB,WAAW;;MAEb,aAAa;QACX,YAAW,mCAAS,0BAAyB;;;;AAIrD;",
+  "names": []
+}

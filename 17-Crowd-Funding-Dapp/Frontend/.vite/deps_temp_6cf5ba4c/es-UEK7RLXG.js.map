@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/react/web/wallets/smartWallet/locale/es.ts"],
+  "sourcesContent": ["import type { SmartWalletLocale } from \"./types.js\";\n\nconst smartWalletLocaleEs: SmartWalletLocale = {\n  connecting: \"Conectando a Smart Account\",\n  failedToConnect: \"Error al conectar con Smart Account\",\n  wrongNetworkScreen: {\n    title: \"Red incorrecta\",\n    subtitle: \"Tu cartera no está conectada a la red requerida\",\n    failedToSwitch: \"Error al cambiar de red\",\n  },\n};\n\nexport default smartWalletLocaleEs;\n"],
+  "mappings": ";;;AAEA,IAAM,sBAAyC;EAC7C,YAAY;EACZ,iBAAiB;EACjB,oBAAoB;IAClB,OAAO;IACP,UAAU;IACV,gBAAgB;;;AAIpB,IAAA,aAAe;",
+  "names": []
+}

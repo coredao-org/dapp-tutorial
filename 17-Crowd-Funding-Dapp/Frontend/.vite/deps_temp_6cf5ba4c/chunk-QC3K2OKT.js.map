@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/thirdweb/src/utils/promise/resolve-promised-value.ts"],
+  "sourcesContent": ["/**\n * Resolves a possibly asynchronous value.\n * If the value is a function that returns a promise, it will be awaited and the resolved value will be returned.\n * Otherwise, the value itself will be returned.\n *\n * @param value - The value to resolve.\n * @returns A promise that resolves to the resolved value.\n * @internal\n */\nexport async function resolvePromisedValue<V>(\n  value: V,\n): Promise<V extends () => Promise<infer R> ? R : V> {\n  return typeof value === \"function\" ? await value() : value;\n}\n\ntype PromisedValue<T> = T | (() => Promise<T>);\n\nexport type PromisedObject<T> = {\n  [K in keyof T]: PromisedValue<T[K]>;\n};\n"],
+  "mappings": ";AASA,eAAsB,qBACpB,OAAQ;AAER,SAAO,OAAO,UAAU,aAAa,MAAM,MAAK,IAAK;AACvD;",
+  "names": []
+}
