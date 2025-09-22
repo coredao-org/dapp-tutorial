@@ -1,0 +1,8 @@
+{
+  "AppleTokenModule#AppleToken": "0x650ADf6aA8b4e5764273E7f2001B2A3f792859a5",
+  "CherryTokenModule#CherryToken": "0x1b5619EB448B3C5F1E44CcD4Ef5e1813A53E98fF",
+  "PoolFactoryModule#PoolFactory": "0x62e3D5215677776e5830975B707DEFC6F39C76C2",
+  "LiquidityProviderModule#LiquidityProvider": "0xb7e2979167e46A03Cf44171c349945D7041B6C2D",
+  "WrappedEduTokenModule#WrappedEduToken": "0xc8089c03b157C10d62eBa18097a1B9cDc2d670d3",
+  "WrappedEduTokenMod#WrappedEduToken": "0xE3426B959F2178525Beb3875B129eEdDBC95058c"
+}
