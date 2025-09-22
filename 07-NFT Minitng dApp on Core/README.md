@@ -383,7 +383,7 @@ But wait, why can't we see it?🤔
 
 ![img](./assets/pic10.png)
 
-Well since this NFT is on the testnet, metamask automatically does not detect them. We need to import our NFT into our wallet.
+Well since this NFT is on the testnet, metamask automatically does not detect them. We need to import our NFT into our wallet.a
 
 Cick on `Import NFT` at the bottom. Add your contract address in the **Address** input field and 0 in the **Token Id** input field and click on **Import**.
 
