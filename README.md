@@ -18,7 +18,7 @@ In this repository, you will find a variety of boilerplates tailored for differe
 
 - **[Hello World Dapp](./05-Hello-World-Dapp/README.md):** a beginner-friendly "Hello World" dApp demonstrating basic smart contract deployment and frontend interaction on Core blockchain.
 
-- **[Subgraphs on Core](./06-Subgraphs%20on%20Core/README.md):** guide for creating and deploying Graph Protocol subgraphs to index blockchain data from Core network with query examples.
+- **[Subgraphs on Core](./06-Subgraphs-on-Core/README.md):** guide for creating and deploying Graph Protocol subgraphs to index blockchain data from Core network with query examples.
 
 - **[NFT Minting dApp on Core](./07-NFT%20Mintng%20dApp%20on%20Core/README.md):** complete NFT minting application with smart contracts for creating and managing non-fungible tokens on Core blockchain.
 

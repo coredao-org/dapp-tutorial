@@ -27,8 +27,8 @@ Before you begin, ensure you have the following installed:
 To clone the repository locally, run the following commands:
 
 ```bash
-ADD git clone COMMAND HERE
-cd guestbook-subgraph
+git clone https://github.com/coredao-org/dapp-tutorial.git
+cd dapp-tutorial/06-Subgraphs-on-Core
 ```
 
 ## Configuration
@@ -88,6 +88,53 @@ If not already authenticated, authenticate your deployment key:
 ```zsh
 export GRAPH_ACCESS_TOKEN=08e38ec0513b40fd9b6a4428923d06ac
 ```
+
+
+### Generate code and build the subgraph:
+
+```bash
+graph codegen
+graph build
+```
+
+### Create and Deploy Subgraph
+
+```
+graph create \
+  --node $GRAPH_NODE \
+  --access-token $GRAPH_ACCESS_TOKEN \
+  your-subgraph-name
+```
+
+```
+graph deploy \
+  --node $GRAPH_NODE \
+  --ipfs $IPFS_NODE \
+  --access-token $GRAPH_ACCESS_TOKEN \
+  your-subgraph-name
+```
+
+Replace your-subgraph-name with your deployment target.
+
+### Query the Subgraph
+After deployment, your subgraph will be available at the query endpoint (e.g., https://thegraph.test2.btcs.network/subgraphs/name/guestbook-subgraph).
+
+Example query:
+
+```
+{
+  entrySigneds(first: 10, orderBy: blockTimestamp, orderDirection: desc) {
+    id
+    name
+    message
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}
+```
+
+You can use GraphQL, Apollo Client, or any GraphQL tool to query your data.
 
 
 
