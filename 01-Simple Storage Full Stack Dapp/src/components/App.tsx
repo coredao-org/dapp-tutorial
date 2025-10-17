@@ -7,11 +7,11 @@ import { ethers } from 'ethers'
 import storage from '../contract/Storage.json'
 
 // Contract information
-const contractAddress = '0xe007843F7d8e737A2816d7b9CaE9C10CB7548B55'
+const contractAddress = '0x9e1326fB351FbC4efaa88F0040708F0C0d315109'
 const abi = storage.abi
 
 // Constants
-const CORESCAN_BASE_URL = 'https://scan.test.btcs.network/address/'
+const CORESCAN_BASE_URL = 'https://scan.test2.btcs.network/address/'
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState(null)
@@ -75,7 +75,7 @@ function App() {
         await tx.wait()
 
         console.log(
-          `Transaction confirmed: https://scan.test.btcs.network/tx/${tx.hash}`
+          `Transaction confirmed: https://scan.test2.btcs.network/tx/${tx.hash}`
         )
       } else {
         console.log('Ethereum object does not exist')
@@ -88,23 +88,63 @@ function App() {
     try {
       const { ethereum } = window
 
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        const storageContract = new ethers.Contract(
-          contractAddress,
-          abi,
-          signer
-        )
-
-        console.log('Read from contract')
-        const res = await storageContract.retrieve()
-        setRetrievedNumber(res.toString())
-      } else {
+      if (!ethereum) {
         console.log('Ethereum object does not exist')
+        alert('Please install MetaMask!')
+        return
       }
+
+      // Check if wallet is connected
+      if (!currentAccount) {
+        alert('Please connect your wallet first!')
+        return
+      }
+
+      const provider = new ethers.providers.Web3Provider(ethereum)
+      
+      // Check if we're on the correct network
+      const network = await provider.getNetwork()
+      console.log('Connected to network:', network)
+      
+      // Verify we're on Core Testnet (Chain ID: 1115)
+      if (network.chainId !== 1114) {
+        alert('Please switch to Core Testnet in MetaMask!')
+        return
+      }
+
+      // Check if contract exists at the address
+      const code = await provider.getCode(contractAddress)
+      if (code === '0x') {
+        throw new Error(`No contract found at address ${contractAddress}`)
+      }
+
+      // For view functions, use provider instead of signer
+      const storageContract = new ethers.Contract(
+        contractAddress,
+        abi,
+        provider
+      )
+
+      console.log('Reading from contract...')
+      setRetrievedNumber('Loading...')
+      
+      const res = await storageContract.retrieve()
+      const retrievedValue = res.toString()
+      
+      console.log('Retrieved value:', retrievedValue)
+      setRetrievedNumber(retrievedValue)
+      
     } catch (err) {
-      console.log(err)
+      console.error('Error retrieving data:', err)
+      setRetrievedNumber('Error')
+      
+      if ((err as Error).message.includes('No contract found')) {
+        alert('Contract not found! Please check the contract address.')
+      } else if ((err as Error).message.includes('network')) {
+        alert('Network error! Please check your connection.')
+      } else {
+        alert(`Error: ${(err as Error).message}`)
+      }
     }
   }
 
@@ -196,7 +236,7 @@ function App() {
           <a
             target="_blank"
             className="ml-2 text-mm  text-orange-400 hover:text-orange-600"
-            href="https://scan.test.btcs.network/faucet"
+            href="https://scan.test2.btcs.network/faucet"
             rel="noreferrer"
           >
             tCORE faucet
@@ -207,7 +247,7 @@ function App() {
           <a
             target="_blank"
             className="ml-2 text-mm  text-orange-400 hover:text-orange-600"
-            href="https://docs.coredao.org/developer/develop-on-core/using-core-testnet/connect-to-core-testnet"
+            href="https://docs.coredao.org/docs/Dev-Guide/core-wallet-config"
             rel="noreferrer"
           >
             MetaMask to Core Testnet

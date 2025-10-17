@@ -242,7 +242,7 @@ If succesfully deployed, you will get the following output
 
 ```bash
 >npx hardhat run scripts/deploy-and-call.js
-Storage contract deployed to: 0x48F68BF4A1b1fE6589B9D0a5ad0dF0520582edA2
+Storage contract deployed to: 0x9e1326fB351FbC4efaa88F0040708F0C0d315109
 call retrieve(): BigNumber { value: "0" }
 call store(), set value to 100
 call retrieve() again: BigNumber { value: "100" }
