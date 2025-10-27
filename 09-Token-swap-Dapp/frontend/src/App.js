@@ -39,7 +39,7 @@ function App() {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const { chainId } = await provider.getNetwork();
 
-      if (chainId !== 1115) {
+      if (chainId !== 1114) {
         alert("Please connect to the Core Testnet");
       } else {
         setNetwork("Core Testnet");
