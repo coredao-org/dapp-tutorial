@@ -20,8 +20,8 @@ Welcome to this tutorial where we will build a simple NFT Minting DApp on Core B
 - **Core Testnet Configuration**: Configure MetaMask to connect to the Core Testnet. Refer here for more details.
   - **Network Name**: Core Testnet
   - **New RPC URL**: [https://rpc.test2.btcs.network](https://rpc.test2.btcs.network)
-  - **Chain ID**: 1115
-  - **Currency Symbol**: CORE
+  - **Chain ID**: 1114
+  - **Currency Symbol**: TCORE2
 - **Core Faucet**: To get test CORE tokens for transactions, visit the Core Faucet, refer [here](https://docs.coredao.org/docs/Dev-Guide/core-faucet) for more details.
 
 ## Setting up Dev Environment
@@ -90,7 +90,7 @@ module.exports = {
       {
         version: "0.8.24",
         settings: {
-          evmVersion: "paris",
+          evmVersion: "shanghai",
           optimizer: {
             enabled: true,
             runs: 200,
@@ -138,7 +138,7 @@ contract Nft is ERC721, ERC721URIStorage, Ownable {
 
     constructor() ERC721("MyNFT", "MYN") Ownable(msg.sender) {}
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(address to, string memory uri) public  {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
