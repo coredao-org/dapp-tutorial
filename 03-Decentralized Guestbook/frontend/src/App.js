@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Web3Provider } from '@ethersproject/providers'; // Updated import for Web3Provider
+import { ethers } from 'ethers'; // Updated import for Web3Provider
 import { Contract } from 'ethers';
 import GuestbookArtifact from './GuestbookAbi.json';
 
@@ -19,12 +19,12 @@ function App() {
       if (window.ethereum) {
         try {
           console.log("Connecting to MetaMask...");
-          const provider = new Web3Provider(window.ethereum); // Updated to Web3Provider
+          const provider = new ethers.providers.Web3Provider(window.ethereum); // Updated to Web3Provider
           
           await provider.send("eth_requestAccounts", []);
 
           const network = await provider.getNetwork();
-          if (network.chainId !== 1115) {
+          if (network.chainId !== 1114) {
             throw new Error("Please switch to the Core Testnet in MetaMask.");
           }
 
