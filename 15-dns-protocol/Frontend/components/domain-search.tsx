@@ -59,24 +59,33 @@ export function DomainSearch() {
   const checkAvailability = async () => {
     if (!domainName.trim()) return
 
+    // Check if wallet is connected first
+    if (!isConnected) {
+      setRegistrationError("Please connect your wallet first.")
+      return
+    }
+
     const formattedName = formatDomainName(domainName)
     setIsChecking(true)
     setRegistrationError(null)
 
     try {
-      console.log("In here")
+      console.log("Checking domain availability for:", formattedName)
       const domainHash = ethers.encodeBytes32String(formattedName)
-      console.log(domainHash)
+      console.log("Domain hash:", domainHash)
+      
       const ensRegistry = getContractOne()
-      if (!ensRegistry) throw new Error("ENS Registry contract is not loaded")
+      if (!ensRegistry) {
+        throw new Error("ENS Registry contract is not loaded. Please ensure your wallet is connected and on the correct network.")
+      }
 
-        console.log(ensRegistry)
-        console.log("Done!!")
+      console.log("Contract loaded successfully:", ensRegistry)
       const record = await ensRegistry.getSpecificRecord(domainHash)
-    console.log(record)
+      console.log("Contract response:", record)
+      
       const zeroAddress = "0x0000000000000000000000000000000000000000"
 
-      // Mock check for demonstration (random result)
+      // Check if domain is available (owner is zero address)
       if (record.owner === zeroAddress) {
         setIsAvailable(true)
       } else {
@@ -86,7 +95,7 @@ export function DomainSearch() {
       setShowDialog(true)
     } catch (error) {
       console.error("Error checking domain availability:", error)
-      setRegistrationError("Failed to check domain availability. Please try again.")
+      setRegistrationError(`Failed to check domain availability: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setIsChecking(false)
     }
@@ -156,7 +165,7 @@ export function DomainSearch() {
         </div>
         <Button
           onClick={checkAvailability}
-          disabled={!domainName.trim() || isChecking}
+          disabled={!domainName.trim() || isChecking || !isConnected}
           className="w-full sm:w-auto h-12 px-8 text-lg"
         >
           {isChecking ? (
@@ -164,6 +173,8 @@ export function DomainSearch() {
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
               Checking
             </>
+          ) : !isConnected ? (
+            "Connect Wallet First"
           ) : (
             "Check"
           )}
