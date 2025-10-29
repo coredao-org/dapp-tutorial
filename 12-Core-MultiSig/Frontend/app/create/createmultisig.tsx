@@ -41,28 +41,45 @@ export default function CreateMultiSigWallet(provider: any, factory: any) {
 
 
   async function createMultiSig(addresses: string[], amount: bigint) {
-    if (typeof (window as any).ethereum !== "undefined") {
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-  
-      console.log("Creating multisig....");
-  
-      const signer = await provider.getSigner();
-  
-      const network = await provider.getNetwork();
-  
-      const chainId = network.chainId.toString();
-      const address = config[`${network.chainId}` as keyof typeof config].factory.address as string;
-  
-      const contractFactory = new ethers.Contract(address, MultiSigFactory, signer);
-      console.log(contractFactory);
-  
-      const value = ethers.parseEther("0.01");
-  
-      // Call the createMultiSig function
-      const transaction = await contractFactory.createMultiSig(addresses, amount, { value });
-      await transaction.wait();
-  
-      console.log("Done!");
+    try {
+      if (typeof (window as any).ethereum !== "undefined") {
+        const provider = new ethers.BrowserProvider((window as any).ethereum);
+    
+        console.log("Creating multisig....");
+    
+        const signer = await provider.getSigner();
+    
+        const network = await provider.getNetwork();
+        console.log("Network:", network);
+    
+        const chainId = network.chainId.toString();
+        const configData = config[`${network.chainId}` as keyof typeof config];
+        
+        if (!configData) {
+          console.error(`No configuration found for chain ID: ${chainId}`);
+          return;
+        }
+
+        const address = configData.factory.address as string;
+        
+        if (!address || address === "") {
+          console.error("Factory address is empty or undefined");
+          return;
+        }
+    
+        const contractFactory = new ethers.Contract(address, MultiSigFactory, signer);
+        console.log(contractFactory);
+    
+        const value = ethers.parseEther("0.01");
+    
+        // Call the createMultiSig function
+        const transaction = await contractFactory.createMultiSig(addresses, amount, { value });
+        await transaction.wait();
+    
+        console.log("Done!");
+      }
+    } catch (error) {
+      console.error("Error creating multisig:", error);
     }
   }
   
