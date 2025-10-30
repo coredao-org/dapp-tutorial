@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pythnetwork/pyth-sdk-solidity": "^4.2.0",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
-    "ethers": "5.6.9",
+    "ethers": "^6.15.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-scripts": "5.0.1",
