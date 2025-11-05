@@ -26,7 +26,7 @@ module.exports = {
         {
            version: '0.8.24',
            settings: {
-            evmVersion: 'paris',
+            evmVersion: 'shanghai',
             optimizer: {
                  enabled: true,
                  runs: 200,

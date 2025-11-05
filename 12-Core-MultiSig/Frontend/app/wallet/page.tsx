@@ -56,23 +56,40 @@ export default function WalletPage() {
   const [proposals, setProposals] = useState<any[]>([])
 
   async function loadBlockchainData() {
-    if (typeof (window as any).ethereum !== "undefined") {
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
+    try {
+      if (typeof (window as any).ethereum !== "undefined") {
+        const provider = new ethers.BrowserProvider((window as any).ethereum);
 
-      console.log("Loading Blockchain data...");
-  
-      const signer = await provider.getSigner();
-  
-      const network = await provider.getNetwork();
-  
-      const chainId = network.chainId.toString();
-      const address = config[`${network.chainId}` as keyof typeof config].factory.address as string;
-  
-      const contractFactory = new ethers.Contract(address, MultiSigFactory, signer);
-      console.log(contractFactory);
-      setFactory(contractFactory)
-  
-      console.log("Data loading done!");
+        console.log("Loading Blockchain data...");
+    
+        const signer = await provider.getSigner();
+    
+        const network = await provider.getNetwork();
+        console.log("Network:", network);
+    
+        const chainId = network.chainId.toString();
+        const configData = config[`${network.chainId}` as keyof typeof config];
+        
+        if (!configData) {
+          console.error(`No configuration found for chain ID: ${chainId}`);
+          return;
+        }
+
+        const address = configData.factory.address as string;
+        
+        if (!address || address === "") {
+          console.error("Factory address is empty or undefined");
+          return;
+        }
+    
+        const contractFactory = new ethers.Contract(address, MultiSigFactory, signer);
+        console.log(contractFactory);
+        setFactory(contractFactory)
+    
+        console.log("Data loading done!");
+      }
+    } catch (error) {
+      console.error("Error loading blockchain data:", error);
     }
   }
 
@@ -83,8 +100,20 @@ export default function WalletPage() {
   }, []);
 
   const handleSubmit = () => {
+    // Validate address before setting
+    if (!tempAddress || tempAddress.trim() === "") {
+      alert("Please enter a MultiSig wallet address");
+      return;
+    }
+    
+    if (!ethers.isAddress(tempAddress)) {
+      alert(`Invalid wallet address format: ${tempAddress}`);
+      return;
+    }
+    
     setIsWallet(tempAddress); // Update isWallet only after submitting
     console.log("Wallet Address Added:", tempAddress);
+    setIsAdd(false); // Close the dialog after successful submission
   };
 
   const getStatusIcon = (status: string) => {
@@ -171,13 +200,13 @@ export default function WalletPage() {
 
       <div className="mb-8 space-x-4">
 
-        <SubmitTxn factory={factory} tempAddress={tempAddress} />
+        <SubmitTxn factory={factory} tempAddress={isWallet || tempAddress} />
 
-        <ConfirmTxn factory={factory} tempAddress={tempAddress} />
+        <ConfirmTxn factory={factory} tempAddress={isWallet || tempAddress} />
 
-        <RevokeTxn factory={factory} tempAddress={tempAddress} />
+        <RevokeTxn factory={factory} tempAddress={isWallet || tempAddress} />
 
-        <ExecuteTxn factory={factory} tempAddress={tempAddress} />
+        <ExecuteTxn factory={factory} tempAddress={isWallet || tempAddress} />
         
       </div>
 

@@ -16,7 +16,7 @@ const contractAddress = "0xf5d9Dd0f6EAa91802979707b91407d8448136DD0";
 function HelloWorld() {
     const [message, setMessage] = useState('');
     const [newMessage, setNewMessage] = useState('');
-    const [provider, setProvider] = useState(null);
+    //const [provider, setProvider] = useState(null);
     const [contract, setContract] = useState(null);
     const [showMessage, setShowMessage] = useState(false); // State to control message visibility
 
@@ -34,7 +34,7 @@ function HelloWorld() {
                 const provider = new ethers.BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
                 const contract = new ethers.Contract(contractAddress, HelloWorldABI.abi, signer);
-                setProvider(provider);
+                //setProvider(provider);
                 setContract(contract);
             } catch (error) {
                 toast.error("Failed to connect to MetaMask. Please try again.");

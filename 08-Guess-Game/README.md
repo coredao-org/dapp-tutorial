@@ -84,7 +84,7 @@ The repository is organized as follows:
 
    ```bash
    cd frontend
-   npm start
+   npm run dev
    ```
 
    The application will be available at `http://localhost:3000`.

@@ -28,32 +28,49 @@ export default function Dashboard() {
   const activeAccount = useActiveAccount();
 
   async function loadBlockchainData() {
-    if (typeof (window as any).ethereum !== "undefined") {
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-      setProvider(provider);
-      console.log("Ethereum provider detected");
+    try {
+      if (typeof (window as any).ethereum !== "undefined") {
+        const provider = new ethers.BrowserProvider((window as any).ethereum);
+        setProvider(provider);
+        console.log("Ethereum provider detected");
 
-      const signer = await provider.getSigner();
+        const signer = await provider.getSigner();
 
-      const network = await provider.getNetwork();
+        const network = await provider.getNetwork();
+        console.log("Network:", network);
 
-      const chainId = network.chainId.toString();
-      const address = config[`${network.chainId}` as keyof typeof config].factory.address as string;
+        const chainId = network.chainId.toString();
+        const configData = config[`${network.chainId}` as keyof typeof config];
+        
+        if (!configData) {
+          console.error(`No configuration found for chain ID: ${chainId}`);
+          return;
+        }
 
-      const contractFactory = new ethers.Contract(address, MultiSigFactory, provider);
-      console.log(contractFactory);
+        const address = configData.factory.address as string;
+        
+        if (!address || address === "") {
+          console.error("Factory address is empty or undefined");
+          return;
+        }
 
-      setFactory(contractFactory);
+        const contractFactory = new ethers.Contract(address, MultiSigFactory, provider);
+        console.log(contractFactory);
 
-      const smartWallet = await contractFactory.getDeployersWallets(signer.address);
-      console.log(`Deployer's wallets: ${smartWallet}`);
+        setFactory(contractFactory);
 
-      setWallet(smartWallet);
+        const smartWallet = await contractFactory.getDeployersWallets(signer.address);
+        console.log(`Deployer's wallets: ${smartWallet}`);
 
-  } else {
-    console.error("Contract details not found!")
+        setWallet(smartWallet);
+
+      } else {
+        console.error("Ethereum provider not found!")
+      }
+    } catch (error) {
+      console.error("Error loading blockchain data:", error);
+    }
   }
-}
 
 useEffect(() => {
   loadBlockchainData();

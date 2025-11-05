@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
-import PythFeedBoilerplateArtifact from './PythFeedBoilerplateAbi.json';
 
-// Replace with your deployed contract address on the mainnet
-const PythFeedBoilerplateAddress = '0x903cf85F1Fe496F196f6645Db76efa568F27F676'; // Use the actual deployed contract address
+// Import Pyth ABI - we'll use require for JSON files
+const PythAbi = require('@pythnetwork/pyth-sdk-solidity/abis/IPyth.json');
 
-// Extract the ABI from the artifact
-const PythFeedBoilerplateABI = PythFeedBoilerplateArtifact.abi;
+// Core Mainnet
+const contractAddress = '0xA2aa501b19aff244D90cc15a4Cf739D2725B5729';
+const provider = new ethers.JsonRpcProvider('https://rpc.coredao.org');
+const contract = new ethers.Contract(contractAddress, PythAbi, provider);
+
+const priceId = '0x9b4503710cc8c53f75c30e6e4fda1a7064680ef2e0ee97acd2e3a7c37b3c830c'; // CORE/USD
+const age = '60';
+
+
 
 function App() {
   const [price, setPrice] = useState(null);
@@ -17,24 +23,20 @@ function App() {
 
     const fetchPrice = async () => {
       try {
-        if (!window.ethereum) {
-          console.error('MetaMask not detected');
-          return;
-        }
-
-        // Request account access if needed
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-        // Create a new provider
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const contract = new ethers.Contract(PythFeedBoilerplateAddress, PythFeedBoilerplateABI, provider);
-
         console.log('Fetching price...');
-        const priceFeedId = "0x9b4503710cc8c53f75c30e6e4fda1a7064680ef2e0ee97acd2e3a7c37b3c830c"; // CORE/USD
-        const [rawPrice, expo] = await contract.getPriceWithoutUpdate(priceFeedId);
-
+        
+        // Use your new code to fetch price data
+        const [price, conf, expo, timestamp] = await contract.getPriceNoOlderThan(priceId, age);
+        
+        console.log('Raw price data:', { price, conf, expo, timestamp });
+        
+        // Convert BigInt to Number for calculation
+        const expoNumber = Number(expo);
+        console.log('Exponent:', expoNumber);
+        
         // Adjust the price based on the exponent
-        const adjustedPrice = rawPrice * Math.pow(10, expo);  // Ensure correct adjustment
+        // The price comes with a specific decimal precision, we need to adjust it
+        const adjustedPrice = parseFloat(ethers.formatUnits(price, -expoNumber));
         setPrice(adjustedPrice.toFixed(5)); // Format to 5 decimal places
         console.log('Price fetched:', adjustedPrice);
       } catch (error) {
@@ -45,8 +47,8 @@ function App() {
     // Fetch the price immediately when the component mounts
     fetchPrice();
 
-    // Set up an interval to fetch the price every 3 seconds (3000 milliseconds)
-    intervalId = setInterval(fetchPrice, 3000);
+    // Set up an interval to fetch the price every 2 minutes (120000 milliseconds)
+    intervalId = setInterval(fetchPrice, 120000);
 
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);

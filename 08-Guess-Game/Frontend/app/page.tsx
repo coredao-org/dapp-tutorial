@@ -19,9 +19,21 @@ export default function GuessTheNumber() {
   const [factory, setFactory] = useState<ethers.Contract | undefined>(undefined);
   const [provider, setProvider] = useState<ethers.BrowserProvider | undefined>(undefined);
   const [targetNumber, setTargetNumber] = useState<number>(0)
+  const [isSupportedNetwork, setIsSupportedNetwork] = useState<boolean>(true)
 
   useEffect(() => {
     loadBlockchainData()
+    
+    // Listen for network changes
+    if (typeof (window as any).ethereum !== "undefined") {
+      (window as any).ethereum.on('chainChanged', () => {
+        window.location.reload(); // Reload the page when network changes
+      });
+      
+      (window as any).ethereum.on('accountsChanged', () => {
+        window.location.reload(); // Reload the page when account changes
+      });
+    }
   }, [])
 
   async function loadBlockchainData() {
@@ -31,7 +43,20 @@ export default function GuessTheNumber() {
 
       const network = await provider.getNetwork();
       const chainId = network.chainId.toString();
-      const address = config[`${chainId}` as keyof typeof config].guessGame.address as string;
+      console.log("Current chain ID:", chainId);
+      console.log("Available config keys:", Object.keys(config));
+      
+      // Check if the chainId exists in config
+      if (!config[chainId as keyof typeof config]) {
+        console.error(`Chain ID ${chainId} not found in config. Available chain IDs:`, Object.keys(config));
+        setMessage(`Unsupported network. Please switch to Core Testnet or localhost.`);
+        setIsSupportedNetwork(false);
+        return;
+      }
+      
+      setIsSupportedNetwork(true);
+      
+      const address = config[chainId as keyof typeof config].guessGame.address as string;
 
       const contractFactory = new ethers.Contract(address, solidityABI, provider);
       setFactory(contractFactory);
@@ -51,11 +76,53 @@ export default function GuessTheNumber() {
         setAccount(accounts[0]);
         setIsConnected(true);
         setMessage("Guess a number between 1 and 100!");
+        
+        // Reload blockchain data after connecting
+        await loadBlockchainData();
       } catch (error) {
         console.error("Failed to connect wallet:", error);
       }
     } else {
       setMessage("Please install MetaMask!");
+    }
+  }
+
+  async function switchToSupportedNetwork() {
+    if (typeof (window as any).ethereum !== "undefined") {
+      try {
+        // Try to switch to Core testnet (chainId: 1114)
+        await (window as any).ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x45A' }], // 1114 in hex
+        });
+        // Reload blockchain data after switching
+        await loadBlockchainData();
+      } catch (switchError: any) {
+        // If the network doesn't exist, try to add it
+        if (switchError.code === 4902) {
+          try {
+            await (window as any).ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x45A',
+                chainName: 'Core Testnet',
+                rpcUrls: ['https://rpc.test2.btcs.network/'],
+                nativeCurrency: {
+                  name: 'TCore2',
+                  symbol: 'TCORE2',
+                  decimals: 18,
+                },
+                blockExplorerUrls: ['https://scan.test2.btcs.network/'],
+              }],
+            });
+            await loadBlockchainData();
+          } catch (addError) {
+            console.error("Failed to add network:", addError);
+          }
+        } else {
+          console.error("Failed to switch network:", switchError);
+        }
+      }
     }
   }
 
@@ -124,6 +191,10 @@ export default function GuessTheNumber() {
         {!isConnected ? (
           <Button onClick={connectWallet} className="w-full mb-4">
             Connect Wallet
+          </Button>
+        ) : !isSupportedNetwork ? (
+          <Button onClick={switchToSupportedNetwork} className="w-full mb-4">
+            Switch to Core Testnet
           </Button>
         ) : (
           <>

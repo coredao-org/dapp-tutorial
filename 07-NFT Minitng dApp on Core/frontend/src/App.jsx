@@ -9,7 +9,7 @@ function App() {
   const [provider, setProvider] = useState();
   const [signer, setSigner] = useState();
 
-  const contractAddress = "0x9dfbeCC80806F8312E0136eb85761e675fa7A82a";
+  const contractAddress = "0x8c546a571Ed23c32B7355E5C814589B6F627737D";
   const abi = MyNFTAbi.abi;
   const nftImage =
     "https://raw.githubusercontent.com/GM-11/NFT_Minting_Tutorial/master/assets/nft.png";
@@ -46,6 +46,7 @@ function App() {
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const tx = await contract.safeMint(walletAddress, nftUri);
       await tx.wait();
+      alert("NFT has been minted successfully")
     } catch (error) {
       console.log("Error minting NFT:", error);
     }
